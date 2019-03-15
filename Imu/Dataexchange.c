@@ -45,7 +45,7 @@ void UpdateIMU(struct ahrs_sensor *sensor)
 	}
 	else
 	{
-  	LFP_Filter(INS_gyro,gyro_filter,filter1,&upcount1);
+//  	LFP_Filter(INS_gyro,gyro_filter,filter1,&upcount1);
 		LFP_Filter(INS_accel,accel_filter,filter2,&upcount2);
 //		LFP_Filter(INS_mag,mag_filter,filter3,&upcount3);
 		AHRS_update(INS_quat,0.002f,INS_gyro,accel_filter,INS_mag);
@@ -78,20 +78,19 @@ void UpdateIMU(struct ahrs_sensor *sensor)
 	Gyroscope.angleyaw =  imunow2 + cnt2*360.0 - imu_first2;
 	Gyroscope.anglepitch =  imunow3 + cnt3*180.0 - imu_first3;
 	
-	Gyroscope.gx = (int16_t)(gyro_filter[0]*57.3f);
-	Gyroscope.gy = (int16_t)(gyro_filter[1]*57.3f);
-	Gyroscope.gz = (int16_t)(gyro_filter[2]*57.3f);
-	Gyroscope.ax = (int16_t)(accel_filter[0]*4000.0f);
-	Gyroscope.ay = (int16_t)(accel_filter[1]*4000.0f);
-	Gyroscope.az = (int16_t)(accel_filter[2]*4000.0f);
-	Gyroscope.mx = (int16_t)(mag_filter[0]*4000.0f);
-	Gyroscope.my = (int16_t)(mag_filter[1]*4000.0f);
-	Gyroscope.mz = (int16_t)(mag_filter[2]*4000.0f);
+	Gyroscope.gx = (int16_t)(INS_gyro[0]*57.3f);
+	Gyroscope.gy = (int16_t)(INS_gyro[1]*57.3f);
+	Gyroscope.gz = (int16_t)(INS_gyro[2]*57.3f);
+	Gyroscope.ax = (int16_t)(accel_filter[0]*400.0f);
+	Gyroscope.ay = (int16_t)(accel_filter[1]*400.0f);
+	Gyroscope.az = (int16_t)(accel_filter[2]*400.0f);
+	Gyroscope.mx = (int16_t)(INS_mag[0]*400.0f);
+	Gyroscope.my = (int16_t)(INS_mag[1]*400.0f);
+	Gyroscope.mz = (int16_t)(INS_mag[2]*400.0f);
 	
 	GimbalData.Pitchangle = Gyroscope.anglepitch;
 	GimbalData.Yawangle = Gyroscope.angleyaw;
-	GimbalData.Pitchspeed = (int16_t)(- sensor->wy * 57.3f);
-	GimbalData.Yawspeed = (int16_t)(- sensor->wz * 57.3f);
+
 }
 void LFP_Filter(float *data_get,float *data_back,float (*filter)[3],uint8_t *updata_count)
 {

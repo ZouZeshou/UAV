@@ -24,6 +24,7 @@
 #include "BSP_usart.h"
 #include "pid.h"
 #include "arm_math.h"
+#include "GimbalControl.h"
 int VAL_MIN(int a,int b)
 {	
 	return ((a) < (b) ? (a):(b));
@@ -225,9 +226,11 @@ void mpu_get_data(struct ahrs_sensor *sensor)
 
   ist8310_get_data((uint8_t *)&mpu_data.mx);
 //zzsadd
-	if(abs(mpu_data.gx) <= 10) mpu_data.gx = 0 ;
-	if(abs(mpu_data.gy) <= 10) mpu_data.gy = 0 ;
-	if(abs(mpu_data.gz) <= 10) mpu_data.gz = 0 ;
+	GimbalData.Yawspeed =(int16_t)(-mpu_data.gz / 16.384f);
+	GimbalData.Pitchspeed = (int16_t)(mpu_data.gx / 16.384f);
+	if(abs(mpu_data.gx) <= 8) mpu_data.gx = 0 ;
+	if(abs(mpu_data.gy) <= 8) mpu_data.gy = 0 ;
+	if(abs(mpu_data.gz) <= 8) mpu_data.gz = 0 ;
 //
   sensor->ax = mpu_data.ay / (4096.0f / 9.80665f); //8g -> m/s^2
   sensor->ay = -mpu_data.ax / (4096.0f / 9.80665f); //8g -> m/s^2
@@ -241,13 +244,13 @@ void mpu_get_data(struct ahrs_sensor *sensor)
   sensor->wy = -mpu_data.gx / 16.384f / 57.3f; //2000dps -> rad/s
   sensor->wz = mpu_data.gz / 16.384f / 57.3f; //2000dps -> rad/s
 	
-//  sensor->mx = (mpu_data.mx - mpu_data.mx_offset);
-//  sensor->my = (mpu_data.my - mpu_data.my_offset);
-//  sensor->mz = (mpu_data.mz - mpu_data.mz_offset);
+  sensor->mx = (mpu_data.mx - mpu_data.mx_offset);
+  sensor->my = (mpu_data.my - mpu_data.my_offset);
+  sensor->mz = (mpu_data.mz - mpu_data.mz_offset);
 
-	sensor->mx = 0;
-  sensor->my = 0;
-  sensor->mz = 0;
+//	sensor->mx = 0;
+//  sensor->my = 0;
+//  sensor->mz = 0;
 //zzsadd
 //	Gyroscope.gx = mpu_data.gy;
 //	Gyroscope.gy = -mpu_data.gx;

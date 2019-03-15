@@ -16,6 +16,10 @@ typedef struct
 	int16_t Yawinit;
 	int16_t YawCurrent;
 	float YawTarget;
+	float YawTarget1;
+	float YawTarget2;
+	float YawTarget3;
+	float YawTarget4;
 	int YawMid;
 	int YawMax;
 	int YawMin;
@@ -34,6 +38,10 @@ typedef struct
 	int16_t Pitchinit;
 	int16_t PitchCurrent;
 	float PitchTarget;
+	float PitchTarget1;
+	float PitchTarget2;
+	float PitchTarget3;
+	float PitchTarget4;
 	int PitchMid;
 	int PitchMax;
 	int PitchMin;
@@ -55,8 +63,8 @@ void GimbalInit (void);
 void GimbalCalibration(void);
 void GetGimbalTarget(void);
 void DealGimbalPosition(void);
-void PitchPID(float Target);
-void YawPID(float Target);
+void PitchPID(float *Target);
+void YawPID(float *Target);
 void GetYawIncrement(void);
 
 #endif

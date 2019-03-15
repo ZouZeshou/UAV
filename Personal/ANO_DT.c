@@ -12,6 +12,8 @@
 #include "ANO_DT.h"
 #include "GimbalControl.h"
 #include "BSP_can.h"
+#include "detect.h"
+#include "DBUS.h"
 /////////////////////////////////////////////////////////////////////////////////////
 //数据拆分宏定义，在发送大于1字节的数据类型时，比如int16、float等，需要把数据拆分成单独字节进行发送
 #define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)		) )
@@ -30,10 +32,10 @@ uint8_t data_to_send[50];	//发送数据缓存
 void ANO_DT_Data_Exchange(void)
 {
 	static uint8_t cnt = 0;
-	static uint8_t senser_cnt 	= 1;
-	static uint8_t status_cnt 	= 15;
+	static uint8_t senser_cnt 	= 2;
+	static uint8_t status_cnt 	= 3;
 	static uint8_t rcdata_cnt 	= 20;
-	static uint8_t motopwm_cnt	= 1;
+	static uint8_t motopwm_cnt	= 4;
 	static uint8_t power_cnt		=	50;
 	
 	if((cnt % senser_cnt) == (senser_cnt-1))
@@ -68,8 +70,8 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_senser)
 	{
 		f.send_senser = 0;
-		ANO_DT_Send_Senser(Gyroscope.ax,Gyroscope.ay,Gyroscope.az,
-		Gyroscope.gx,Gyroscope.gy,Gyroscope.gz,Gyroscope.mx,Gyroscope.my,Gyroscope.mz,0);
+		ANO_DT_Send_Senser((int16_t)(GimbalData.PitchTarget1),(int16_t)(GimbalData.PitchTarget2),Gyroscope.az,
+		Gyroscope.gx,Gyroscope.gy,Gyroscope.gz,(int16_t)(GimbalData.YawTarget1),(int16_t)(GimbalData.YawTarget2),Gyroscope.mz,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_rcdata)
@@ -81,7 +83,7 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_motopwm)
 	{
 		f.send_motopwm = 0;
-		ANO_DT_Send_MotoPWM(mpu_data.mx_offset,mpu_data.my_offset,mpu_data.mz_offset,mpu_data.mx,mpu_data.my,mpu_data.mz,7,8);
+		ANO_DT_Send_MotoPWM(Devicestate[4],Devicestate[5],Devicestate[6],Devicestate[10],RC_Ctl.rc.ch0,RC_Ctl.rc.ch1,RC_Ctl.rc.ch2,RC_Ctl.rc.ch3);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_power)

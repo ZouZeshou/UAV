@@ -57,9 +57,8 @@ void StartTask02(void const * argument)
 			}
 			DealGimbalPosition();
 			GetGimbalTarget();			
-			PitchPID(GimbalData.PitchTarget);
-			YawPID(GimbalData.YawTarget);	
-//		Plot_in_UpperMonitor();//Gimbal
+			PitchPID(&GimbalData.PitchTarget2);
+			YawPID(&GimbalData.YawTarget2);	
 	  
 //		ChooseStirMotorMode();
 			Switchshoot();
@@ -173,7 +172,7 @@ void StartTask06(void const * argument)
 	for(;;)
   {
 		GetDeviceState();
-		osDelay(2);
+		osDelay(15);
 	}
 
 }
@@ -216,7 +215,7 @@ void StartTask07(void const * argument)
 					GYRO_OK = 1;
 			}
 		}	
-		osDelay(5);
+		osDelay(15);
   }
 
 }

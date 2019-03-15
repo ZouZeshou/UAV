@@ -19,6 +19,7 @@
 #include "stdint.h"
 #include "ahrs.h"
 #include "BSP_can.h"
+#include "GimbalControl.h"
 //---------------------------------------------------------------------------------------------------
 // Definitions
 
@@ -176,7 +177,7 @@ void mahony_ahrs_update(struct ahrs_sensor *sensor, struct attitude *atti)
 		imu_first2= imunow2 + cnt2*360.0;
 		imu_first3= imunow3 + cnt3*180.0;
 		inittic++;
-		if(inittic > 3000) 
+		if(inittic > 1000) 
 			imu_init_ok  = 1; 
 	}
 Gyroscope.angleroll  = imunow1 + cnt1*360.0 - imu_first1;
@@ -265,9 +266,37 @@ void mahony_ahrs_updateIMU(struct ahrs_sensor *sensor, struct attitude *atti)
   atti->pitch = asin(-2 * q1 * q3 + 2 * q0 * q2) * 57.3;                                // pitch    -pi/2----pi/2
   atti->yaw = atan2(2 * q1 * q2 + 2 * q0 * q3, -2 * q2 * q2 - 2 * q3 * q3 + 1) * 57.3;  // yaw      -pi----pi
 	//zzsadd
-	Gyroscope.angleyaw = atti->yaw;
-Gyroscope.anglepitch = atti->pitch;
-Gyroscope.angleroll = atti->roll;
+	static int cnt1,cnt2,cnt3;
+	static float imulast1,imunow1,imu_first1, imulast2,imunow2,imu_first2, imulast3,imunow3,imu_first3;
+	static int inittic;
+	static int imu_init_ok;
+	imunow1 = atti->roll;
+	imunow2 = atti->yaw;
+	imunow3 = atti->pitch;
+	if(imunow1 - imulast1> 330) cnt1--;
+	if(imunow1 - imulast1 < -330) cnt1++;
+	if(imunow2 - imulast2> 330) cnt2--;
+	if(imunow2 - imulast2 < -330) cnt2++;
+	if(imunow3 - imulast3> 160) cnt3--;
+	if(imunow3 - imulast3 < -160) cnt3++;
+	imulast1 = imunow1;
+	imulast2 = imunow2;
+	imulast3 = imunow3;
+	if(!imu_init_ok )
+	{
+		imu_first1= imunow1 + cnt1*360.0;
+		imu_first2= imunow2 + cnt2*360.0;
+		imu_first3= imunow3 + cnt3*180.0;
+		inittic++;
+		if(inittic > 1000) 
+			imu_init_ok  = 1; 
+	}
+Gyroscope.angleroll  = imunow1 + cnt1*360.0 - imu_first1;
+Gyroscope.angleyaw =  imunow2 + cnt2*360.0 - imu_first2;
+Gyroscope.anglepitch =  imunow3 + cnt3*180.0 - imu_first3;
+	
+GimbalData.Pitchangle = Gyroscope.anglepitch;
+GimbalData.Yawangle = Gyroscope.angleyaw;
 //
 }
 /**

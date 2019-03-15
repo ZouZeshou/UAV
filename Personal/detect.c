@@ -63,7 +63,7 @@ void DeviceDetect(uint8_t *state,uint8_t *result)
 	{
 		if(state[i] == OFFLINE)
 		{
-			if(counter[i]++ > 5 && state[i] == OFFLINE)
+			if(counter[i]++ > 4 && state[i] == OFFLINE)
 			{
 				result[i] = OFFLINE;
 			}
