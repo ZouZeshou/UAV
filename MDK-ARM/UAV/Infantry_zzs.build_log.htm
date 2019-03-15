@@ -1,0 +1,64 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.21.1.0
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: alientek alientek, alientek, LIC=KIVLQ-NL88Y-LU64M-XU4AE-T85HX-2UFU0
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.21a
+Toolchain Path:  D:\MDK5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 3 (build 300)
+Assembler:       Armasm.exe V5.06 update 3 (build 300)
+Linker/Locator:  ArmLink.exe V5.06 update 3 (build 300)
+Library Manager: ArmAr.exe V5.06 update 3 (build 300)
+Hex Converter:   FromElf.exe V5.06 update 3 (build 300)
+CPU DLL:         SARMCM3.DLL V5.21a
+Dialog DLL:      DCM.DLL V1.13.8.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
+Dialog DLL:      TCM.DLL V1.14.14.0
+ 
+<h2>Project:</h2>
+F:\Some repositories\UAV\MDK-ARM\Infantry_zzs.uvprojx
+Project File Date:  02/27/2019
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\MDK5\ARM\ARMCC\Bin'
+Build target 'Infantry_zzs'
+compiling ANO_DT.c...
+..\Personal\ANO_DT.c(137): warning:  #177-D: function "ANO_DT_Send_Check" was declared but never referenced
+  static void ANO_DT_Send_Check(uint8_t head, uint8_t check_sum)
+..\Personal\ANO_DT.c: 1 warning, 0 errors
+compiling writtingtask.c...
+..\Task\writtingtask.c(83): warning:  #550-D: variable "Task03_Count1" was set but never used
+  	static int Task03_Count1;
+..\Task\writtingtask.c: 1 warning, 0 errors
+linking...
+Infantry_zzs\Infantry_zzs.axf: Warning: L6304W: Duplicate input file infantry_zzs\stm32f4xx_hal_timebase_tim_1.o ignored.
+Program Size: Code=44188 RO-data=976 RW-data=548 ZI-data=20700  
+Finished: 0 information, 1 warning and 0 error messages.
+FromELF: creating hex file...
+"Infantry_zzs\Infantry_zzs.axf" - 0 Error(s), 3 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
+                ARM::CMSIS:CORE:4.3.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 4.3.0
+
+<h2>Collection of Component include folders:</h2>
+  F:\Some repositories\UAV\MDK-ARM\RTE
+  D:\MDK5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
+  D:\MDK5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:4.3.0
+Build Time Elapsed:  00:00:09
+</pre>
+</body>
+</html>
