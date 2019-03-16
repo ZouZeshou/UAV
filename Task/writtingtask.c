@@ -38,7 +38,7 @@ int GyroscopeState = 0;
 int Task_03Init = 0;
 extern uint8_t Remotebuffer[18];
 /**
- * @brief TSAK02
+ * @brief main control task
  * @param None
  * @return None
  * @attention None
@@ -73,7 +73,7 @@ void StartTask02(void const * argument)
 
 }
 /**
- * @brief TASK03
+ * @brief can send task
  * @param None
  * @return None
  * @attention None
@@ -85,8 +85,6 @@ void StartTask03(void const * argument)
   {
 		if(IMU_OK)
 		{
-//	  if(GYRO_OK && Task03_Count1>= 100)
-//		{
 			if(Task_03Init == 0)
 			{
 				Buzzer_on(300,150);
@@ -105,13 +103,6 @@ void StartTask03(void const * argument)
 			}
 			Stop_GyroJudge = 1;
 			Task03_Count1 = 100;
-//		}
-//		if(GYRO_OK == 0 && Task03_Count1>= 100)
-//		{
-//			MPU6500_Init();
-//			Stop_GyroJudge = 0;
-//			Task03_Count1 = 0;	
-//		}
 		}
      osDelay(5);
   }
@@ -172,12 +163,20 @@ void StartTask06(void const * argument)
 	for(;;)
   {
 		GetDeviceState();
+		DeviceDetect(Devicestate,Offline);
+		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
+		{
+			Buzzer_on(300,150);
+		}
+		else
+		{
+			Buzzer_off();
+		}
 		osDelay(15);
 	}
-
 }
 /**
- * @brief detect
+ * @brief 07
  * @param None
  * @return None
  * @attention None
@@ -187,34 +186,7 @@ void StartTask07(void const * argument)
 	static int counter1 = 0,counter2 = 0;
 	for(;;)
   {
-		DeviceDetect(Devicestate,Offline);
 		
-		if(Stop_GyroJudge == 0)
-		{
-			if(GyroscopeState == GYROOFFLINE)
-			{
-				if(counter1++ >=5)
-				{
-					if(GyroscopeState == GYROOFFLINE)
-						GYRO_OK = 0;
-				}
-			}
-
-			else if(GyroscopeState == GYROABNORMAL)
-			{
-				if(counter2++ >=5)
-				{
-						if(GyroscopeState == GYROABNORMAL)
-							GYRO_OK = 0;
-				}
-			}
-			else if(GyroscopeState == GYRONORMAL)
-			{
-					counter1 = 0;
-					counter2 = 0;
-					GYRO_OK = 1;
-			}
-		}	
 		osDelay(15);
   }
 
