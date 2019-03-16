@@ -128,10 +128,10 @@ void StartTask04(void const * argument)
 	static int wait = 0;
 	for(;;)
   {
-		if(wait++ > 1500)
+		if(wait++ > 2500)
 		{
 			IMU_OK = 1;
-			wait = 2000;
+			wait = 3000;
 		}
 		mpu_get_data(&sensor);
 		UpdateIMU(&sensor);

@@ -228,9 +228,9 @@ void mpu_get_data(struct ahrs_sensor *sensor)
 //zzsadd
 	GimbalData.Yawspeed =(int16_t)(-mpu_data.gz / 16.384f);
 	GimbalData.Pitchspeed = (int16_t)(mpu_data.gx / 16.384f);
-	if(abs(mpu_data.gx) <= 8) mpu_data.gx = 0 ;
-	if(abs(mpu_data.gy) <= 8) mpu_data.gy = 0 ;
-	if(abs(mpu_data.gz) <= 8) mpu_data.gz = 0 ;
+	if(abs(mpu_data.gx) <= 5) mpu_data.gx = 0 ;
+	if(abs(mpu_data.gy) <= 5) mpu_data.gy = 0 ;
+	if(abs(mpu_data.gz) <= 5) mpu_data.gz = 0 ;
 //
   sensor->ax = mpu_data.ay / (4096.0f / 9.80665f); //8g -> m/s^2
   sensor->ay = -mpu_data.ax / (4096.0f / 9.80665f); //8g -> m/s^2
