@@ -39,6 +39,8 @@ typedef struct{
 	int Gyro_1;
 	int Gyro_2;
 	int Gyro_3;
+	int Fric_L;
+	int Fric_R;
 }FPS;
 extern FPS fps;
 extern GyroData Gyroscope1;

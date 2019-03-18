@@ -1,18 +1,22 @@
 #include "detect.h"
 
-uint8_t Devicestate[11] = {0};
-uint8_t Offline[11] = {0};
-//	 Wheel_1;   0
-//	 Wheel_2;   1
-//	 Wheel_3;   2
-//   Wheel_4;		3
-//	 Yaw;				4
-//	 Pit;				5
-//	 Stir;			6
-//	 Gyro_1;		7
-//	 Gyro_2;		8
-//	 Gyro_3;		9
-//	 DBUS;      10
+uint8_t Devicestate[13] = {0};
+uint8_t Offline[13] = {0};
+/*
+	 Wheel_1;   0
+	 Wheel_2;   1
+	 Wheel_3;   2
+   Wheel_4;		3
+	 Yaw;				4
+	 Pit;				5
+	 Stir;			6
+	 Gyro_1;		7
+	 Gyro_2;		8
+	 Gyro_3;		9
+	 DBUS;      10
+   Fric_L     11
+   Fric_R     12
+*/
 /**************zzs_add***************/
 /**
  * @brief Judge the state of Gyroscope
@@ -58,8 +62,8 @@ int JudgeGyro(GyroData * Gyro,int  RT_fps)
 
 void DeviceDetect(uint8_t *state,uint8_t *result)
 {
-	static int counter[11] = {0};
-	for(int i=0;i<11;i++)
+	static int counter[13] = {0};
+	for(int i=0;i<13;i++)
 	{
 		if(state[i] == OFFLINE)
 		{
@@ -90,12 +94,14 @@ void GetDeviceState(void)
 	Devicestate[8] = JudgeDeviceState(fps.Gyro_2,8);
 	Devicestate[9] = JudgeDeviceState(fps.Gyro_3,9);
 	Devicestate[10] = JudgeDeviceState(fps.DBUS,10);
+	Devicestate[11] = JudgeDeviceState(fps.Fric_L,11);
+	Devicestate[12] = JudgeDeviceState(fps.Fric_R,12);
 }
 
 int JudgeDeviceState(int fps,int i)
 {
-	static int fpsold[11] = {0};
-	static int fpschange[11] = {0};
+	static int fpsold[13] = {0};
+	static int fpschange[13] = {0};
 	fpschange[i] = fps - fpsold[i];
 	fpsold[i] = fps;
 	if(fpschange[i] == 0)

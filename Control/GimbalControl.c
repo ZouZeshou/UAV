@@ -112,13 +112,13 @@ void GetGimbalTarget(void)
 	{
 		if(USEENCODER)
 		{
-			GimbalData.YawTarget1 -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0008f)*22.75f + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
+			GimbalData.YawTarget1 -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0008f)*22.75f + RC_Ctl.mouse.x * MOUSE_YAW_CONST);
 		}
 		else
 		{
-			GimbalData.YawTarget1 += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0008f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
+			GimbalData.YawTarget1 += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0008f) + RC_Ctl.mouse.x * MOUSE_YAW_CONST);
 		}
-		GimbalData.PitchTarget1 += (float)(((RC_Ctl.rc.ch1 - 1024)*0.0001f) + RC_Ctl.mouse.y * CLOUD_MOUSEPITCH_CONST);
+		GimbalData.PitchTarget1 += (float)(((RC_Ctl.rc.ch1 - 1024)*0.0001f) + RC_Ctl.mouse.y * MOUSE_PITCH_CONST);
 	}
 /******************************limit the yawtarget*************************************/	
 	if(USEENCODER)

@@ -62,6 +62,7 @@ void StartTask02(void const * argument)
 	  
 //		ChooseStirMotorMode();
 			Switchshoot();
+			fric_pidcontrol(FrictionSpd);
 			StirPID (StirMotorData.TargetPosition,StirMotorData.BackSpeed,StirMotorData.BackPositionNew);
 		//ShootControl
 	  
@@ -92,14 +93,10 @@ void StartTask03(void const * argument)
 				Buzzer_off();
 				Task_03Init = 1;
 			}
-			if(RC_Ctl.rc.s1 == 1)
+			if(RC_Ctl.rc.s1 != 1)
 			{
-				Turn_off_Fric();
-			}
-			else
-			{
-				Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent
-				,StirMotorData.Current,0);
+				Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
+				Can2_SendMsg(0x200,fric_l_data.Current,fric_r_data.Current,0,0);
 			}
 			Stop_GyroJudge = 1;
 			Task03_Count1 = 100;
@@ -164,7 +161,7 @@ void StartTask06(void const * argument)
   {
 		GetDeviceState();
 		DeviceDetect(Devicestate,Offline);
-		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
+		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE||Devicestate[11]==OFFLINE||Devicestate[12]==OFFLINE)
 		{
 			Buzzer_on(300,150);
 		}
