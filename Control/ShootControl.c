@@ -3,13 +3,9 @@
 #include "BSP_usart.h"
 #include "DBUS.h"
 #include "STMGood.h"
-
+#include "Keyboard.h"
 #define STIRADDITION 29487.6 //8191*36/10
 int16_t FrictionSpd = 0;
-/***********StirMotorMode********************/
-#define DISCRETE 0// shot  bullet one by one
-#define CONTINUE 1//continuous shot
-/********************************************/
 int16_t ShootFrequncy = 8;//1000/5/25
 
 PID_AbsoluteType StirMotorOutterPID,StirMotorInnerPID;
@@ -66,24 +62,6 @@ void PWMInit(void)
 	Buzzer_off();
 }
 /**
- * @brief choose the mode of shoot bullets 
- * @param None
- * @return None
- * @attention None
- */
-void ChooseStirMotorMode(void)
-{
-	if(RC_Ctl.rc.s2 == 1)
-	{
-		StirMotorMode = CONTINUE;
-	}
-	else
-	{
-		StirMotorMode = DISCRETE;
-	}
-}
-
-/**
  * @brief Transform the discrete position to a continuous position 
  * @param None
  * @return None
@@ -128,22 +106,11 @@ void StirMotorStart (void)
 void Switchshoot (void)
 {
 	static int32_t Friction_ok = 0;
-	switch(RC_Ctl.rc.s2)
+	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
-		case 1:
-			FrictionSpd = 0;
-			break;
-		case 2:
-			FrictionSpd = 3000;
-			break;
-		case 3:
-			FrictionSpd = 4000;
-			break;
-		default:
-			FrictionSpd = 0;
-			break;
+		FrictionSpd = 4000;
 	}
-	if(RC_Ctl.rc.s1 == 2)
+	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start)
 	{
 		ShootFrequncy = 8;
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);

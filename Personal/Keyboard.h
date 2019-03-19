@@ -36,13 +36,9 @@
 
 typedef struct
 {
-	int16_t Ax;
-	int16_t Ay;
-	int16_t Vx;
-	int16_t Vy;
-	int16_t Pitch;
-	int16_t Yaw;
-	
+	int fric_start;
+	int stir_start;
+	int motor_start;
 }KeyMouse;
 
 extern KeyMouse KeyMousedata;

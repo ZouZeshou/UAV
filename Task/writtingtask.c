@@ -60,7 +60,7 @@ void StartTask02(void const * argument)
 			PitchPID(&GimbalData.PitchTarget2);
 			YawPID(&GimbalData.YawTarget2);	
 	  
-//		ChooseStirMotorMode();
+			DealKeyMousedata();
 			Switchshoot();
 			fric_pidcontrol(FrictionSpd);
 			StirPID (StirMotorData.TargetPosition,StirMotorData.BackSpeed,StirMotorData.BackPositionNew);
@@ -81,7 +81,6 @@ void StartTask02(void const * argument)
  */
 void StartTask03(void const * argument)
 {
-	static int Task03_Count1;
 	for(;;)
   {
 		if(IMU_OK)
@@ -93,13 +92,11 @@ void StartTask03(void const * argument)
 				Buzzer_off();
 				Task_03Init = 1;
 			}
-			if(RC_Ctl.rc.s1 != 1)
+			if((RC_Ctl.rc.s1 != 1)||KeyMousedata.motor_start)
 			{
 				Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
 				Can2_SendMsg(0x200,fric_l_data.Current,fric_r_data.Current,0,0);
 			}
-			Stop_GyroJudge = 1;
-			Task03_Count1 = 100;
 		}
      osDelay(5);
   }

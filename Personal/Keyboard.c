@@ -2,7 +2,7 @@
 #include "DBUS.h"
 #include "ramp.h"
 
-KeyMouse KeyMousedata;
+KeyMouse KeyMousedata = {0};
 
 /**
  * @brief deal data from key and mouse
@@ -12,67 +12,31 @@ KeyMouse KeyMousedata;
  */
 void DealKeyMousedata(void)
 {
-	if(RC_Ctl.key.v & KEY_Q)
-	{
-		KeyMousedata.Ax = Q_X;
-		KeyMousedata.Ay = Q_Y;
-	}
-	else if(RC_Ctl.key.v & KEY_E)
-	{
-		KeyMousedata.Ax = E_X;
-		KeyMousedata.Ay = E_Y;
-	}
-	else if(RC_Ctl.key.v & KEY_W)
-	{
-		KeyMousedata.Ay = MOVE_Y;
-	}
-	if(RC_Ctl.key.v & KEY_S)
-	{
-		KeyMousedata.Ay = -MOVE_Y;
-	}
-	
 	
 	if(RC_Ctl.key.v & KEY_A)
 	{
-		KeyMousedata.Ax = -MOVE_X;
+		KeyMousedata.fric_start = 1;
 	}
-	else if(RC_Ctl.key.v & KEY_D)
+	else if(RC_Ctl.key.v & KEY_Z)
 	{
-		KeyMousedata.Ax = MOVE_X;
+		KeyMousedata.fric_start = 0;
 	}
 	
+	if((RC_Ctl.key.v & KEY_F) && KeyMousedata.fric_start)
+	{
+		KeyMousedata.stir_start = 1;
+	}
+	else if(RC_Ctl.key.v & KEY_V)
+	{
+		KeyMousedata.stir_start = 0;
+	}
 	
-	if((RC_Ctl.key.v & KEY_Q)||(RC_Ctl.key.v & KEY_W)||(RC_Ctl.key.v & KEY_E)||(RC_Ctl.key.v & KEY_S))
+	if(RC_Ctl.key.v & KEY_CTRL)
 	{
-		if(RC_Ctl.key.v & KEY_SHIFT)
-		{
-			KeyMousedata.Vy = KeyMousedata.Ay ;
-			ramp_cal(&ramp_y);
-		}
-		else
-		{
-			KeyMousedata.Vy = KeyMousedata.Ay * ramp_cal(&ramp_y);
-		}	
+		KeyMousedata.motor_start = 0;
 	}
-	else
+	else if(RC_Ctl.key.v & KEY_SHIFT)
 	{
-		ramp_init(&ramp_y);
-	}
-
-	if((RC_Ctl.key.v & KEY_A)||(RC_Ctl.key.v & KEY_D))
-	{
-		if(RC_Ctl.key.v & KEY_SHIFT)
-		{
-			KeyMousedata.Vx = KeyMousedata.Ax ;
-			ramp_cal(&ramp_x);
-		}
-		else
-		{
-			KeyMousedata.Vx = KeyMousedata.Ax * ramp_cal(&ramp_x);
-		}
-	}
-	else
-	{
-		ramp_init(&ramp_x);
+		KeyMousedata.motor_start = 1;
 	}
 }
