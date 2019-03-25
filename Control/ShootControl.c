@@ -25,13 +25,13 @@ int fric_debug = 0;
  */
 void ShootInit (void)
 {
-	StirMotorOutterPID.kp = 25;
+	StirMotorOutterPID.kp = 20;
 	StirMotorOutterPID.ki = 0;
 	StirMotorOutterPID.kd = 0;
 	StirMotorOutterPID.errILim = 1000;
-	StirMotorOutterPID.OutMAX = 1200;
+	StirMotorOutterPID.OutMAX = 1100;
 	
-	StirMotorInnerPID.kp = 35;
+	StirMotorInnerPID.kp = 30;
 	StirMotorInnerPID.ki = 0;
 	StirMotorInnerPID.kd = 0;
 	StirMotorInnerPID.errILim = 3000 ;

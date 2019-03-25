@@ -11,6 +11,7 @@
 #include "drv_imu.h"
 #include "ANO_DT.h"
 #include "GimbalControl.h"
+#include "ShootControl.h"
 #include "BSP_can.h"
 #include "detect.h"
 #include "DBUS.h"
@@ -71,7 +72,7 @@ void ANO_DT_Data_Exchange(void)
 	{
 		f.send_senser = 0;
 		ANO_DT_Send_Senser((int16_t)(GimbalData.PitchTarget1),(int16_t)(GimbalData.PitchTarget2),Gyroscope.az,
-		Gyroscope.gx,Gyroscope.gy,Gyroscope.gz,(int16_t)(GimbalData.YawTarget1),(int16_t)(GimbalData.YawTarget2),Gyroscope.mz,0);
+		Gyroscope.gx,Gyroscope.gy,Gyroscope.gz,(int16_t)(GimbalData.YawTarget1),(int16_t)(GimbalData.YawTarget2),StirMotorData.Current,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_rcdata)
