@@ -6,7 +6,7 @@
 #include "Keyboard.h"
 #define STIRADDITION 29487.6 //8191*36/10
 int16_t FrictionSpd = 0;
-int16_t ShootFrequncy = 8;//1000/5/25
+int16_t ShootFrequency = 7;//1000/5/25
 
 PID_AbsoluteType StirMotorOutterPID,StirMotorInnerPID;
 PID_AbsoluteType fric_l_pid,fric_r_pid;
@@ -29,7 +29,7 @@ void ShootInit (void)
 	StirMotorOutterPID.ki = 0;
 	StirMotorOutterPID.kd = 0;
 	StirMotorOutterPID.errILim = 1000;
-	StirMotorOutterPID.OutMAX = 1100;
+	StirMotorOutterPID.OutMAX = 1250;
 	
 	StirMotorInnerPID.kp = 30;
 	StirMotorInnerPID.ki = 0;
@@ -88,11 +88,11 @@ void DealStirMotorPosition ()
  * @return None
  * @attention None
  */
-void StirMotorStart (void)
+void StirMotorStart (int16_t * ShootFrequency)
 {	
-		StirUpdateCounter++;
-		if(StirUpdateCounter==ShootFrequncy)
+		if(StirUpdateCounter++ >= *ShootFrequency)
 		{
+			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_2);	
 			StirMotorData.TargetPosition += STIRADDITION ;
 			StirUpdateCounter = 0;
 		}	
@@ -110,13 +110,17 @@ void Switchshoot (void)
 	{
 		FrictionSpd = 4000;
 	}
-	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start)
+	
+	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start||RC_Ctl.rc.s1 == 1)
 	{
-		ShootFrequncy = 8;
+		if(RC_Ctl.rc.s1 == 1)
+			ShootFrequency = 8;
+		else
+			ShootFrequency = 10;
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
-		StirMotorStart();
+		StirMotorStart(&ShootFrequency);
 	}
-	else
+	else if(RC_Ctl.rc.s1==3)
 	{
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 	}

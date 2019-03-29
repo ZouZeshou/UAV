@@ -84,7 +84,7 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_motopwm)
 	{
 		f.send_motopwm = 0;
-		ANO_DT_Send_MotoPWM(Devicestate[4],Devicestate[5],Devicestate[6],Devicestate[10],RC_Ctl.rc.ch0,RC_Ctl.rc.ch1,RC_Ctl.rc.ch2,RC_Ctl.rc.ch3);
+		ANO_DT_Send_MotoPWM(Devicestate[4],Devicestate[5],Devicestate[6],Devicestate[10],StirMotorData.TargetPosition,ShootFrequency,RC_Ctl.rc.s1,RC_Ctl.rc.s2);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_power)

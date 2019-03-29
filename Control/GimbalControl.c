@@ -186,7 +186,8 @@ void DealGimbalPosition (void)
 			GimbalData.Yawcirclecounter++;
 	}
 	GimbalData.YawBackold = GimbalData.YawBacknow;
-	GimbalData.Yawinit = 1;
+	if(!GimbalData.Yawinit)
+		GimbalData.Yawinit = 1;
 	
 	GimbalData.Yawposition = GimbalData.YawBacknow + GimbalData.Yawcirclecounter*8191;
 	GimbalData.Yawpositionold = GimbalData.Yawposition;
@@ -201,7 +202,8 @@ void DealGimbalPosition (void)
 			GimbalData.Pitchcirclecounter++;
 	}
 	GimbalData.PitchBackold = GimbalData.PitchBacknow;
-	GimbalData.Pitchinit = 1;
+	if(!GimbalData.Pitchinit)
+		GimbalData.Pitchinit = 1;
 	
 	GimbalData.Pitchposition = GimbalData.PitchBacknow + GimbalData.Pitchcirclecounter*8191;
 	GimbalData.Pitchpositionold = GimbalData.Pitchposition;

@@ -30,12 +30,13 @@ typedef struct
 extern StirMotor StirMotorData;
 extern ShootMotor fric_l_data,fric_r_data;
 extern int16_t FrictionSpd;
+extern int16_t ShootFrequency;
 void Switchshoot(void);
 void ShootInit (void);
 void PWMInit(void);
 void StirPID (int64_t TargetPosition,int16_t BackSpeed,int16_t BackPosition);
 void DealStirMotorPosition (void);
-void StirMotorStart (void);
+void StirMotorStart (int16_t * ShootFrequency);
 void fric_pidcontrol(int16_t targetspeed);
 void Buzzer_on(int16_t arr,int16_t ccr);
 void Buzzer_off(void);

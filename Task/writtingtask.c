@@ -92,11 +92,8 @@ void StartTask03(void const * argument)
 				Buzzer_off();
 				Task_03Init = 1;
 			}
-			if((RC_Ctl.rc.s1 != 1)||KeyMousedata.motor_start)
-			{
 				Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
 				Can2_SendMsg(0x200,fric_l_data.Current,fric_r_data.Current,0,0);
-			}
 		}
      osDelay(5);
   }
