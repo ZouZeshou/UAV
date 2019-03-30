@@ -6,7 +6,7 @@
 #include "Keyboard.h"
 #define STIRADDITION 29487.6 //8191*36/10
 int16_t FrictionSpd = 0;
-int16_t ShootFrequency = 7;//1000/5/25
+int16_t ShootFrequency = 10;//1000/5/25
 
 PID_AbsoluteType StirMotorOutterPID,StirMotorInnerPID;
 PID_AbsoluteType fric_l_pid,fric_r_pid;
@@ -114,7 +114,7 @@ void Switchshoot (void)
 	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start||RC_Ctl.rc.s1 == 1)
 	{
 		if(RC_Ctl.rc.s1 == 1)
-			ShootFrequency = 8;
+			ShootFrequency = 7;
 		else
 			ShootFrequency = 10;
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
