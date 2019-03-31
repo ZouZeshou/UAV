@@ -90,12 +90,24 @@ void DealStirMotorPosition ()
  */
 void StirMotorStart (int16_t * ShootFrequency)
 {	
-		if(StirUpdateCounter++ >= *ShootFrequency)
+		static double position_diff;
+		static int jam_count;
+		position_diff = StirMotorData.TargetPosition - StirMotorData.TotalPosition;
+		if(StirUpdateCounter++ >= *ShootFrequency && position_diff < 3*STIRADDITION)
 		{
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_2);	
 			StirMotorData.TargetPosition += STIRADDITION ;
 			StirUpdateCounter = 0;
-		}	
+		}
+		if(position_diff >= 3*STIRADDITION)
+		{
+			if(jam_count++ >= 100)
+				StirMotorData.TargetPosition-= position_diff + STIRADDITION;
+		}
+		else
+		{
+			jam_count = 0;
+		}
 }
 /**
  * @brief switch for stirmotor and ShootControl
@@ -114,7 +126,7 @@ void Switchshoot (void)
 	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start||RC_Ctl.rc.s1 == 1)
 	{
 		if(RC_Ctl.rc.s1 == 1)
-			ShootFrequency = 7;
+			ShootFrequency = 8;
 		else
 			ShootFrequency = 10;
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
