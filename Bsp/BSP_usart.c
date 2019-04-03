@@ -111,25 +111,7 @@ void USART1_IDLE_IRQ(void)
 			HAL_UART_Receive_DMA(&huart1,Remotebuffer,18);//函数中包括重新配置DMA
 		}
 }
-/**
- * @brief send the data to upper monitor
- * @param None
- * @return None
- * @attention None
- */
-void Plot_in_UpperMonitor (void)
-{
-	
-	Mdata[0] = 0x03;
-	Mdata[1] = 0xFC;
-	Mdata[2] = (uint8_t)(PitchOutter.ctrOut/5.0f);
-	Mdata[3] = (uint8_t)(PitchInner.ctrOut/50.0f);
-	Mdata[4] = (uint8_t)(YawOutter.ctrOut/5.0f);
-	Mdata[5] = (uint8_t)(YawInner.ctrOut/50.0f);
-	Mdata[6] = 0xFC;
-	Mdata[7] = 0x03;
-	HAL_UART_Transmit_IT(&huart2,Mdata,8);
-}
+
 
 
 

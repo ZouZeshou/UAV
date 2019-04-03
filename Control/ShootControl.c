@@ -118,21 +118,21 @@ void StirMotorStart (int16_t * ShootFrequency)
 void Switchshoot (void)
 {
 	static int32_t Friction_ok = 0;
+	
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
 		FrictionSpd = 4000;
 	}
+	else
+		FrictionSpd = 0;
 	
-	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start||RC_Ctl.rc.s1 == 1)
+	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start)
 	{
-		if(RC_Ctl.rc.s1 == 1)
-			ShootFrequency = 8;
-		else
-			ShootFrequency = 10;
+		ShootFrequency = 10;
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 		StirMotorStart(&ShootFrequency);
 	}
-	else if(RC_Ctl.rc.s1==3)
+	else
 	{
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 	}

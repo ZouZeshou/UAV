@@ -312,20 +312,6 @@ uint8_t mpu_device_init(void)
 	get_mpu_acc_offset();
 	get_ist_mag_offset();
 	//
-//  if (imu_cali.gyro_flag == 1)
-//  {
-//    get_mpu_gyro_offset();
-//  }
-
-//  if (imu_cali.acc_flag == 1)
-//  {
-//    get_mpu_acc_offset();
-//  }
-
-//  if (imu_cali.mag_flag == 1)
-//  {
-//    get_ist_mag_offset();
-//  }
 
   return 0;
 }
