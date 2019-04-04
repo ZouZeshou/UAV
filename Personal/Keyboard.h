@@ -31,8 +31,8 @@
 #define MOVE_X 6000
 #define MOVE_Y 8000
 
-#define MOUSE_YAW_CONST -0.015f
-#define MOUSE_PITCH_CONST 0.20f
+#define MOUSE_YAW_CONST -0.00396f
+#define MOUSE_PITCH_CONST -0.00066f
 
 typedef struct
 {
