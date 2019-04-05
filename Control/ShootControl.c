@@ -25,6 +25,8 @@ int fric_debug = 0;
  */
 void ShootInit (void)
 {
+	HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+	
 	StirMotorOutterPID.kp = 20;
 	StirMotorOutterPID.ki = 0;
 	StirMotorOutterPID.kd = 0;
@@ -102,7 +104,7 @@ void StirMotorStart (int16_t * ShootFrequency)
 		if(position_diff >= 3*STIRADDITION)
 		{
 			if(jam_count++ >= 100)
-				StirMotorData.TargetPosition-= position_diff + STIRADDITION;
+				StirMotorData.TargetPosition = StirMotorData.TargetPosition - position_diff - STIRADDITION;
 		}
 		else
 		{
@@ -118,7 +120,7 @@ void StirMotorStart (int16_t * ShootFrequency)
 void Switchshoot (void)
 {
 	static int32_t Friction_ok = 0;
-	
+	static int rc_s1_press;
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
 		FrictionSpd = 9500;
@@ -129,12 +131,17 @@ void Switchshoot (void)
 	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start)
 	{
 		ShootFrequency = 10;
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 		StirMotorStart(&ShootFrequency);
+		rc_s1_press = 0;
+	}
+	else if((RC_Ctl.rc.s1 == 1 && !rc_s1_press)||KeyMousedata.stir_start_onebyone)
+	{
+		rc_s1_press = 1;
+		StirMotorData.TargetPosition += STIRADDITION;
 	}
 	else
 	{
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+		rc_s1_press = 0;
 	}
 }
 /**

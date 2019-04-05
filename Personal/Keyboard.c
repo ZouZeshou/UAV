@@ -26,9 +26,14 @@ void DealKeyMousedata(void)
 	{
 		KeyMousedata.stir_start = 1;
 	}
+	else if((RC_Ctl.key.v & KEY_F) && KeyMousedata.fric_start)
+	{
+		KeyMousedata.stir_start_onebyone = 1;
+	}
 	else if(RC_Ctl.key.v & KEY_V)
 	{
 		KeyMousedata.stir_start = 0;
+		KeyMousedata.stir_start_onebyone = 0;
 	}
 	
 	if(RC_Ctl.key.v & KEY_CTRL)
