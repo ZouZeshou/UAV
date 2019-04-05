@@ -153,8 +153,8 @@ void StartTask06(void const * argument)
 {
 	for(;;)
   {
-//		GetDeviceState();
-//		DeviceDetect(Devicestate,Offline);
+		GetDeviceState();
+		DeviceDetect(Devicestate,Offline);
 //		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE||Devicestate[11]==OFFLINE||Devicestate[12]==OFFLINE)
 //		{
 //			Buzzer_on(300,150);

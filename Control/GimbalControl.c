@@ -48,7 +48,7 @@ void GimbalInit (void)
 	YawOutter.errILim = 0;
 	YawOutter.OutMAX = 500;
 	
-	YawInner.kp = 40;//60
+	YawInner.kp = 50;//60
 	YawInner.ki = 0;
 	YawInner.kd = 0;
 	YawInner.errILim = 3000;
@@ -112,11 +112,11 @@ void GetGimbalTarget(void)
 	{
 		if(USEENCODER)
 		{
-			GimbalData.YawTarget1 -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0006f)*22.75f + RC_Ctl.mouse.x * MOUSE_YAW_CONST*22.75f);
+			GimbalData.YawTarget1 -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0003f)*22.75f + RC_Ctl.mouse.x * MOUSE_YAW_CONST*22.75f);
 		}
 		else
 		{
-			GimbalData.YawTarget1 += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0006f) + RC_Ctl.mouse.x * MOUSE_YAW_CONST);
+			GimbalData.YawTarget1 += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0003f) + RC_Ctl.mouse.x * MOUSE_YAW_CONST);
 		}
 		GimbalData.PitchTarget1 += (float)(((RC_Ctl.rc.ch1 - 1024)*0.0001f) + RC_Ctl.mouse.y * MOUSE_PITCH_CONST);
 	}

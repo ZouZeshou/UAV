@@ -37,17 +37,17 @@ void ShootInit (void)
 	StirMotorInnerPID.errILim = 3000 ;
 	StirMotorInnerPID.OutMAX = 8000 ;
 	
-	fric_l_pid.kp = 0;
-	fric_l_pid.ki = 0;
+	fric_l_pid.kp = 11;
+	fric_l_pid.ki = 0.15f;
 	fric_l_pid.kd = 0;
-	fric_l_pid.errILim = 0;
-	fric_l_pid.OutMAX = 0;
+	fric_l_pid.errILim = 6000;
+	fric_l_pid.OutMAX = 10000;
 	
-	fric_l_pid.kp = 0;
-	fric_l_pid.ki = 0;
-	fric_l_pid.kd = 0;
-	fric_l_pid.errILim = 0;
-	fric_l_pid.OutMAX = 0;
+	fric_r_pid.kp = 11;
+	fric_r_pid.ki = 0.15f;
+	fric_r_pid.kd = 0;
+	fric_r_pid.errILim = 6000;
+	fric_r_pid.OutMAX = 10000;
 }
 /**
  * @brief initialise the data will be used in shoot motor
@@ -121,7 +121,7 @@ void Switchshoot (void)
 	
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
-		FrictionSpd = 4000;
+		FrictionSpd = 9500;
 	}
 	else
 		FrictionSpd = 0;
@@ -180,11 +180,11 @@ void fric_pidcontrol(int16_t targetspeed)
 		fric_r_pid.errILim = 0;
 		fric_r_pid.OutMAX = V1;
 	}
-	fric_l_pid.errNow = targetspeed - fric_l_data.BackSpeed;
+	fric_l_pid.errNow = -targetspeed - fric_l_data.BackSpeed;
 	PID_AbsoluteMode(&fric_l_pid);
 	fric_l_data.Current = (int16_t)(fric_l_pid.ctrOut);
 	
-	fric_r_pid.errNow = -targetspeed - fric_r_data.BackSpeed;
+	fric_r_pid.errNow = targetspeed - fric_r_data.BackSpeed;
 	PID_AbsoluteMode(&fric_r_pid);
 	fric_r_data.Current = (int16_t)(fric_r_pid.ctrOut);
 }
