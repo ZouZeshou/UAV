@@ -128,7 +128,7 @@ void Switchshoot (void)
 	else
 		FrictionSpd = 0;
 	
-	if(RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start)
+	if((RC_Ctl.rc.s1 == 2 && RC_Ctl.rc.s2 == 2)||KeyMousedata.stir_start)
 	{
 		ShootFrequency = 10;
 		StirMotorStart(&ShootFrequency);
