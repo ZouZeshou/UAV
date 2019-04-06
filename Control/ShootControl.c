@@ -134,12 +134,12 @@ void Switchshoot (void)
 		StirMotorStart(&ShootFrequency);
 		rc_s1_press = 0;
 	}
-	else if((RC_Ctl.rc.s1 == 1 && !rc_s1_press)||KeyMousedata.stir_start_onebyone)
+	else if((RC_Ctl.rc.s1 == 1 && rc_s1_press==0)||KeyMousedata.stir_start_onebyone)
 	{
 		rc_s1_press = 1;
 		StirMotorData.TargetPosition += STIRADDITION;
 	}
-	else
+	else if(RC_Ctl.rc.s1 == 3)
 	{
 		rc_s1_press = 0;
 	}
