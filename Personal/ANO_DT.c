@@ -71,8 +71,8 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_senser)
 	{
 		f.send_senser = 0;
-		ANO_DT_Send_Senser((int16_t)(GimbalData.PitchTarget1),(int16_t)(GimbalData.PitchTarget2),Gyroscope.az,
-		Gyroscope.gx,Gyroscope.gy,Gyroscope.gz,(int16_t)(GimbalData.YawTarget1),(int16_t)(GimbalData.YawTarget2),StirMotorData.Current,0);
+		ANO_DT_Send_Senser(RC_Ctl.mouse.press_l,RC_Ctl.mouse.press_r,Gyroscope.az,
+		Gyroscope.gx,Gyroscope.gy,Gyroscope.gz,RC_Ctl.mouse.x,RC_Ctl.mouse.y,RC_Ctl.mouse.z,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_rcdata)

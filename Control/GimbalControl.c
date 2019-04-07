@@ -48,7 +48,7 @@ void GimbalInit (void)
 	YawOutter.errILim = 0;
 	YawOutter.OutMAX = 500;
 	
-	YawInner.kp = 50;//60
+	YawInner.kp = 40;//60
 	YawInner.ki = 0;
 	YawInner.kd = 0;
 	YawInner.errILim = 3000;
@@ -79,15 +79,15 @@ void GimbalCalibration(void)
 
 	if(GimbalData.YawBacknow < 3000)
 	{
-		GimbalData.YawMax = 1500;
+		GimbalData.YawMax = 1800;
 		GimbalData.YawMid = 0;
-		GimbalData.YawMin = -3500;
+		GimbalData.YawMin = -3456;
 	}
 	else
 	{
 		GimbalData.YawMax = 10000;
 		GimbalData.YawMid = 0;
-		GimbalData.YawMin = 4500;
+		GimbalData.YawMin = 4735;
 	}
 
 		GimbalData.PitchMaxangle = (int)((GimbalData.PitchMax - GimbalData.PitchBacknow) * 0.0439506f);
@@ -125,11 +125,13 @@ void GetGimbalTarget(void)
 	{
 		if(GimbalData.YawTarget1 > GimbalData.YawMax) 
 		{
+			GimbalData.YawTarget1 = GimbalData.YawMax;
 			GimbalData.YawTarget2 = GimbalData.YawMax;
 		}
 		else if(GimbalData.YawTarget1 < GimbalData.YawMin)
 		{
 			GimbalData.YawTarget2 = GimbalData.YawMin;
+			GimbalData.YawTarget1 = GimbalData.YawMin;
 		}
 		else
 			GimbalData.YawTarget2 = GimbalData.YawTarget1;
@@ -140,10 +142,12 @@ void GetGimbalTarget(void)
 		if(YawTargetEncoder > GimbalData.YawMax)
 		{
 			GimbalData.YawTarget2 = GimbalData.YawTarget1 + (YawTargetEncoder - GimbalData.YawMax) * 0.0439506776f;
+			GimbalData.YawTarget1 = GimbalData.YawTarget2;
 		}
 		else if(YawTargetEncoder < GimbalData.YawMin)
 		{
 			GimbalData.YawTarget2 = GimbalData.YawTarget1 + (YawTargetEncoder - GimbalData.YawMin) * 0.0439506776f;
+			GimbalData.YawTarget1 = GimbalData.YawTarget2;
 		}
 		else
 			GimbalData.YawTarget2 = GimbalData.YawTarget1;
@@ -162,9 +166,15 @@ void GetGimbalTarget(void)
 //		GimbalData.PitchTarget2 = GimbalData.PitchTarget1;
 	
 	if(GimbalData.PitchTarget1 > GimbalData.PitchMaxangle )
+	{
 		GimbalData.PitchTarget2 = GimbalData.PitchMaxangle;
+		GimbalData.PitchTarget1 = GimbalData.PitchTarget2;
+	}
 	else if(GimbalData.PitchTarget1 < GimbalData.PitchMinangle)
+	{
 		GimbalData.PitchTarget2 = GimbalData.PitchMinangle;
+		GimbalData.PitchTarget1 = GimbalData.PitchTarget2;
+	}
 	else
 		GimbalData.PitchTarget2 = GimbalData.PitchTarget1;
 }

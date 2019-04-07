@@ -120,10 +120,11 @@ void StirMotorStart (int16_t * ShootFrequency)
 void Switchshoot (void)
 {
 	static int32_t Friction_ok = 0;
-	static int rc_s1_press;
+	static int rc_s1_press ;
+	static int mouse_l_press;
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
-		FrictionSpd = 11500;// 9500 24~26 10500 26~27
+		FrictionSpd = 11500;// 9500 24~26 10500 26~27 11500 27~28.5
 	}
 	else
 		FrictionSpd = 0;
@@ -134,14 +135,22 @@ void Switchshoot (void)
 		StirMotorStart(&ShootFrequency);
 		rc_s1_press = 0;
 	}
-	else if((RC_Ctl.rc.s1 == 1 && rc_s1_press==0)||KeyMousedata.stir_start_onebyone)
+	else if((RC_Ctl.rc.s1 == 1 && rc_s1_press==0 && KeyMousedata.fric_start)||
+		(RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start ))
 	{
 		rc_s1_press = 1;
+		mouse_l_press = 1;
 		StirMotorData.TargetPosition += STIRADDITION;
 	}
-	else if(RC_Ctl.rc.s1 == 3)
+	
+	if(RC_Ctl.rc.s1 == 3)
 	{
 		rc_s1_press = 0;
+	}
+	
+	if(RC_Ctl.mouse.press_l == 0)
+	{
+		mouse_l_press = 0;
 	}
 }
 /**
