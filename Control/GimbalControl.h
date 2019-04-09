@@ -66,5 +66,6 @@ void DealGimbalPosition(void);
 void PitchPID(float *Target);
 void YawPID(float *Target);
 void GetYawIncrement(void);
+void switch_gimbal_mode(void);
 
 #endif

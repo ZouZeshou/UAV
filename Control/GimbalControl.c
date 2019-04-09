@@ -11,16 +11,24 @@
 #include "arm_math.h"
 #include "detect.h"
 #define USEENCODER 1
+#define AUTO 1
+#define HAND 0
 GimbalMotor GimbalData = {0};
 PID_AbsoluteType YawInner;
 PID_AbsoluteType YawOutter;
 PID_AbsoluteType PitchInner;
 PID_AbsoluteType PitchOutter;
 
+PID_AbsoluteType v_YawInner;
+PID_AbsoluteType v_YawOutter;
+PID_AbsoluteType v_PitchInner;
+PID_AbsoluteType v_PitchOutter;
+int gimbalmode = 0;
 int YawTargetEncoder = 0,PitchTargetEncoder = 0;
 int PitchDebug = 0;
 int YawDebug = 0;
-
+int v_PitchDebug = 0;
+int v_YawDebug = 0;
 
 /**
  * @brief initialize the parameter of Gimbal
@@ -53,8 +61,49 @@ void GimbalInit (void)
 	YawInner.kd = 0;
 	YawInner.errILim = 3000;
 	YawInner.OutMAX = 25000;
+	
+	v_PitchOutter.kp = 0;//30
+	v_PitchOutter.ki = 0;
+	v_PitchOutter.kd = 0;	
+	v_PitchOutter.errILim = 0;
+	v_PitchOutter.OutMAX = 500;//400
+	
+	v_PitchInner.kp = 0;//50
+	v_PitchInner.ki = 0;
+	v_PitchInner.kd = 0;
+	v_PitchInner.errILim = 6000;
+	v_PitchInner.OutMAX = 25000;
+
+	v_YawOutter.kp = 0;//12
+	v_YawOutter.ki = 0;
+	v_YawOutter.kd = 0;	
+	v_YawOutter.errILim = 0;
+	v_YawOutter.OutMAX = 500;
+	
+	v_YawInner.kp = 0;//60
+	v_YawInner.ki = 0;
+	v_YawInner.kd = 0;
+	v_YawInner.errILim = 3000;
+	v_YawInner.OutMAX = 25000;
 }
 
+/**
+ * @brief switch gimbal mode
+ * @param None
+ * @return None
+ * @attention  None
+ */
+void switch_gimbal_mode(void)
+{
+	if(1)
+	{
+		gimbalmode = AUTO;
+	}
+	else
+	{
+		gimbalmode = HAND;
+	}
+}
 /**
  * @brief Calibrate the position of Gimbal Motor
  * @param None
@@ -285,4 +334,65 @@ void YawPID (float *Target)
 //	YawInner.errNow = YawOutter.ctrOut - GimbalData.Yawspeed;
 	PID_AbsoluteMode(&YawInner);
 	GimbalData.YawCurrent = (int16_t)(-YawInner.ctrOut);
+}
+/***********************************auto function**************************************/
+
+/**
+ * @brief PID control of pitchmotor
+ * @param None
+ * @return None
+ * @attention  None
+ */
+void v_PitchPID (float *Target)
+{
+	if(v_PitchDebug == 1)
+	{
+		v_PitchOutter.kp=P;//25
+		v_PitchOutter.ki=I;
+		v_PitchOutter.kd=D;	
+		v_PitchOutter.errILim=0;
+		v_PitchOutter.OutMAX=V1;
+		
+		v_PitchInner.kp=p;//20
+		v_PitchInner.ki=i;
+		v_PitchInner.kd=d;
+		v_PitchInner.errILim=3000;
+		v_PitchInner.OutMAX=V2;
+	}
+
+	v_PitchOutter.errNow = (*Target - GimbalData.Pitchangle);//处理成角度值
+	PID_AbsoluteMode(&v_PitchOutter);
+	v_PitchInner.errNow = v_PitchOutter.ctrOut -  GimbalData.Pitchspeed;//(1/65536*4000)
+	PID_AbsoluteMode(&v_PitchInner);
+	GimbalData.PitchCurrent = v_PitchInner.ctrOut;
+}
+
+/**
+ * @brief PID control of Yaw motor
+ * @param None
+ * @return None
+ * @attention  None
+ */
+void v_YawPID (float *Target)
+{
+	if(v_YawDebug == 1)
+	{
+		v_YawOutter.kp=P;//15
+		v_YawOutter.ki=I;
+		v_YawOutter.kd=D;	
+		v_YawOutter.errILim=0;
+		v_YawOutter.OutMAX=V1;
+		
+		v_YawInner.kp=p;//50
+		v_YawInner.ki=i;
+		v_YawInner.kd=d;
+		v_YawInner.errILim=1000;
+		v_YawInner.OutMAX=V2;
+	}
+
+	v_YawOutter.errNow = (*Target - GimbalData.Yawangle);
+	PID_AbsoluteMode(&v_YawOutter);
+	v_YawInner.errNow = v_YawOutter.ctrOut - GimbalData.YawEncoderspeed*(-5.7608f);
+	PID_AbsoluteMode(&v_YawInner);
+	GimbalData.YawCurrent = (int16_t)(-v_YawInner.ctrOut);
 }

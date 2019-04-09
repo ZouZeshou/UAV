@@ -41,6 +41,7 @@
 /* USER CODE BEGIN Includes */
 #include "BSP_usart.h"
 #include "DBUS.h"
+#include "camera.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -340,7 +341,7 @@ void DMA2_Stream1_IRQHandler(void)
   /* USER CODE END DMA2_Stream1_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_usart6_rx);
   /* USER CODE BEGIN DMA2_Stream1_IRQn 1 */
-
+	Vision_Decode();
   /* USER CODE END DMA2_Stream1_IRQn 1 */
 }
 
@@ -406,11 +407,12 @@ void DMA2_Stream6_IRQHandler(void)
 void USART6_IRQHandler(void)
 {
   /* USER CODE BEGIN USART6_IRQn 0 */
-
+#ifdef DELETE_USART6_IRQ
   /* USER CODE END USART6_IRQn 0 */
   HAL_UART_IRQHandler(&huart6);
   /* USER CODE BEGIN USART6_IRQn 1 */
-
+#endif
+	Vision_IRQ();
   /* USER CODE END USART6_IRQn 1 */
 }
 

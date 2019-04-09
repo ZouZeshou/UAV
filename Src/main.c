@@ -70,6 +70,7 @@
 #include "ShootControl.h"
 #include "ahrs.h"
 #include "drv_imu.h"
+#include "camera.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -152,6 +153,7 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 	imu_temp_ctrl_init();
+	pcDataInit();
 	ShootInit();
 	GimbalInit();
 	PWMInit();

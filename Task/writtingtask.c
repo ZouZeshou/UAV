@@ -30,7 +30,7 @@
 #include "detect.h"
 #include "ANO_DT.h"
 #include "drv_imu.h"
-int initmark=0 ;
+int initmark=0;
 int IMU_OK = 0;
 int GYRO_OK = 0;
 int Stop_GyroJudge = 0;
@@ -56,6 +56,7 @@ void StartTask02(void const * argument)
 				initmark=1;
 			}
 			DealGimbalPosition();
+			switch_gimbal_mode();
 			GetGimbalTarget();			
 			PitchPID(&GimbalData.PitchTarget2);
 			YawPID(&GimbalData.YawTarget2);	
