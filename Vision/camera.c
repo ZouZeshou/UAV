@@ -14,7 +14,6 @@ int16_t Times = 20000;
 uint8_t uart6_buff[50];
 int vlostcount;
 pcDataParam pcParam,pcParamLast;
-extern float IMG_KP,IMG_KI,IMG_KD,IMG_ERRILIM,IMG_MAXOUT;
 uint16_t cnt1 = 0;
 uint16_t cnt2 = 0;
 int flaglose = 1;
