@@ -30,6 +30,7 @@
 #include "detect.h"
 #include "ANO_DT.h"
 #include "drv_imu.h"
+#include "camera.h"
 int initmark=0;
 int IMU_OK = 0;
 int GYRO_OK = 0;
@@ -57,10 +58,17 @@ void StartTask02(void const * argument)
 			}
 			DealGimbalPosition();
 			switch_gimbal_mode();
-			GetGimbalTarget();			
-			PitchPID(&GimbalData.PitchTarget2);
-			YawPID(&GimbalData.YawTarget2);	
-	  
+			GetGimbalTarget();
+			if(gimbalmode == 0)
+			{
+				PitchPID(&GimbalData.PitchTarget2);
+				YawPID(&GimbalData.YawTarget2);	
+			}
+			else if(gimbalmode == 1)
+			{
+				v_PitchPID(&pcParam.refer_centerY);
+				v_YawPID(&pcParam.refer_centerX);	
+			}
 			DealKeyMousedata();
 			Switchshoot();
 			fric_pidcontrol(FrictionSpd);

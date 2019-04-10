@@ -77,50 +77,51 @@ void Vision_Decode(void)
 		pcParam.pcCompensationY.uc[2] = uart6_buff[19];
 		pcParam.pcCompensationY.uc[3] = uart6_buff[20];		
         
-		if((pcParam.pcCenterX.f)<5&&(pcParam.pcCenterY.f)<5)
-		{
-			cnt1++;
-			if(cnt1>=5)
-			{
-				cnt1 = 6;
-				flaglose = 1;
-				flagshoot = 0;
-			}
-			else
-			{
-				flagshoot = 1;
-				pcParam.pcCenterX = pcParamLast.pcCenterX;
-				pcParam.pcCenterY = pcParamLast.pcCenterY;
-				pcParam.pcCenterZ = pcParamLast.pcCenterZ;
-				pcParam.pcCompensationX = pcParamLast.pcCompensationX;
-				pcParam.pcCompensationY = pcParamLast.pcCompensationY;
-			}
-		}
-		else
-		{
-				cnt1 = 0;
-				flaglose = 0;
-				flagshoot = 1;
-				pcParamLast.pcCenterX = pcParam.pcCenterX;
-				pcParamLast.pcCenterY = pcParam.pcCenterY;
-				pcParamLast.pcCenterZ = pcParam.pcCenterZ;
-				pcParamLast.pcCompensationX = pcParam.pcCompensationX;
-				pcParamLast.pcCompensationY = pcParam.pcCompensationY;			
-		}
-		
-		if(flaglose == 0)
-		{
-			pcParam.pcTargetX = pcParam.refer_centerX - pcParam.pcCenterX.f;//
-			pcParam.pcTargetY = pcParam.pcCenterY.f - REFER_CENTER_Y +0;
-		}
-		else
-		{
-			pcParam.pcTargetX = 0;
-			pcParam.pcTargetY = 0;
-		}
-		if(pcParamLast.pcCompensationX.f>30) pcParamLast.pcCompensationX.f=0;
-		data = pcParamLast.pcCompensationX.f;
-		out1 = -kalman1_filter(&kalmanl,data)*6.6;
+//		if((pcParam.pcCenterX.f)<5&&(pcParam.pcCenterY.f)<5)
+//		{
+//			cnt1++;
+//			if(cnt1>=5)
+//			{
+//				cnt1 = 6;
+//				flaglose = 1;
+//				flagshoot = 0;
+//			}
+//			else
+//			{
+//				flagshoot = 1;
+//				pcParam.pcCenterX = pcParamLast.pcCenterX;
+//				pcParam.pcCenterY = pcParamLast.pcCenterY;
+//				pcParam.pcCenterZ = pcParamLast.pcCenterZ;
+//				pcParam.pcCompensationX = pcParamLast.pcCompensationX;
+//				pcParam.pcCompensationY = pcParamLast.pcCompensationY;
+//			}
+//		}
+//		else
+//		{
+//				cnt1 = 0;
+//				flaglose = 0;
+//				flagshoot = 1;
+//				pcParamLast.pcCenterX = pcParam.pcCenterX;
+//				pcParamLast.pcCenterY = pcParam.pcCenterY;
+//				pcParamLast.pcCenterZ = pcParam.pcCenterZ;
+//				pcParamLast.pcCompensationX = pcParam.pcCompensationX;
+//				pcParamLast.pcCompensationY = pcParam.pcCompensationY;			
+//		}
+//		
+//		if(flaglose == 0)
+//		{
+//			pcParam.pcTargetX = pcParam.refer_centerX - pcParam.pcCenterX.f;//
+//			pcParam.pcTargetY = pcParam.pcCenterY.f - pcParam.refer_centerY;
+//		}
+//		else
+//		{
+//			pcParam.pcTargetX = 0;
+//			pcParam.pcTargetY = 0;
+//		}
+//		
+//		if(pcParamLast.pcCompensationX.f>30) pcParamLast.pcCompensationX.f=0;
+//		data = pcParamLast.pcCompensationX.f;
+//		out1 = -kalman1_filter(&kalmanl,data)*6.6;
 	}
 	__HAL_UART_CLEAR_PEFLAG(&huart6);
 }

@@ -15,6 +15,7 @@
 #include "BSP_can.h"
 #include "detect.h"
 #include "DBUS.h"
+#include "camera.h"
 /////////////////////////////////////////////////////////////////////////////////////
 //数据拆分宏定义，在发送大于1字节的数据类型时，比如int16、float等，需要把数据拆分成单独字节进行发送
 #define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)		) )
@@ -71,7 +72,7 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_senser)
 	{
 		f.send_senser = 0;
-		ANO_DT_Send_Senser(RC_Ctl.mouse.press_l,RC_Ctl.mouse.press_r,Gyroscope.az,
+		ANO_DT_Send_Senser((int16_t)(pcParam.pcCenterX.f),(int16_t)(pcParam.pcCenterY.f),(int16_t)(pcParam.pcCenterZ.f),
 		Gyroscope.gx,Gyroscope.gy,Gyroscope.gz,RC_Ctl.mouse.x,RC_Ctl.mouse.y,RC_Ctl.mouse.z,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////

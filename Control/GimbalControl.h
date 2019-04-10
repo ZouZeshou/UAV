@@ -58,6 +58,7 @@ extern PID_AbsoluteType YawOutter;
 extern PID_AbsoluteType PitchInner;
 extern PID_AbsoluteType PitchOutter;
 extern  int YawTargetEncoder ,PitchTargetEncoder ;
+extern int gimbalmode ;
 
 void GimbalInit (void);
 void GimbalCalibration(void);
@@ -65,6 +66,8 @@ void GetGimbalTarget(void);
 void DealGimbalPosition(void);
 void PitchPID(float *Target);
 void YawPID(float *Target);
+void v_PitchPID (float *Target);
+void v_YawPID(float *Target);
 void GetYawIncrement(void);
 void switch_gimbal_mode(void);
 

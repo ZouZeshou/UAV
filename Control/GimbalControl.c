@@ -10,6 +10,7 @@
 #include "BSP_can.h"
 #include "arm_math.h"
 #include "detect.h"
+#include "camera.h"
 #define USEENCODER 1
 #define AUTO 1
 #define HAND 0
@@ -360,7 +361,7 @@ void v_PitchPID (float *Target)
 		v_PitchInner.OutMAX=V2;
 	}
 
-	v_PitchOutter.errNow = (*Target - GimbalData.Pitchangle);//处理成角度值
+	v_PitchOutter.errNow = (*Target - pcParam.pcCenterY.f);//处理成角度值
 	PID_AbsoluteMode(&v_PitchOutter);
 	v_PitchInner.errNow = v_PitchOutter.ctrOut -  GimbalData.Pitchspeed;//(1/65536*4000)
 	PID_AbsoluteMode(&v_PitchInner);
@@ -390,7 +391,7 @@ void v_YawPID (float *Target)
 		v_YawInner.OutMAX=V2;
 	}
 
-	v_YawOutter.errNow = (*Target - GimbalData.Yawangle);
+	v_YawOutter.errNow = (*Target - pcParam.pcCenterX.f);
 	PID_AbsoluteMode(&v_YawOutter);
 	v_YawInner.errNow = v_YawOutter.ctrOut - GimbalData.YawEncoderspeed*(-5.7608f);
 	PID_AbsoluteMode(&v_YawInner);

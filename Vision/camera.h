@@ -24,8 +24,8 @@ typedef struct {
 	 float pcTargetX;//adjust value
 	 float pcTargetY;
 	
-	 int refer_centerX;
-	 int refer_centerY;
+	 float refer_centerX;
+	 float refer_centerY;
 	
 	 float2uchar pcCenterX;
 	 float2uchar pcCenterY;
