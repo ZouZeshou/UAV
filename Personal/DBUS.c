@@ -3,7 +3,7 @@
 #include "usart.h"
 #include "BSP_can.h"
 RC_Ctl_t RC_Ctl = {0};
-uint8_t Remotebuffer[18];
+uint8_t Remotebuffer[25];
 
 /**
  * @brief Receive data from remote device

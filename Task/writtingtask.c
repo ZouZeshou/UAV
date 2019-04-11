@@ -37,7 +37,6 @@ int GYRO_OK = 0;
 int Stop_GyroJudge = 0;
 int GyroscopeState = 0;
 int Task_03Init = 0;
-extern uint8_t Remotebuffer[18];
 /**
  * @brief main control task
  * @param None

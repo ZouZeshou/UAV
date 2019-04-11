@@ -45,6 +45,7 @@ typedef struct {
 extern pcDataParam pcParam,pcParamLast;
 extern float sbs;
 extern int flaglose;
+extern uint8_t uart6_buff[50];
 
 void Vision_IRQ(void);
 void pcDataInit(void);

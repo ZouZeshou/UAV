@@ -5,16 +5,15 @@
 #include "ramp.h"
 #include "GimbalControl.h"
 #include "stdio.h"
+#include "camera.h"
 uint8_t uart5_buff[1]={0};
 uint8_t Rxdata[1]={0};
 uint8_t Usart3buff[100]={0};
 uint8_t Usart2buff[100]={0};
 uint8_t Usart1buff[100]={0};
-uint8_t Usart6buff[100]={0};
 uint8_t Mdata[8];
-
-extern uint8_t Remotebuffer[18];
 extern DMA_HandleTypeDef hdma_usart1_rx;
+extern DMA_HandleTypeDef hdma_usart6_rx;
 /**
  * @brief Enable USART3
  * @param None
@@ -113,7 +112,20 @@ void USART1_IDLE_IRQ(void)
 }
 
 
-
+/**
+ * @brief Enable the Usart6
+ * @param None
+ * @return None
+ * @attention  None
+ */
+void USART6_Enable(void)
+{
+	 HAL_DMA_Start(&hdma_usart6_rx, (uint32_t)huart6.Instance->DR, (uint32_t)uart6_buff,23);
+	 huart6.Instance->CR3 |= USART_CR3_DMAR;								/*!<DMA Enable Receiver         */
+	 __HAL_UART_ENABLE_IT(&huart6,UART_IT_IDLE);								/*!<使能串口的中断为空闲中断    */
+	 HAL_UART_Receive_DMA(&huart6,uart6_buff,23);								/*!<DMA Receive data            */
+	 __HAL_UART_ENABLE_IT(&huart6,UART_IT_ERR);								/*!<Enable Usart Error IT      	*/
+}
 
 
 

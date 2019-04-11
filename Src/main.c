@@ -162,6 +162,7 @@ int main(void)
 	USART3_Enable();
 	USART2_Enable();
 	USART1_Enable();
+	USART6_Enable();
 	CAN_Enable();
   /* USER CODE END 2 */
 

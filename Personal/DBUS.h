@@ -30,7 +30,7 @@ uint16_t v;
 
 
 extern RC_Ctl_t RC_Ctl;
-extern uint8_t Remotebuffer[18];
+extern uint8_t Remotebuffer[25];
 
 void GetDBUS (void);
 

@@ -57,7 +57,7 @@ void GimbalInit (void)
 	YawOutter.errILim = 0;
 	YawOutter.OutMAX = 500;
 	
-	YawInner.kp = 40;//60
+	YawInner.kp = 35;//60
 	YawInner.ki = 0;
 	YawInner.kd = 0;
 	YawInner.errILim = 3000;
@@ -97,6 +97,8 @@ void GimbalInit (void)
 void switch_gimbal_mode(void)
 {
 	static int pitch_overborder,yaw_overborder;
+	static int use_vision;
+	//越界处理
 	if(GimbalData.Pitchposition >= GimbalData.PitchMax||GimbalData.Pitchposition <= GimbalData.PitchMin)
 	{
 		pitch_overborder = 1;
@@ -114,11 +116,25 @@ void switch_gimbal_mode(void)
 		yaw_overborder = 0;
 	}
 	
-	if(pitch_overborder==0 && yaw_overborder==0 && RC_Ctl.rc.s1==1)
+	if(pitch_overborder==1||yaw_overborder==1)
+	{
+		use_vision = 0;
+	}
+	else if(RC_Ctl.rc.s1 == 1)
+	{
+		use_vision =1;
+	}
+	else
+	{
+		use_vision =0;
+	}
+	//选择模式；手动或自动
+	if(use_vision==1)
 	{
 		gimbalmode = AUTO;
-		target
 		
+		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
+		GimbalData.YawTarget1 = GimbalData.Yawposition;
 	}
 	else
 	{
