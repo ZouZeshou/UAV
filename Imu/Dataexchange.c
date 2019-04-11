@@ -88,8 +88,8 @@ void UpdateIMU(struct ahrs_sensor *sensor)
 	Gyroscope.my = (int16_t)(INS_mag[1]*400.0f);
 	Gyroscope.mz = (int16_t)(INS_mag[2]*400.0f);
 	
-	GimbalData.Pitchangle = Gyroscope.anglepitch;
-	GimbalData.Yawangle = Gyroscope.angleyaw;
+	GimbalData.Pitchangle = -Gyroscope.anglepitch;
+	GimbalData.Yawangle = -Gyroscope.angleyaw;
 
 }
 void LFP_Filter(float *data_get,float *data_back,float (*filter)[3],uint8_t *updata_count)
