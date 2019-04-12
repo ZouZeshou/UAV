@@ -53,7 +53,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		if(Can1Header.StdId==0x206)
 		{
 			GimbalData.PitchBacknow = RxData1[0]<<8|RxData1[1];
-			GimbalData.PitchTorque = RxData1[2]<<8|RxData1[3];
+			GimbalData.PitchBackspeed = RxData1[2]<<8|RxData1[3];
+			
 			fps.Pit++;
 		}	
 		if(Can1Header.StdId==0x207)

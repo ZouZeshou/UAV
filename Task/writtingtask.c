@@ -226,6 +226,10 @@ void PrintFunction(void)
 	
 /*************************************************** Gimbaldebug ***********************************************/
 		  printf("/*******************Gimbal******************/ \r\n");
+	printf("pit pos %d spd %d\r\n",GimbalData.Pitchposition,GimbalData.PitchBackspeed);
+	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
+	printf("pitOutter err %2.f out%2.f\r\n",PitchOutter.errNow,PitchOutter.ctrOut);
+	printf("pitInner err %2.f out%2.f\r\n",PitchInner.errNow,PitchInner.ctrOut);
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
 //printf("fps.Gyro_1%d\r\n",fps.Gyro_1);
 //	printf("GYROSTATE %d\r\n",GyroscopeState);
@@ -253,11 +257,6 @@ void PrintFunction(void)
 //			printf("error yaw%.2f pitch%.2f\r\n",YawOutter.errNow,PitchOutter.errNow);
 //			printf("Yaw outter %.2f inner %.2f\r\n",YawOutter.ctrOut,YawInner.ctrOut);
 ////			printf("Yawcur %d\r\n",GimbalData.YawCurrent); 
-			printf("Pitch err %.2f out %.2f\r\n",PitchOutter.errNow,PitchInner.ctrOut);
-			printf("pitch torque %d\r\n",GimbalData.PitchTorque);
-//			printf("Gyro1 gy%d gz%d ang%4.f\r\n",Gyroscope1.gy,Gyroscope1.gz,Gyroscope1.angle);
-//			printf("Gyro1State %d\r\n",Gyro1State);
-//			printf("Gyro2 gy%d gz%d ang%f\r\n",Gyroscope2.gy,Gyroscope2.gz,Gyroscope2.angle);
 //		 printf("PitSpd %d YawSpd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
 ////  printf("FollowctrOut %f\r\n",ChassisfollowOutter.ctrOut);
 ////	  printf("GimbalImu %f\r\n",GimbalData.ImuData);

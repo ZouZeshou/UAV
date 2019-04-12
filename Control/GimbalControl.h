@@ -29,8 +29,8 @@ typedef struct
 	
 	
 	int16_t PitchBacknow;
-	int16_t PitchTorque;
 	int16_t PitchBackold;
+	int16_t PitchBackspeed;
 	int32_t Pitchposition;
 	int32_t Pitchpositionold;
 	int16_t Pitchspeed;

@@ -39,17 +39,17 @@ int v_YawDebug = 0;
  */
 void GimbalInit (void)
 {
-	PitchOutter.kp = 50;//30
+	PitchOutter.kp = 0;//30
 	PitchOutter.ki = 0;
 	PitchOutter.kd = 0;	
 	PitchOutter.errILim = 0;
-	PitchOutter.OutMAX = 500;//400
+	PitchOutter.OutMAX = 0;//400
 	
-	PitchInner.kp = 80;//50
+	PitchInner.kp = 0;//50
 	PitchInner.ki = 0;
 	PitchInner.kd = 0;
-	PitchInner.errILim = 6000;
-	PitchInner.OutMAX = 25000;
+	PitchInner.errILim = 0;
+	PitchInner.OutMAX = 0;
 
 	YawOutter.kp = 40;//12
 	YawOutter.ki = 0;
@@ -157,11 +157,11 @@ void GimbalCalibration(void)
 		{
 			GimbalData.YawTarget1 = GimbalData.Yawangle;
 		}
-		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
+		GimbalData.PitchTarget1 = GimbalData.PitchBacknow;
 		
-		GimbalData.PitchMax = 7350;
-		GimbalData.PitchMid = 7045;
-		GimbalData.PitchMin = 6050;
+		GimbalData.PitchMax = 30000;
+		GimbalData.PitchMid = 10000;
+		GimbalData.PitchMin = -5000;
 
 	if(GimbalData.YawBacknow < 3000)
 	{
@@ -175,14 +175,6 @@ void GimbalCalibration(void)
 		GimbalData.YawMid = 0;
 		GimbalData.YawMin = 4735;
 	}
-
-		GimbalData.PitchMaxangle = (int)((GimbalData.PitchMax - GimbalData.PitchBacknow) * 0.0439506f);
-		GimbalData.PitchMinangle = (int)(( GimbalData.PitchMin - GimbalData.PitchBacknow) * 0.0439506f);
-
-//		GimbalData.YawMaxangle = 90;
-//		GimbalData.YawMidangle = 45;
-//		GimbalData.YawMinangle = 0;
-		
 
 }
 /**
@@ -204,7 +196,7 @@ void GetGimbalTarget(void)
 		{
 			GimbalData.YawTarget1 += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0003f) + RC_Ctl.mouse.x * MOUSE_YAW_CONST);
 		}
-		GimbalData.PitchTarget1 += (float)(((RC_Ctl.rc.ch1 - 1024)*0.0001f) + RC_Ctl.mouse.y * MOUSE_PITCH_CONST);
+		GimbalData.PitchTarget1 += (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f) + RC_Ctl.mouse.y * MOUSE_PITCH_CONST)*800);
 	}
 /******************************limit the yawtarget*************************************/	
 	if(USEENCODER)
@@ -238,31 +230,19 @@ void GetGimbalTarget(void)
 		else
 			GimbalData.YawTarget2 = GimbalData.YawTarget1;
 	}
-/******************************limit the pitch target********************************/	
-//	PitchTargetEncoder = (int)(GimbalData.Pitchposition + (GimbalData.PitchTarget1 - GimbalData.Pitchangle)/0.0439506776f);
-//	if(PitchTargetEncoder > GimbalData.PitchMax)
-//	{
-//		GimbalData.PitchTarget2 = GimbalData.PitchTarget1 - (PitchTargetEncoder - GimbalData.PitchMax) * 0.0439506776f;
-//	}
-//	else if(PitchTargetEncoder < GimbalData.PitchMin)
-//	{
-//		GimbalData.PitchTarget2 = GimbalData.PitchTarget1 - (PitchTargetEncoder - GimbalData.PitchMin) * 0.0439506776f;
-//	}
-//	else
-//		GimbalData.PitchTarget2 = GimbalData.PitchTarget1;
-	
-	if(GimbalData.PitchTarget1 > GimbalData.PitchMaxangle )
+	/***********************limit pitch position**********************************/
+	if(GimbalData.PitchTarget1 > GimbalData.PitchMax)
 	{
-		GimbalData.PitchTarget2 = GimbalData.PitchMaxangle;
-		GimbalData.PitchTarget1 = GimbalData.PitchTarget2;
+		GimbalData.PitchTarget2 = GimbalData.PitchMax;
 	}
-	else if(GimbalData.PitchTarget1 < GimbalData.PitchMinangle)
+	else if(GimbalData.PitchTarget1 < GimbalData.PitchMin)
 	{
-		GimbalData.PitchTarget2 = GimbalData.PitchMinangle;
-		GimbalData.PitchTarget1 = GimbalData.PitchTarget2;
+		GimbalData.PitchTarget2 = GimbalData.PitchMin;
 	}
 	else
+	{
 		GimbalData.PitchTarget2 = GimbalData.PitchTarget1;
+	}
 }
 
 /**
@@ -325,13 +305,13 @@ void PitchPID (float *Target)
 		PitchInner.kp=p;//20
 		PitchInner.ki=i;
 		PitchInner.kd=d;
-		PitchInner.errILim=3000;
+		PitchInner.errILim=0;
 		PitchInner.OutMAX=V2;
 	}
 
-	PitchOutter.errNow = (*Target - GimbalData.Pitchangle);//处理成角度值
+	PitchOutter.errNow = (*Target - GimbalData.Pitchposition)*0.001220852f;//处理成角度值
 	PID_AbsoluteMode(&PitchOutter);
-	PitchInner.errNow = PitchOutter.ctrOut -  GimbalData.Pitchspeed;//(1/65536*4000)
+	PitchInner.errNow = PitchOutter.ctrOut -  GimbalData.PitchBackspeed*0.166666667f;
 	PID_AbsoluteMode(&PitchInner);
 	GimbalData.PitchCurrent = PitchInner.ctrOut;
 }
