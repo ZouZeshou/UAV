@@ -73,7 +73,7 @@ void ANO_DT_Data_Exchange(void)
 	{
 		f.send_senser = 0;
 		ANO_DT_Send_Senser((int16_t)(pcParam.pcCenterX.f),(int16_t)(pcParam.pcCenterY.f),(int16_t)(pcParam.pcCenterZ.f),
-		Gyroscope.gx,Gyroscope.gy,Gyroscope.gz,RC_Ctl.mouse.x,RC_Ctl.mouse.y,RC_Ctl.mouse.z,0);
+		(int16_t)PitchOutter.errNow,(int16_t)PitchInner.ctrOut,GimbalData.PitchTorque,RC_Ctl.mouse.x,RC_Ctl.mouse.y,RC_Ctl.mouse.z,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_rcdata)
@@ -85,7 +85,7 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_motopwm)
 	{
 		f.send_motopwm = 0;
-		ANO_DT_Send_MotoPWM(Devicestate[4],Devicestate[5],Devicestate[6],Devicestate[10],StirMotorData.TargetPosition,ShootFrequency,RC_Ctl.rc.s1,RC_Ctl.rc.s2);
+		ANO_DT_Send_MotoPWM(Devicestate[4],Devicestate[5],Devicestate[6],Devicestate[10],Devicestate[11],Devicestate[12],RC_Ctl.rc.s1,RC_Ctl.rc.s2);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_power)

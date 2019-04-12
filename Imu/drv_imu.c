@@ -226,8 +226,7 @@ void mpu_get_data(struct ahrs_sensor *sensor)
 
   ist8310_get_data((uint8_t *)&mpu_data.mx);
 //zzsadd
-	GimbalData.Yawspeed =(int16_t)(mpu_data.gz / 16.384f);
-	GimbalData.Pitchspeed = (int16_t)(-mpu_data.gx / 16.384f);
+
 	if(abs(mpu_data.gx) <= 5) mpu_data.gx = 0 ;
 	if(abs(mpu_data.gy) <= 5) mpu_data.gy = 0 ;
 	if(abs(mpu_data.gz) <= 5) mpu_data.gz = 0 ;

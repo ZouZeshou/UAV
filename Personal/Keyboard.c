@@ -31,12 +31,4 @@ void DealKeyMousedata(void)
 		KeyMousedata.stir_start = 0;
 	}
 	
-	if(RC_Ctl.key.v & KEY_CTRL)
-	{
-		KeyMousedata.motor_start = 0;
-	}
-	else if(RC_Ctl.key.v & KEY_SHIFT)
-	{
-		KeyMousedata.motor_start = 1;
-	}
 }

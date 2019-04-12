@@ -120,7 +120,7 @@ void switch_gimbal_mode(void)
 	{
 		use_vision = 0;
 	}
-	else if(RC_Ctl.rc.s1 == 1)
+	else if(RC_Ctl.rc.s2 == 1)
 	{
 		use_vision =1;
 	}

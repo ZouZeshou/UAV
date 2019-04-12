@@ -146,7 +146,7 @@ void StartTask05(void const * argument)
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 			PrintFunction();
 			ANO_DT_Data_Exchange();
-			osDelay(50);
+			osDelay(200);
 		}
   }
 
@@ -214,7 +214,7 @@ void PrintFunction(void)
 //		printf("BackSpeed %d %d %d %d\r\n",Chassisdata.BackSpeed[0],Chassisdata.BackSpeed[1],Chassisdata.BackSpeed[2],Chassisdata.BackSpeed[3]);
 ////	  printf("current %d %d %d %d\r\n",Chassisdata.Current[0],Chassisdata.Current[1],Chassisdata.Current[2],Chassisdata.Current[3]);
 ////	  printf("Remotebuffer %d %d %d %d\r\n",Remotebuffer[0],Remotebuffer[1],Remotebuffer[2],Remotebuffer[3]);
-	  printf("channel l%d r%d x%d y%d z%d\r\n",RC_Ctl.mouse.press_l,RC_Ctl.mouse.press_r,RC_Ctl.mouse.x,RC_Ctl.mouse.y,RC_Ctl.mouse.z);
+//	  printf("channel l%d r%d x%d y%d z%d\r\n",RC_Ctl.mouse.press_l,RC_Ctl.mouse.press_r,RC_Ctl.mouse.x,RC_Ctl.mouse.y,RC_Ctl.mouse.z);
 //	  printf("Vx %d Vy %d Rotate %d\r\n",Chassisdata.Vx,Chassisdata.Vy,Chassisdata.Rotate);
 //	  printf("error %f %f %f %f\r\n",Chassiswheelpid[0].errNow,Chassiswheelpid[1].errNow,Chassiswheelpid[2].errNow,Chassiswheelpid[3].errNow);
 //	  printf("ctrout %f %f %f %f\r\n",Chassiswheelpid[0].ctrOut,Chassiswheelpid[1].ctrOut,Chassiswheelpid[2].ctrOut,Chassiswheelpid[3].ctrOut);
@@ -229,7 +229,7 @@ void PrintFunction(void)
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
 //printf("fps.Gyro_1%d\r\n",fps.Gyro_1);
 //	printf("GYROSTATE %d\r\n",GyroscopeState);
-	printf("GYRO angyaw%.3f angpit%.3f angroll%.3f\r\n",Gyroscope.angleyaw,Gyroscope.anglepitch,Gyroscope.angleroll);
+//	printf("GYRO angyaw%.3f angpit%.3f angroll%.3f\r\n",Gyroscope.angleyaw,Gyroscope.anglepitch,Gyroscope.angleroll);
 //	printf("fpsdbus %d\r\n",fps.DBUS);
 //	printf("Yaw %dpittarencoder%d\r\n",YawTargetEncoder,PitchTargetEncoder);
 //	printf("GYRO_OK %d\r\n",GYRO_OK);
@@ -253,7 +253,8 @@ void PrintFunction(void)
 //			printf("error yaw%.2f pitch%.2f\r\n",YawOutter.errNow,PitchOutter.errNow);
 //			printf("Yaw outter %.2f inner %.2f\r\n",YawOutter.ctrOut,YawInner.ctrOut);
 ////			printf("Yawcur %d\r\n",GimbalData.YawCurrent); 
-//			printf("Pitch outter %.2f inner %.2f\r\n",PitchOutter.ctrOut,PitchInner.ctrOut);
+			printf("Pitch err %.2f out %.2f\r\n",PitchOutter.errNow,PitchInner.ctrOut);
+			printf("pitch torque %d\r\n",GimbalData.PitchTorque);
 //			printf("Gyro1 gy%d gz%d ang%4.f\r\n",Gyroscope1.gy,Gyroscope1.gz,Gyroscope1.angle);
 //			printf("Gyro1State %d\r\n",Gyro1State);
 //			printf("Gyro2 gy%d gz%d ang%f\r\n",Gyroscope2.gy,Gyroscope2.gz,Gyroscope2.angle);
