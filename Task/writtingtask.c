@@ -145,7 +145,7 @@ void StartTask05(void const * argument)
 		{
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 			PrintFunction();
-			ANO_DT_Data_Exchange();
+//			ANO_DT_Data_Exchange();
 			osDelay(200);
 		}
   }
@@ -164,22 +164,22 @@ void StartTask06(void const * argument)
 		static int buzzer_ontime;
 		GetDeviceState();
 		DeviceDetect(Devicestate,Offline);
-//		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE||Devicestate[11]==OFFLINE||Devicestate[12]==OFFLINE)
-//		{
+		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE||Devicestate[11]==OFFLINE||Devicestate[12]==OFFLINE)
+		{
 //			buzzer_ontime++;
 //			if(buzzer_ontime >= 20 && buzzer_ontime <= 40)
 //			{
-//				Buzzer_on(300,150);	
+				Buzzer_on(300,150);	
 //			}
 //			else if(buzzer_ontime > 40)
 //			{
 //				buzzer_ontime = 0;
 //			}
-//		}
-//		else
-//		{
-//			Buzzer_off();
-//		}
+		}
+		else
+		{
+			Buzzer_off();
+		}
 		osDelay(15);
 	}
 }
@@ -226,10 +226,12 @@ void PrintFunction(void)
 	
 /*************************************************** Gimbaldebug ***********************************************/
 		  printf("/*******************Gimbal******************/ \r\n");
-	printf("pit pos %d spd %d\r\n",GimbalData.Pitchposition,GimbalData.PitchBackspeed);
-	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
-	printf("pitOutter err %2.f out%2.f\r\n",PitchOutter.errNow,PitchOutter.ctrOut);
-	printf("pitInner err %2.f out%2.f\r\n",PitchInner.errNow,PitchInner.ctrOut);
+//	printf("pit pos %d spd %d\r\n",GimbalData.Pitchposition,GimbalData.PitchBackspeed);
+//	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
+	printf("pit ang%.2f spd %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchspeed);
+	printf("pitOutter err %.2f out%.2f\r\n",PitchOutter.errNow,PitchOutter.ctrOut);
+	printf("pitInner err %.2f out%.2f\r\n",PitchInner.errNow,PitchInner.ctrOut);
+	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
 //printf("fps.Gyro_1%d\r\n",fps.Gyro_1);
 //	printf("GYROSTATE %d\r\n",GyroscopeState);
