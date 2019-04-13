@@ -73,7 +73,7 @@ void ANO_DT_Data_Exchange(void)
 	{
 		f.send_senser = 0;
 		ANO_DT_Send_Senser((int16_t)(pcParam.pcCenterX.f),(int16_t)(pcParam.pcCenterY.f),(int16_t)(pcParam.pcCenterZ.f),
-		(int16_t)PitchOutter.errNow,(int16_t)PitchInner.ctrOut,0,RC_Ctl.mouse.x,RC_Ctl.mouse.y,RC_Ctl.mouse.z,0);
+		(int16_t)fric_l_data.BackSpeed,(int16_t)fric_r_data.BackSpeed,0,RC_Ctl.mouse.x,RC_Ctl.mouse.y,RC_Ctl.mouse.z,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_rcdata)
