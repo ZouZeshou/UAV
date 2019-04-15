@@ -43,8 +43,8 @@ typedef struct {
 
 
 extern pcDataParam pcParam,pcParamLast;
-extern float sbs;
-extern int flaglose;
+extern int pcdata_right ;
+extern int catch_target;
 extern uint8_t uart6_buff[50];
 
 void Vision_IRQ(void);

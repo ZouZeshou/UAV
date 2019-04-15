@@ -39,10 +39,12 @@ double V2;
 double A;
 double B;
 double C;
+double E;
 
 double a;
 double b;
 double c;
+double e;
 //-------------------------------------------------------------------------------
 int cmd(char *Cmd,int n)
 {
@@ -164,14 +166,16 @@ void multi3(int n)
 	A = xx[1];
 	B = xx[2];
 	C = xx[3];
-	printf("A=%f  B=%f  C=%f\r\n",A,B,C);
+	E = xx[4];
+	printf("A=%f  B=%f  C=%f E=%f\r\n",A,B,C,E);
 }
 void multi4(int n)
 {
-    a = xx[1];
+  a = xx[1];
 	b = xx[2];
 	c = xx[3];
-	printf("a=%f b=%f c=%f",a,b,c);
+	e = xx[4];
+	printf("a=%f b=%f c=%f e =%f\r\n",a,b,c,e);
 }
 void multi5(int n)
 {

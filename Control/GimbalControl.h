@@ -55,17 +55,22 @@ typedef struct
 
 extern GimbalMotor GimbalData;
 extern PID_AbsoluteType YawInner;
-extern PID_AbsoluteType YawOutter;
+extern PID_AbsoluteType YawOuter;
 extern PID_AbsoluteType PitchInner;
-extern PID_AbsoluteType PitchOutter;
+extern PID_AbsoluteType PitchOuter;
+extern PID_AbsoluteType v_YawInner;
+extern PID_AbsoluteType v_YawOuter;
+extern PID_AbsoluteType v_PitchInner;
+extern PID_AbsoluteType v_PitchOuter;
 extern  int YawTargetEncoder ,PitchTargetEncoder ;
-extern int gimbalmode ;
+extern int gimbalmode;
+extern int use_vision;
 
 void GimbalInit (void);
 void GimbalCalibration(void);
 void GetGimbalTarget(void);
-void DealGimbalPosition(void);
 void PitchPID(float *Target);
+void DealGimbalPosition(void);
 void YawPID(float *Target);
 void v_PitchPID (float *Target);
 void v_YawPID(float *Target);

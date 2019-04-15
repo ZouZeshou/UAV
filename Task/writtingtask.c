@@ -145,7 +145,7 @@ void StartTask05(void const * argument)
 		{
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 			PrintFunction();
-//			ANO_DT_Data_Exchange();
+			ANO_DT_Data_Exchange();
 			osDelay(200);
 		}
   }
@@ -228,10 +228,15 @@ void PrintFunction(void)
 		  printf("/*******************Gimbal******************/ \r\n");
 //	printf("pit pos %d spd %d\r\n",GimbalData.Pitchposition,GimbalData.PitchBackspeed);
 //	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
-	printf("pit ang%.2f spd %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchspeed);
-	printf("pitOutter err %.2f out%.2f\r\n",PitchOutter.errNow,PitchOutter.ctrOut);
-	printf("pitInner err %.2f out%.2f\r\n",PitchInner.errNow,PitchInner.ctrOut);
-	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
+//	printf("pit ang%.2f spd %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchspeed);
+	printf("YawOuter err %.2f out%.2f\r\n",v_YawOuter.errNow,v_YawOuter.ctrOut);
+	printf("YawInner err %.2f out%.2f\r\n",v_YawInner.errNow,v_YawInner.ctrOut);
+	printf("pitOuter err %.2f out%.2f\r\n",v_PitchOuter.errNow,v_PitchOuter.ctrOut);
+	printf("pitInner err %.2f out%.2f\r\n",v_PitchInner.errNow,v_PitchInner.ctrOut);
+//	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
+	printf("usevision %d\r\n",use_vision);
+//	printf("dataright %d\r\n",pcdata_right);
+	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
 //printf("fps.Gyro_1%d\r\n",fps.Gyro_1);
 //	printf("GYROSTATE %d\r\n",GyroscopeState);
@@ -256,8 +261,8 @@ void PrintFunction(void)
 //		printf("Pitinit%d\r\n",GimbalData.Pitchinit);
 //	  printf("gyro x %d y %d z %d\r\n",imu_data.gx,imu_data.gy,imu_data.gz);
 //	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget,GimbalData.PitchTarget);
-//			printf("error yaw%.2f pitch%.2f\r\n",YawOutter.errNow,PitchOutter.errNow);
-//			printf("Yaw outter %.2f inner %.2f\r\n",YawOutter.ctrOut,YawInner.ctrOut);
+//			printf("error yaw%.2f pitch%.2f\r\n",YawOuter.errNow,PitchOuter.errNow);
+//			printf("Yaw outter %.2f inner %.2f\r\n",YawOuter.ctrOut,YawInner.ctrOut);
 ////			printf("Yawcur %d\r\n",GimbalData.YawCurrent); 
 //		 printf("PitSpd %d YawSpd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
 ////  printf("FollowctrOut %f\r\n",ChassisfollowOutter.ctrOut);

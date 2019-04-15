@@ -73,6 +73,6 @@ int StrToInt(char *Str);
 float StrToFloat(char *str);
 char *SubStr(char *str,int start,int final);
 
-extern double P,I,D,p,i,d,A,B,C,a,b,c,V1,V2;
+extern double P,I,D,p,i,d,A,B,C,a,b,c,V1,V2,E,e;
 
 #endif

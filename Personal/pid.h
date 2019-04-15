@@ -48,9 +48,9 @@ typedef struct
 
 extern PID_AbsoluteType Chassiswheelpid[4];
 extern PID_AbsoluteType YawInner;
-extern PID_AbsoluteType YawOutter;
+extern PID_AbsoluteType YawOuter;
 extern PID_AbsoluteType PitchInner;
-extern PID_AbsoluteType PitchOutter;
+extern PID_AbsoluteType PitchOuter;
 extern PID_AbsoluteType ChassisfollowOutter;
 extern PID_AbsoluteType StirMotorOutterPID,StirMotorInnerPID,ShootLPID,ShootRPID;
 

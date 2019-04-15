@@ -2,13 +2,14 @@
 #include "kalman_filter.h"
 #include "usart.h"
 #include "CRC_Check.h"
-#define VISIONDATALENGTH 23
-#define REFER_CENTER_X  640                //295  443
-#define REFER_CENTER_Y 360
+#define REFER_CENTER_X  400                //295  443
+#define REFER_CENTER_Y 300
 
 kalman1_state kalmanl;
 float data = 0;
 int pcdata_right = 0;
+int catch_target = 0;
+int catch_target_counter = 0;
 uint8_t uart6_buff[50];
 pcDataParam pcParam,pcParamLast;
 
@@ -16,7 +17,6 @@ pcDataParam pcParam,pcParamLast;
 void pcDataInit(void)
 {
 	kalman1_init(&kalmanl,data,5e7);
-	pcParam.isTrue = 0;
 	
 	pcParam.pcTargetX=0.f;
 	pcParam.pcTargetY=0.f;
@@ -34,13 +34,13 @@ void Vision_IRQ(void){
 	if(__HAL_UART_GET_FLAG(&huart6,UART_FLAG_IDLE) != RESET){
 		__HAL_UART_CLEAR_IDLEFLAG(&huart6);		
 		HAL_UART_DMAStop(&huart6);
-		HAL_UART_Receive_DMA(&huart6,uart6_buff,VISIONDATALENGTH);
+		HAL_UART_Receive_DMA(&huart6,uart6_buff,23);
 	}
 }
 
 void Vision_Decode(void)
 {
-	if(uart6_buff[0]==0xA5&& Verify_CRC16_Check_Sum(uart6_buff,VISIONDATALENGTH))
+	if(uart6_buff[0]==0xA5&& Verify_CRC16_Check_Sum(uart6_buff,23))
 	{
 		pcdata_right = 1;
 		pcParam.pcCenterX.uc[0] = uart6_buff[1];
@@ -67,7 +67,29 @@ void Vision_Decode(void)
 		pcParam.pcCompensationY.uc[1] = uart6_buff[18];
 		pcParam.pcCompensationY.uc[2] = uart6_buff[19];
 		pcParam.pcCompensationY.uc[3] = uart6_buff[20];		
-    
+		
+    if(pcParam.pcCenterX.f<0||pcParam.pcCenterY.f<0||pcParam.pcCenterZ.f<0)
+		{
+			if(catch_target_counter++ > 10)
+			{
+				catch_target = 0;
+				catch_target_counter = 0;
+			}
+			pcParam.pcCenterX = pcParamLast.pcCenterX;
+			pcParam.pcCenterY = pcParamLast.pcCenterY;
+			pcParam.pcCenterZ = pcParamLast.pcCenterZ;
+			pcParam.pcCompensationX = pcParamLast.pcCompensationX;
+			pcParam.pcCompensationY = pcParamLast.pcCompensationY;
+		}
+		else
+		{
+			catch_target = 1;
+			pcParamLast.pcCenterX = pcParam.pcCenterX;
+			pcParamLast.pcCenterY = pcParam.pcCenterY;
+			pcParamLast.pcCenterZ = pcParam.pcCenterZ;
+			pcParamLast.pcCompensationX = pcParam.pcCompensationX;
+			pcParamLast.pcCompensationY = pcParam.pcCompensationY;	
+		}
 	}
 	else
 	{
