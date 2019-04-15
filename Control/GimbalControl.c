@@ -116,7 +116,7 @@ void switch_gimbal_mode(void)
 {
 	static int pitch_overborder,yaw_overborder;
 	//越界处理
-	if(GimbalData.Pitchangle >= GimbalData.PitchMaxangle||GimbalData.Pitchangle <= GimbalData.PitchMin)
+	if(GimbalData.Pitchangle >= GimbalData.PitchMaxangle||GimbalData.Pitchangle <= GimbalData.PitchMinangle)
 	{
 		pitch_overborder = 1;
 	}
@@ -198,7 +198,7 @@ void GimbalCalibration(void)
 		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
 		GimbalData.PitchMaxangle = 20;
 		GimbalData.PitchMidangle = 0;
-		GimbalData.PitchMinangle = -10;
+		GimbalData.PitchMinangle = -30;
 	}
 }
 /**
@@ -424,20 +424,20 @@ void v_PitchPID (float *Target)
 {
 	if(v_PitchDebug == 1)
 	{
-		v_PitchOuter.kp=P;//25
-		v_PitchOuter.ki=I;
-		v_PitchOuter.kd=D;	
+		v_PitchOuter.kp=A;//25
+		v_PitchOuter.ki=B;
+		v_PitchOuter.kd=C;	
 		v_PitchOuter.errILim=0;
-		v_PitchOuter.OutMAX=V1;
+		v_PitchOuter.OutMAX=E;
 		
-		v_PitchInner.kp=p;//20
-		v_PitchInner.ki=i;
-		v_PitchInner.kd=d;
+		v_PitchInner.kp=a;//20
+		v_PitchInner.ki=b;
+		v_PitchInner.kd=c;
 		v_PitchInner.errILim=3000;
-		v_PitchInner.OutMAX=V2;
+		v_PitchInner.OutMAX=e;
 	}
 
-	v_PitchOuter.errNow = -(*Target - pcParam.pcCenterY.f);//处理成角度值
+	v_PitchOuter.errNow = (*Target - pcParam.pcCenterY.f)*0.05f;//处理成角度值
 	PID_AbsoluteMode(&v_PitchOuter);
 	v_PitchInner.errNow = v_PitchOuter.ctrOut -  GimbalData.Pitchspeed;//(1/65536*4000)
 	PID_AbsoluteMode(&v_PitchInner);
@@ -467,9 +467,10 @@ void v_YawPID (float *Target)
 		v_YawInner.OutMAX=V2;
 	}
 
-	v_YawOuter.errNow = -(*Target - pcParam.pcCenterX.f);
+	v_YawOuter.errNow = (*Target - pcParam.pcCenterX.f)*0.05f;
 	PID_AbsoluteMode(&v_YawOuter);
-	v_YawInner.errNow = v_YawOuter.ctrOut - GimbalData.YawEncoderspeed*(-5.7608f);
+//	v_YawInner.errNow = v_YawOuter.ctrOut - GimbalData.YawEncoderspeed*(-5.7608f);
+	v_YawInner.errNow = v_YawOuter.ctrOut - GimbalData.Yawspeed;
 	PID_AbsoluteMode(&v_YawInner);
 	GimbalData.YawCurrent = (int16_t)(-v_YawInner.ctrOut);
 }

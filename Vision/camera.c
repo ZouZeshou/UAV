@@ -70,7 +70,7 @@ void Vision_Decode(void)
 		
     if(pcParam.pcCenterX.f<0||pcParam.pcCenterY.f<0||pcParam.pcCenterZ.f<0)
 		{
-			if(catch_target_counter++ > 10)
+			if(catch_target_counter++ > 50)
 			{
 				catch_target = 0;
 				catch_target_counter = 0;

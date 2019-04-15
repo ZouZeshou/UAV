@@ -235,6 +235,7 @@ void PrintFunction(void)
 	printf("pitInner err %.2f out%.2f\r\n",v_PitchInner.errNow,v_PitchInner.ctrOut);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
 	printf("usevision %d\r\n",use_vision);
+	printf("gimbalmode %d\r\n",gimbalmode);
 //	printf("dataright %d\r\n",pcdata_right);
 	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
