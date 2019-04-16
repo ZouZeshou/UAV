@@ -68,6 +68,7 @@ void StartTask02(void const * argument)
 				v_PitchPID(&pcParam.refer_centerY);
 				v_YawPID(&pcParam.refer_centerX);	
 			}
+			Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
 			DealKeyMousedata();
 			Switchshoot();
 			fric_pidcontrol(FrictionSpd);
@@ -100,7 +101,7 @@ void StartTask03(void const * argument)
 				Buzzer_off();
 				Task_03Init = 1;
 			}
-				Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
+				
 				Can2_SendMsg(0x200,fric_l_data.Current,fric_r_data.Current,0,0);
 		}
      osDelay(5);
@@ -174,6 +175,7 @@ void StartTask06(void const * argument)
 			else if(buzzer_ontime > 40)
 			{
 				buzzer_ontime = 0;
+				Buzzer_off();
 			}
 		}
 		else

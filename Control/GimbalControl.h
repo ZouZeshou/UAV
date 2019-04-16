@@ -14,7 +14,7 @@ typedef struct
 	float   Yawangle;
 	int16_t Yawcirclecounter;
 	int16_t Yawinit;
-	int16_t YawCurrent;
+	volatile int16_t YawCurrent;
 	float YawTarget;
 	float YawTarget1;
 	float YawTarget2;
@@ -37,7 +37,7 @@ typedef struct
 	float   Pitchangle;
 	int32_t Pitchcirclecounter;
 	int16_t Pitchinit;
-	int16_t PitchCurrent;
+	volatile int16_t PitchCurrent;
 	float PitchTarget;
 	float PitchTarget1;
 	float PitchTarget2;

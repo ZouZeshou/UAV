@@ -29,8 +29,8 @@ int gimbalmode = 0;
 int YawTargetEncoder = 0,PitchTargetEncoder = 0;
 int PitchDebug = 0;
 int YawDebug = 0;
-int v_PitchDebug = 1;
-int v_YawDebug = 1;
+int v_PitchDebug = 0;
+int v_YawDebug = 0;
 int use_vision = 0;
 
 /**
@@ -81,26 +81,26 @@ void GimbalInit (void)
 	YawInner.errILim = 6000;
 	YawInner.OutMAX = 25000;
 	
-	v_PitchOuter.kp = 0;//30
+	v_PitchOuter.kp = 15;//30
 	v_PitchOuter.ki = 0;
 	v_PitchOuter.kd = 0;	
 	v_PitchOuter.errILim = 0;
-	v_PitchOuter.OutMAX = 500;//400
+	v_PitchOuter.OutMAX = 10;//400
 	
-	v_PitchInner.kp = 0;//50
-	v_PitchInner.ki = 0;
+	v_PitchInner.kp = 140;//50
+	v_PitchInner.ki = 0.1;
 	v_PitchInner.kd = 0;
 	v_PitchInner.errILim = 3000;
 	v_PitchInner.OutMAX = 8000;
 
-	v_YawOuter.kp = 0;//12
+	v_YawOuter.kp = 6;//12
 	v_YawOuter.ki = 0;
 	v_YawOuter.kd = 0;	
 	v_YawOuter.errILim = 0;
-	v_YawOuter.OutMAX = 500;
+	v_YawOuter.OutMAX = 40;
 	
-	v_YawInner.kp = 0;//60
-	v_YawInner.ki = 0;
+	v_YawInner.kp = 180;//60
+	v_YawInner.ki = 0.2;
 	v_YawInner.kd = 0;
 	v_YawInner.errILim = 6000;
 	v_YawInner.OutMAX = 25000;
@@ -136,27 +136,29 @@ void switch_gimbal_mode(void)
 	if(pitch_overborder==1||yaw_overborder==1||pcdata_right==0||catch_target==0)
 	{
 		use_vision = 0;
+		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 	}
 	else if(RC_Ctl.rc.s2 == 1)
 	{
 		use_vision =1;
+		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 	}
 	else
 	{
 		use_vision =0;
+		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 	}
 	//选择模式；手动或自动
 	if(use_vision==1)
 	{
 		gimbalmode = AUTO;
 		
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+		
 		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
 		GimbalData.YawTarget1 = GimbalData.Yawposition;
 	}
 	else
 	{
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 		gimbalmode = HAND;
 	}
 }
