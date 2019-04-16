@@ -70,7 +70,7 @@ void Vision_Decode(void)
 		
     if(pcParam.pcCenterX.f<0||pcParam.pcCenterY.f<0||pcParam.pcCenterZ.f<0)
 		{
-			if(catch_target_counter++ > 50)
+			if(catch_target_counter++ > 30)
 			{
 				catch_target = 0;
 				catch_target_counter = 0;
@@ -83,6 +83,7 @@ void Vision_Decode(void)
 		}
 		else
 		{
+			catch_target_counter = 0;
 			catch_target = 1;
 			pcParamLast.pcCenterX = pcParam.pcCenterX;
 			pcParamLast.pcCenterY = pcParam.pcCenterY;
@@ -98,13 +99,15 @@ void Vision_Decode(void)
 	__HAL_UART_CLEAR_PEFLAG(&huart6);
 }
 
-void sendSignal(uint8_t signal){
-	uint8_t data[5];
+void send_data_to_pc(uint8_t mode,uint8_t algorithm_mode)
+{
+	uint8_t data[6];
 	data[0]=0xA6;
-	data[1]=signal;
-	Append_CRC8_Check_Sum(data,3);
-	data[3] = '\r';
-	data[4] = '\n';
-	HAL_UART_Transmit_IT(&huart6,data,5); 
+	data[1]=mode;
+	data[2]=algorithm_mode;
+	Append_CRC8_Check_Sum(data,4);
+	data[4] = '\r';
+	data[5] = '\n';
+	HAL_UART_Transmit_IT(&huart6,data,6); 
 }
 

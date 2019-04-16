@@ -150,11 +150,13 @@ void switch_gimbal_mode(void)
 	{
 		gimbalmode = AUTO;
 		
+		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
 		GimbalData.YawTarget1 = GimbalData.Yawposition;
 	}
 	else
 	{
+		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 		gimbalmode = HAND;
 	}
 }

@@ -166,15 +166,15 @@ void StartTask06(void const * argument)
 		DeviceDetect(Devicestate,Offline);
 		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE||Devicestate[11]==OFFLINE||Devicestate[12]==OFFLINE)
 		{
-//			buzzer_ontime++;
-//			if(buzzer_ontime >= 20 && buzzer_ontime <= 40)
-//			{
+			buzzer_ontime++;
+			if(buzzer_ontime >= 20 && buzzer_ontime <= 40)
+			{
 				Buzzer_on(300,150);	
-//			}
-//			else if(buzzer_ontime > 40)
-//			{
-//				buzzer_ontime = 0;
-//			}
+			}
+			else if(buzzer_ontime > 40)
+			{
+				buzzer_ontime = 0;
+			}
 		}
 		else
 		{
