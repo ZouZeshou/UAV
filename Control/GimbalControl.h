@@ -65,7 +65,7 @@ extern PID_AbsoluteType v_PitchOuter;
 extern  int YawTargetEncoder ,PitchTargetEncoder ;
 extern int gimbalmode;
 extern int use_vision;
-
+extern int pitch_add ;
 void GimbalInit (void);
 void GimbalCalibration(void);
 void GetGimbalTarget(void);

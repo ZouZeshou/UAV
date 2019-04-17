@@ -2,9 +2,9 @@
 #include "kalman_filter.h"
 #include "usart.h"
 #include "CRC_Check.h"
+#include "STMGood.h"
 #define REFER_CENTER_X  400                //295  443
-#define REFER_CENTER_Y 300
-
+#define REFER_CENTER_Y 350
 kalman1_state kalmanl;
 float data = 0;
 int pcdata_right = 0;
@@ -40,6 +40,9 @@ void Vision_IRQ(void){
 
 void Vision_Decode(void)
 {
+	
+//	pcParam.refer_centerX = P;
+//	pcParam.refer_centerY = I;
 	if(uart6_buff[0]==0xA5&& Verify_CRC16_Check_Sum(uart6_buff,23))
 	{
 		pcdata_right = 1;

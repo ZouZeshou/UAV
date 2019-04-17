@@ -88,8 +88,8 @@ void UpdateIMU(struct ahrs_sensor *sensor)
 	Gyroscope.my = (int16_t)(INS_mag[1]*400.0f);
 	Gyroscope.mz = (int16_t)(INS_mag[2]*400.0f);
 	
-	GimbalData.Yawspeed = Gyroscope.gz;
-	GimbalData.Pitchspeed = Gyroscope.gy;
+//	GimbalData.Yawspeed = Gyroscope.gz;
+//	GimbalData.Pitchspeed = Gyroscope.gy;
 	GimbalData.Pitchangle = Gyroscope.anglepitch;
 	GimbalData.Yawangle = Gyroscope.angleyaw;
 

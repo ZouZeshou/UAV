@@ -29,9 +29,10 @@ int gimbalmode = 0;
 int YawTargetEncoder = 0,PitchTargetEncoder = 0;
 int PitchDebug = 0;
 int YawDebug = 0;
-int v_PitchDebug = 0;
+int v_PitchDebug = 1;
 int v_YawDebug = 0;
 int use_vision = 0;
+int pitch_add = 0;
 
 /**
  * @brief initialize the parameter of Gimbal
@@ -81,14 +82,14 @@ void GimbalInit (void)
 	YawInner.errILim = 6000;
 	YawInner.OutMAX = 25000;
 	
-	v_PitchOuter.kp = 15;//30
+	v_PitchOuter.kp = 8;//30
 	v_PitchOuter.ki = 0;
 	v_PitchOuter.kd = 0;	
 	v_PitchOuter.errILim = 0;
-	v_PitchOuter.OutMAX = 10;//400
+	v_PitchOuter.OutMAX = 300;//400
 	
-	v_PitchInner.kp = 140;//50
-	v_PitchInner.ki = 0.1;
+	v_PitchInner.kp = 40;//50
+	v_PitchInner.ki = 0.25;
 	v_PitchInner.kd = 0;
 	v_PitchInner.errILim = 3000;
 	v_PitchInner.OutMAX = 8000;
@@ -99,7 +100,7 @@ void GimbalInit (void)
 	v_YawOuter.errILim = 0;
 	v_YawOuter.OutMAX = 40;
 	
-	v_YawInner.kp = 180;//60
+	v_YawInner.kp = 150;//60
 	v_YawInner.ki = 0.2;
 	v_YawInner.kd = 0;
 	v_YawInner.errILim = 6000;
@@ -136,17 +137,10 @@ void switch_gimbal_mode(void)
 	if(pitch_overborder==1||yaw_overborder==1||pcdata_right==0||catch_target==0)
 	{
 		use_vision = 0;
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
-	}
-	else if(RC_Ctl.rc.s2 == 1)
-	{
-		use_vision =1;
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 	}
 	else
 	{
-		use_vision =0;
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+		use_vision =1;
 	}
 	//选择模式；手动或自动
 	if(use_vision==1)
@@ -161,6 +155,17 @@ void switch_gimbal_mode(void)
 	{
 		gimbalmode = HAND;
 	}
+	
+	if(RC_Ctl.rc.s2 == 1)
+	{
+		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+	}
+	else
+	{
+		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+	}
+	
+	
 }
 /**
  * @brief Calibrate the position of Gimbal Motor
@@ -440,12 +445,29 @@ void v_PitchPID (float *Target)
 		v_PitchInner.errILim=3000;
 		v_PitchInner.OutMAX=e;
 	}
-
+	if(GimbalData.Pitchangle > 0)
+	{
+		pitch_add = (int)(fabs(GimbalData.Pitchangle) * D);
+	}
+	else
+	{
+		pitch_add = 0;
+	}
 	v_PitchOuter.errNow = (*Target - pcParam.pcCenterY.f)*0.05f;//处理成角度值
 	PID_AbsoluteMode(&v_PitchOuter);
 	v_PitchInner.errNow = v_PitchOuter.ctrOut -  GimbalData.Pitchspeed;//(1/65536*4000)
+//		if(v_PitchInner.errNow > 20)
+//	{
+//		v_PitchInner.errNow = 20;
+//	}
+//	else if(v_PitchInner.errNow < -20)
+//	{
+//		v_PitchInner.errNow = -20;
+//	}
 	PID_AbsoluteMode(&v_PitchInner);
+//	GimbalData.PitchCurrent = v_PitchInner.ctrOut + pitch_add;
 	GimbalData.PitchCurrent = v_PitchInner.ctrOut;
+//	GimbalData.PitchCurrent = v_PitchOuter.ctrOut + pitch_add;//单环
 }
 
 /**
@@ -475,6 +497,7 @@ void v_YawPID (float *Target)
 	PID_AbsoluteMode(&v_YawOuter);
 //	v_YawInner.errNow = v_YawOuter.ctrOut - GimbalData.YawEncoderspeed*(-5.7608f);
 	v_YawInner.errNow = v_YawOuter.ctrOut - GimbalData.Yawspeed;
+
 	PID_AbsoluteMode(&v_YawInner);
 	GimbalData.YawCurrent = (int16_t)(-v_YawInner.ctrOut);
 }

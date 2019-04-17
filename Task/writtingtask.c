@@ -66,9 +66,9 @@ void StartTask02(void const * argument)
 			else if(gimbalmode == 1)
 			{
 				v_PitchPID(&pcParam.refer_centerY);
-				v_YawPID(&pcParam.refer_centerX);	
+				v_YawPID(&pcParam.refer_centerX);			
 			}
-			Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
+		
 			DealKeyMousedata();
 			Switchshoot();
 			fric_pidcontrol(FrictionSpd);
@@ -101,7 +101,7 @@ void StartTask03(void const * argument)
 				Buzzer_off();
 				Task_03Init = 1;
 			}
-				
+				Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
 				Can2_SendMsg(0x200,fric_l_data.Current,fric_r_data.Current,0,0);
 		}
      osDelay(5);
@@ -231,10 +231,13 @@ void PrintFunction(void)
 //	printf("pit pos %d spd %d\r\n",GimbalData.Pitchposition,GimbalData.PitchBackspeed);
 //	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
 //	printf("pit ang%.2f spd %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchspeed);
-	printf("YawOuter err %.2f out%.2f\r\n",v_YawOuter.errNow,v_YawOuter.ctrOut);
-	printf("YawInner err %.2f out%.2f\r\n",v_YawInner.errNow,v_YawInner.ctrOut);
+//	printf("YawOuter err %.2f out%.2f\r\n",v_YawOuter.errNow,v_YawOuter.ctrOut);
+//	printf("YawInner err %.2f out%.2f\r\n",v_YawInner.errNow,v_YawInner.ctrOut);
 	printf("pitOuter err %.2f out%.2f\r\n",v_PitchOuter.errNow,v_PitchOuter.ctrOut);
 	printf("pitInner err %.2f out%.2f\r\n",v_PitchInner.errNow,v_PitchInner.ctrOut);
+	printf("pitadd  %d  current %d \r\n",pitch_add,GimbalData.PitchCurrent);
+	printf("pit angle %.2f posi %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
+	printf("pit spd %d encode %d \r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
 	printf("usevision %d\r\n",use_vision);
 	printf("gimbalmode %d\r\n",gimbalmode);

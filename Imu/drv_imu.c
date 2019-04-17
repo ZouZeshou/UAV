@@ -243,6 +243,9 @@ void mpu_get_data(struct ahrs_sensor *sensor)
   sensor->wy = -mpu_data.gx / 16.384f / 57.3f; //2000dps -> rad/s
   sensor->wz = mpu_data.gz / 16.384f / 57.3f; //2000dps -> rad/s
 	
+	GimbalData.Pitchspeed = -mpu_data.gx / 16.384f ;
+	GimbalData.Yawspeed = mpu_data.gz / 16.384f ;
+	
   sensor->mx = (mpu_data.mx - mpu_data.mx_offset);
   sensor->my = (mpu_data.my - mpu_data.my_offset);
   sensor->mz = (mpu_data.mz - mpu_data.mz_offset);
