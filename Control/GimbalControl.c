@@ -12,7 +12,7 @@
 #include "detect.h"
 #include "camera.h"
 #define YAW_USEENCODER 1
-#define PIT_USEENCODER 0
+#define PIT_USEENCODER 1
 #define AUTO 1
 #define HAND 0
 GimbalMotor GimbalData = {0};
@@ -29,7 +29,7 @@ int gimbalmode = 0;
 int YawTargetEncoder = 0,PitchTargetEncoder = 0;
 int PitchDebug = 0;
 int YawDebug = 0;
-int v_PitchDebug = 1;
+int v_PitchDebug = 0;
 int v_YawDebug = 0;
 int use_vision = 0;
 int pitch_add = 0;
@@ -44,14 +44,14 @@ void GimbalInit (void)
 {
 	if(PIT_USEENCODER)
 	{
-		PitchOuter.kp = 40;//30
+		PitchOuter.kp = 30;//30
 		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
-		PitchOuter.OutMAX = 600;//400
+		PitchOuter.OutMAX = 400;//400
 		
-		PitchInner.kp = 45;//50
-		PitchInner.ki = 0.15;
+		PitchInner.kp = 40;//50
+		PitchInner.ki = 0.2;
 		PitchInner.kd = 0;
 		PitchInner.errILim = 3000;
 		PitchInner.OutMAX = 8000;
@@ -117,7 +117,7 @@ void switch_gimbal_mode(void)
 {
 	static int pitch_overborder,yaw_overborder;
 	//越界处理
-	if(GimbalData.Pitchangle >= GimbalData.PitchMaxangle||GimbalData.Pitchangle <= GimbalData.PitchMinangle)
+	if(GimbalData.Pitchposition >= GimbalData.PitchMax||GimbalData.Pitchposition<= GimbalData.PitchMin)
 	{
 		pitch_overborder = 1;
 	}
@@ -143,12 +143,10 @@ void switch_gimbal_mode(void)
 		use_vision =1;
 	}
 	//选择模式；手动或自动
-	if(use_vision==1)
+	if(use_vision==1 && RC_Ctl.rc.s2==2)
 	{
 		gimbalmode = AUTO;
-		
-		
-		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
+		GimbalData.PitchTarget1 = GimbalData.Pitchposition;
 		GimbalData.YawTarget1 = GimbalData.Yawposition;
 	}
 	else
@@ -198,16 +196,16 @@ void GimbalCalibration(void)
 	if(PIT_USEENCODER)
 	{
 		GimbalData.PitchTarget1 = GimbalData.PitchBacknow;
-		GimbalData.PitchMax = 25000;
+		GimbalData.PitchMax = 30000;
 		GimbalData.PitchMid = 10000;
-		GimbalData.PitchMin = -40000;
+		GimbalData.PitchMin = -7000;
 	}
 	else
 	{
 		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
-		GimbalData.PitchMaxangle = 20;
+		GimbalData.PitchMaxangle = 25;
 		GimbalData.PitchMidangle = 0;
-		GimbalData.PitchMinangle = -30;
+		GimbalData.PitchMinangle = -5;
 	}
 }
 /**

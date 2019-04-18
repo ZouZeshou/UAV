@@ -122,21 +122,21 @@ void Switchshoot (void)
 	static int32_t Friction_ok = 0;
 	static int rc_s1_press ;
 	static int mouse_l_press;
-	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
+	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start||RC_Ctl.rc.s2 == 1)
 	{
 		FrictionSpd = 9500;// 9500 24~26 10500 26~27 11500 27~28.5
 	}
 	else
 		FrictionSpd = 0;
 	
-	if((RC_Ctl.rc.s1 == 2 && RC_Ctl.rc.s2 == 2)||KeyMousedata.stir_start)
+	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start) && abs(fric_l_data.BackSpeed)>=1000)
 	{
 		ShootFrequency = 10;
 		StirMotorStart(&ShootFrequency);
 		rc_s1_press = 0;
 	}
-	else if((RC_Ctl.rc.s1 == 1 && rc_s1_press==0 && RC_Ctl.rc.s2 == 2)||
-		(RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start ))
+	else if(((RC_Ctl.rc.s1 == 1 && rc_s1_press==0 )||
+		(RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start )) && abs(fric_l_data.BackSpeed)>=1000)
 	{
 		rc_s1_press = 1;
 		mouse_l_press = 1;
@@ -187,13 +187,13 @@ void fric_pidcontrol(int16_t targetspeed)
 		fric_l_pid.kp = P;
 		fric_l_pid.ki = I;
 		fric_l_pid.kd = D;
-		fric_l_pid.errILim = 0;
+		fric_l_pid.errILim = 6000;
 		fric_l_pid.OutMAX = V1;
 		
 		fric_r_pid.kp = P;
 		fric_r_pid.ki = I;
 		fric_r_pid.kd = D;
-		fric_r_pid.errILim = 0;
+		fric_r_pid.errILim = 6000;
 		fric_r_pid.OutMAX = V1;
 	}
 	fric_l_pid.errNow = targetspeed - fric_l_data.BackSpeed;

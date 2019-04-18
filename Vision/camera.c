@@ -3,8 +3,8 @@
 #include "usart.h"
 #include "CRC_Check.h"
 #include "STMGood.h"
-#define REFER_CENTER_X  400                //295  443
-#define REFER_CENTER_Y 350
+#define REFER_CENTER_X  420                //295  443
+#define REFER_CENTER_Y 345
 kalman1_state kalmanl;
 float data = 0;
 int pcdata_right = 0;
