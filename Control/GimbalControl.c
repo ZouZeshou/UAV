@@ -44,7 +44,7 @@ void GimbalInit (void)
 {
 	if(PIT_USEENCODER)
 	{
-		PitchOuter.kp = 30;//30
+		PitchOuter.kp = 25;//30
 		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
@@ -143,7 +143,7 @@ void switch_gimbal_mode(void)
 		use_vision =1;
 	}
 	//选择模式；手动或自动
-	if(use_vision==1 && RC_Ctl.rc.s2==2)
+	if(use_vision==1 && (RC_Ctl.rc.s2==2||KeyMousedata.use_vision==1))
 	{
 		gimbalmode = AUTO;
 		GimbalData.PitchTarget1 = GimbalData.Pitchposition;
@@ -154,7 +154,7 @@ void switch_gimbal_mode(void)
 		gimbalmode = HAND;
 	}
 	
-	if(RC_Ctl.rc.s2 == 1)
+	if(RC_Ctl.rc.s2 == 1||KeyMousedata.laser_on == 1)
 	{
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 	}

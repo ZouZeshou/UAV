@@ -31,4 +31,21 @@ void DealKeyMousedata(void)
 		KeyMousedata.stir_start = 0;
 	}
 	
+	if(RC_Ctl.key.v & KEY_Q)
+	{
+		KeyMousedata.use_vision = 1;
+	}
+	else if(RC_Ctl.key.v & KEY_W)
+	{
+		KeyMousedata.use_vision = 0;
+	}
+	
+	if(RC_Ctl.key.v & KEY_E)
+	{
+		KeyMousedata.laser_on = 1;
+	}
+	else if(RC_Ctl.key.v & KEY_R)
+	{
+		KeyMousedata.laser_on = 0;
+	}
 }

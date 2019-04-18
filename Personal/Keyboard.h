@@ -39,7 +39,9 @@ typedef struct
 	int fric_start;
 	int stir_start;
 	int stir_start_onebyone;
-	int motor_start;
+	int use_vision;
+	int laser_on;
+	
 }KeyMouse;
 
 extern KeyMouse KeyMousedata;
