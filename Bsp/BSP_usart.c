@@ -53,6 +53,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	}
 	if(huart->Instance == USART3)
 	{
+//		printf("uart3 work\r\n");
 		JudgeData(Usart3buff[0]);
 		__HAL_UART_CLEAR_PEFLAG(&huart3);
 		HAL_UART_Receive_IT(&huart3,Usart3buff,1);	

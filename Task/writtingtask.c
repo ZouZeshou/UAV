@@ -195,9 +195,9 @@ void StartTask07(void const * argument)
 {
 	for(;;)
   {
-//		send_data_to_pc();
-//		ANO_DT_Data_Exchange();
-//		osDelay(20);
+		send_data_to_pc();
+		ANO_DT_Data_Exchange();
+		osDelay(20);
   }
 
 }

@@ -106,7 +106,7 @@ void Vision_Decode(void)
 
 void send_data_to_pc(void)
 {
-	uint8_t data[6];
+	static uint8_t data[6];
 	data[0]=0xA6;
 	
 	if(Judge_GameRobotState.robot_id == 6)//红色方
@@ -120,15 +120,19 @@ void send_data_to_pc(void)
 	
 	if(KeyMousedata.BGR == 1)//打基地
 	{
-		data[2]=1;
+		data[2]=0;
 	}
 	else if(KeyMousedata.BGR == 0)//打地面机器人
 	{
-		data[2]=0;
+		data[2]=1;
 	}
+//	data[1]= 5;
+//	data[2]= 4;
 	Append_CRC8_Check_Sum(data,4);
 	data[4] = '\r';
 	data[5] = '\n';
-	HAL_UART_Transmit_IT(&huart6,data,6); 
+//	HAL_UART_Transmit_DMA(&huart6,data,6);
+//	HAL_UART_Transmit_IT(&huart6,data,6); 
+	HAL_UART_Transmit(&huart6,data,6,0xff);
 }
 
