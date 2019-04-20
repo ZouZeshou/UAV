@@ -6,6 +6,7 @@
 #include "GimbalControl.h"
 #include "stdio.h"
 #include "camera.h"
+#include "Judge.h"
 uint8_t uart5_buff[1]={0};
 uint8_t Rxdata[1]={0};
 uint8_t Usart3buff[100]={0};
@@ -49,6 +50,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		Dealdata(Usart2buff[0]);
 		__HAL_UART_CLEAR_PEFLAG(&huart2);
 		HAL_UART_Receive_IT(&huart2,Usart2buff,1);	
+	}
+	if(huart->Instance == USART3)
+	{
+		JudgeData(Usart3buff[0]);
+		__HAL_UART_CLEAR_PEFLAG(&huart3);
+		HAL_UART_Receive_IT(&huart3,Usart3buff,1);	
 	}
 
 }

@@ -51,5 +51,5 @@ void Vision_IRQ(void);
 void pcDataInit(void);
 void Vision_Decode(void);
 void VisionInit(void);
-void send_data_to_pc(uint8_t mode,uint8_t algorithm_mode);
+void send_data_to_pc(void);
 #endif

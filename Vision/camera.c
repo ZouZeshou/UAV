@@ -3,6 +3,8 @@
 #include "usart.h"
 #include "CRC_Check.h"
 #include "STMGood.h"
+#include "Judge.h"
+#include "Keyboard.h"
 #define REFER_CENTER_X  420                //295  443
 #define REFER_CENTER_Y 345
 kalman1_state kalmanl;
@@ -102,12 +104,28 @@ void Vision_Decode(void)
 	__HAL_UART_CLEAR_PEFLAG(&huart6);
 }
 
-void send_data_to_pc(uint8_t mode,uint8_t algorithm_mode)
+void send_data_to_pc(void)
 {
 	uint8_t data[6];
 	data[0]=0xA6;
-	data[1]=mode;
-	data[2]=algorithm_mode;
+	
+	if(Judge_GameRobotState.robot_id == 6)//红色方
+	{
+		data[1]=1;
+	}
+	else if(Judge_GameRobotState.robot_id == 16)//蓝色方
+	{
+		data[1]=0;
+	}
+	
+	if(KeyMousedata.BGR == 1)//打基地
+	{
+		data[2]=1;
+	}
+	else if(KeyMousedata.BGR == 0)//打地面机器人
+	{
+		data[2]=0;
+	}
 	Append_CRC8_Check_Sum(data,4);
 	data[4] = '\r';
 	data[5] = '\n';

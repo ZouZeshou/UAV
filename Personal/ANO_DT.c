@@ -73,7 +73,7 @@ void ANO_DT_Data_Exchange(void)
 	{
 		f.send_senser = 0;
 		ANO_DT_Send_Senser((int16_t)(GimbalData.YawTarget1),(int16_t)(GimbalData.YawTarget2),(int16_t)RC_Ctl.rc.ch2,
-		(int16_t)GimbalData.PitchTarget1,(int16_t)GimbalData.PitchTarget2,(int16_t)RC_Ctl.rc.ch1,RC_Ctl.mouse.x,RC_Ctl.mouse.y,use_vision,0);
+		(int16_t)GimbalData.PitchTarget1,(int16_t)GimbalData.PitchTarget2,(int16_t)RC_Ctl.rc.ch1,(int16_t)pcParam.pcCenterX.f,(int16_t)pcParam.pcCenterY.f,pcParam.pcCenterZ.f,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_rcdata)

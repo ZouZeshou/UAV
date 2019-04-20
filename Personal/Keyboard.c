@@ -48,4 +48,14 @@ void DealKeyMousedata(void)
 	{
 		KeyMousedata.laser_on = 0;
 	}
+	
+	if(RC_Ctl.key.v & KEY_S)
+	{
+		KeyMousedata.BGR = 1;
+	}
+	else if(RC_Ctl.key.v & KEY_D)
+	{
+		KeyMousedata.BGR = 0;
+	}
+	
 }

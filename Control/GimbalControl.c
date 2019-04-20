@@ -30,7 +30,7 @@ int YawTargetEncoder = 0,PitchTargetEncoder = 0;
 int PitchDebug = 0;
 int YawDebug = 0;
 int v_PitchDebug = 0;
-int v_YawDebug = 0;
+int v_YawDebug = 1;
 int use_vision = 0;
 int pitch_add = 0;
 

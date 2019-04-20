@@ -31,6 +31,7 @@
 #include "ANO_DT.h"
 #include "drv_imu.h"
 #include "camera.h"
+#include "Judge.h"
 int initmark=0;
 int IMU_OK = 0;
 int GYRO_OK = 0;
@@ -146,7 +147,6 @@ void StartTask05(void const * argument)
 		{
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 			PrintFunction();
-			ANO_DT_Data_Exchange();
 			osDelay(200);
 		}
   }
@@ -193,11 +193,11 @@ void StartTask06(void const * argument)
  */
 void StartTask07(void const * argument)
 {
-	static int counter1 = 0,counter2 = 0;
 	for(;;)
   {
-		
-		osDelay(15);
+//		send_data_to_pc();
+//		ANO_DT_Data_Exchange();
+//		osDelay(20);
   }
 
 }
@@ -230,7 +230,7 @@ void PrintFunction(void)
 		  printf("/*******************Gimbal******************/ \r\n");
 //	printf("pit pos %d spd %d\r\n",GimbalData.Pitchposition,GimbalData.PitchBackspeed);
 //	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
-	printf("pit ang%.2f yaw %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
+//	printf("pit ang%.2f yaw %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
 //	printf("YawOuter err %.2f out%.2f\r\n",v_YawOuter.errNow,v_YawOuter.ctrOut);
 //	printf("YawInner err %.2f out%.2f\r\n",v_YawInner.errNow,v_YawInner.ctrOut);
 //	printf("pitOuter err %.2f out%.2f\r\n",v_PitchOuter.errNow,v_PitchOuter.ctrOut);
@@ -239,8 +239,9 @@ void PrintFunction(void)
 //	printf("pit angle %.2f posi %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
 //printf("pit err%.2f  %.2f\r\n",PitchOuter.errNow,PitchInner.errNow);
 //printf("pit current%d\r\n",GimbalData.PitchCurrent);
-	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
+//	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
+	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 	printf("usevision %d\r\n",use_vision);
 	printf("gimbalmode %d\r\n",gimbalmode);
 	printf("dataright %d\r\n",pcdata_right);

@@ -41,6 +41,7 @@ typedef struct
 	int stir_start_onebyone;
 	int use_vision;
 	int laser_on;
+	int BGR;
 	
 }KeyMouse;
 

@@ -584,6 +584,11 @@
               <FileType>1</FileType>
               <FilePath>..\Personal\ANO_DT.c</FilePath>
             </File>
+            <File>
+              <FileName>Judge.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Personal\Judge.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
