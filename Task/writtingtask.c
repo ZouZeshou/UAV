@@ -241,7 +241,7 @@ void PrintFunction(void)
 //printf("pit current%d\r\n",GimbalData.PitchCurrent);
 //	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
-	printf("id %d\r\n",Judge_GameRobotState.robot_id);
+//	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 	printf("usevision %d\r\n",use_vision);
 	printf("gimbalmode %d\r\n",gimbalmode);
 	printf("dataright %d\r\n",pcdata_right);
@@ -270,10 +270,11 @@ void PrintFunction(void)
 //		printf("Pitinit%d\r\n",GimbalData.Pitchinit);
 //	  printf("gyro x %d y %d z %d\r\n",imu_data.gx,imu_data.gy,imu_data.gz);
 //	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget,GimbalData.PitchTarget);
-//			printf("error yaw%.2f pitch%.2f\r\n",YawOuter.errNow,PitchOuter.errNow);
-//			printf("Yaw outter %.2f inner %.2f\r\n",YawOuter.ctrOut,YawInner.ctrOut);
-////			printf("Yawcur %d\r\n",GimbalData.YawCurrent); 
-//		 printf("PitSpd %d YawSpd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
+			printf("error yaw%.2f pitch%.2f\r\n",YawOuter.errNow,PitchOuter.errNow);
+			printf("Yaw outter %.2f inner %.2f\r\n",YawOuter.ctrOut,YawInner.ctrOut);
+			printf("pit outter %.2f inner %.2f\r\n",PitchOuter.ctrOut,PitchInner.ctrOut); 
+		 printf("PitSpd %d YawSpd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
+		 
 ////  printf("FollowctrOut %f\r\n",ChassisfollowOutter.ctrOut);
 ////	  printf("GimbalImu %f\r\n",GimbalData.ImuData);
 /****************************************************** ShootControldebug ***************************************************/

@@ -6,7 +6,7 @@
 #include "Judge.h"
 #include "Keyboard.h"
 #define REFER_CENTER_X  420                //295  443
-#define REFER_CENTER_Y 345
+#define REFER_CENTER_Y 340
 kalman1_state kalmanl;
 float data = 0;
 int pcdata_right = 0;
