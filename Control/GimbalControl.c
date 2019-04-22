@@ -236,7 +236,7 @@ void GetGimbalTarget(void)
 		}
 		if(PIT_USEENCODER)
 		{
-			GimbalData.PitchTarget1 += (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f)*800 + RC_Ctl.mouse.y *200* MOUSE_PITCH_CONST));
+			GimbalData.PitchTarget1 += (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f)*800 + RC_Ctl.mouse.y *40* MOUSE_PITCH_CONST));
 		}
 		else
 		{

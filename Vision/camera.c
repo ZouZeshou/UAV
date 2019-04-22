@@ -118,13 +118,13 @@ void send_data_to_pc(void)
 		data[1]=0;
 	}
 	
-	if(KeyMousedata.BGR == 1)//打基地
-	{
-		data[2]=0;
-	}
-	else if(KeyMousedata.BGR == 0)//打地面机器人
+	if(KeyMousedata.BGR == 1)//打地面
 	{
 		data[2]=1;
+	}
+	else if(KeyMousedata.BGR == 0)//打基地
+	{
+		data[2]=0;
 	}
 //	data[1]= 5;
 //	data[2]= 4;
