@@ -16,6 +16,7 @@
 #include "detect.h"
 #include "DBUS.h"
 #include "camera.h"
+#include "Judge.h"
 /////////////////////////////////////////////////////////////////////////////////////
 //数据拆分宏定义，在发送大于1字节的数据类型时，比如int16、float等，需要把数据拆分成单独字节进行发送
 #define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)		) )
@@ -72,7 +73,7 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_senser)
 	{
 		f.send_senser = 0;
-		ANO_DT_Send_Senser((int16_t)(GimbalData.YawTarget1),(int16_t)(GimbalData.YawTarget2),(int16_t)RC_Ctl.rc.ch2,
+		ANO_DT_Send_Senser((int16_t)fric_l_data.BackSpeed,(int16_t)-fric_r_data.BackSpeed,(int16_t)Judge_ShootData.bullet_speed,
 		(int16_t)GimbalData.PitchTarget1,(int16_t)GimbalData.PitchTarget2,(int16_t)RC_Ctl.rc.ch1,(int16_t)pcParam.pcCenterX.f,(int16_t)pcParam.pcCenterY.f,pcParam.pcCenterZ.f,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////

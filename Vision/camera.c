@@ -5,8 +5,8 @@
 #include "STMGood.h"
 #include "Judge.h"
 #include "Keyboard.h"
-#define REFER_CENTER_X  420                //295  443
-#define REFER_CENTER_Y 340
+int16_t center_x = 420 ;               //295  443
+int16_t center_y = 325 ;
 kalman1_state kalmanl;
 float data = 0;
 int pcdata_right = 0;
@@ -27,9 +27,7 @@ void pcDataInit(void)
 
 	pcParam.CompXout=0;
 	pcParam.CompYout=0;
-			
-	pcParam.refer_centerX = REFER_CENTER_X;
-	pcParam.refer_centerY = REFER_CENTER_Y;
+
 }
 
 void Vision_IRQ(void){
@@ -45,6 +43,10 @@ void Vision_Decode(void)
 	
 //	pcParam.refer_centerX = P;
 //	pcParam.refer_centerY = I;
+				
+	pcParam.refer_centerX = center_x;
+	pcParam.refer_centerY = center_y;
+	
 	if(uart6_buff[0]==0xA5&& Verify_CRC16_Check_Sum(uart6_buff,23))
 	{
 		pcdata_right = 1;
@@ -120,11 +122,11 @@ void send_data_to_pc(void)
 	
 	if(KeyMousedata.BGR == 1)//打地面
 	{
-		data[2]=1;
+		data[2]=0;
 	}
 	else if(KeyMousedata.BGR == 0)//打基地
 	{
-		data[2]=0;
+		data[2]=1;
 	}
 //	data[1]= 5;
 //	data[2]= 4;
