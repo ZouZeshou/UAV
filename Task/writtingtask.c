@@ -145,6 +145,7 @@ void StartTask05(void const * argument)
   {
 		if(IMU_OK)
 		{
+			RobotSendMsgToClient(1,2,3,4);
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 			PrintFunction();
 			osDelay(200);

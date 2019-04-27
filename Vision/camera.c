@@ -42,8 +42,7 @@ void Vision_Decode(void)
 {
 	
 //	pcParam.refer_centerX = P;
-//	pcParam.refer_centerY = I;
-				
+//	pcParam.refer_centerY = I;			
 	pcParam.refer_centerX = center_x;
 	pcParam.refer_centerY = center_y;
 	
