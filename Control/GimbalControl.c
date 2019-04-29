@@ -117,7 +117,8 @@ void switch_gimbal_mode(void)
 {
 	static int pitch_overborder,yaw_overborder;
 	//越界处理
-	if(GimbalData.Pitchposition >= GimbalData.PitchMax||GimbalData.Pitchposition<= GimbalData.PitchMin)
+//	if(GimbalData.Pitchposition >= GimbalData.PitchMax||GimbalData.Pitchposition<= GimbalData.PitchMin)
+	if(0)
 	{
 		pitch_overborder = 1;
 	}
@@ -125,7 +126,8 @@ void switch_gimbal_mode(void)
 	{
 		pitch_overborder = 0;
 	}
-	if(GimbalData.Yawposition >= GimbalData.YawMax||GimbalData.Yawposition <= GimbalData.YawMin)
+//	if(GimbalData.Yawposition >= GimbalData.YawMax||GimbalData.Yawposition <= GimbalData.YawMin)
+	if(0)
 	{
 		yaw_overborder = 1;
 	}
@@ -213,10 +215,10 @@ void GimbalCalibration(void)
 	}
 		GimbalData.PitchMax = -30000;
 		GimbalData.PitchMid = -10000;
-		GimbalData.PitchMin = 7000;
+		GimbalData.PitchMin = 10000;
 		GimbalData.PitchMaxangle = 35;
 		GimbalData.PitchMidangle = 0;
-		GimbalData.PitchMinangle = 0;
+		GimbalData.PitchMinangle = -10;
 }
 /**
  * @brief get the tagetposition from remote and  keyboard,mouse

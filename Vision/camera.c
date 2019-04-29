@@ -41,10 +41,10 @@ void Vision_IRQ(void){
 void Vision_Decode(void)
 {
 	
-//	pcParam.refer_centerX = P;
-//	pcParam.refer_centerY = I;			
-	pcParam.refer_centerX = center_x;
-	pcParam.refer_centerY = center_y;
+	pcParam.refer_centerX = P;
+	pcParam.refer_centerY = I;			
+//	pcParam.refer_centerX = center_x;
+//	pcParam.refer_centerY = center_y;
 	
 	if(uart6_buff[0]==0xA5&& Verify_CRC16_Check_Sum(uart6_buff,23))
 	{
@@ -74,7 +74,7 @@ void Vision_Decode(void)
 		pcParam.pcCompensationY.uc[2] = uart6_buff[19];
 		pcParam.pcCompensationY.uc[3] = uart6_buff[20];		
 		
-    if(pcParam.pcCenterX.f<0||pcParam.pcCenterY.f<0||pcParam.pcCenterZ.f<0)
+    if(pcParam.pcCenterX.f<0||pcParam.pcCenterY.f<0)
 		{
 			if(catch_target_counter++ > 30)
 			{
@@ -121,11 +121,16 @@ void send_data_to_pc(void)
 	
 	if(KeyMousedata.BGR == 1)//打地面
 	{
-		data[2]=0;
+		data[2]=1;
+		center_x = 420 ;               
+		center_y = 340 ;
+		
 	}
 	else if(KeyMousedata.BGR == 0)//打基地
 	{
-		data[2]=1;
+		data[2]=0;
+		center_x = 400 ;               
+		center_y = 450 ;
 	}
 //	data[1]= 5;
 //	data[2]= 4;

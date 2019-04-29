@@ -198,7 +198,7 @@ void StartTask07(void const * argument)
   {
 		send_data_to_pc();
 		ANO_DT_Data_Exchange();
-		osDelay(20);
+		osDelay(5);
   }
 
 }
@@ -266,7 +266,7 @@ void PrintFunction(void)
 //		printf("Yawang %.4f pitang %.4f\r\n",GimbalData.Yawangle,GimbalData.Pitchangle);
 //	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
 //		printf("backold Yaw %d Pitch %d\r\n",GimbalData.YawBackold,GimbalData.PitchBackold);
-//	  printf("totalpos Yaw %d Pitch %d\r\n",GimbalData.Yawposition,GimbalData.Pitchposition);
+	  printf("totalpos Yaw %d Pitch %d\r\n",GimbalData.Yawposition,GimbalData.Pitchposition);
 //		printf("counter pit %d\r\n",GimbalData.Pitchcirclecounter);
 //		printf("Pitinit%d\r\n",GimbalData.Pitchinit);
 //	  printf("gyro x %d y %d z %d\r\n",imu_data.gx,imu_data.gy,imu_data.gz);

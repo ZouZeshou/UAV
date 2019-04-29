@@ -57,9 +57,6 @@ void DealKeyMousedata(void)
 	{
 		KeyMousedata.BGR = 0;
 	}
-	else
-	{
-		KeyMousedata.BGR = 0;
-	}
+
 	
 }
