@@ -16,7 +16,7 @@ ShootMotor fric_r_data = {0};
 int StirMotorMode;
 int StirUpdateCounter;
 int StirMotorDebug = 0;
-int fric_debug = 1;
+int fric_debug = 0;
 /**
  * @brief initialise the data will be used in shoot motor
  * @param None
@@ -124,7 +124,7 @@ void Switchshoot (void)
 	static int mouse_l_press;
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start||RC_Ctl.rc.s2 == 1)
 	{
-		FrictionSpd = 10000;// 9500 24~26 10500 26~27 11500 27~28.5
+		FrictionSpd = 11500;// 9500 24~26 10500 26~27 11500 27~28.5
 	}
 	else
 		FrictionSpd = 0;

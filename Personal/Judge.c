@@ -80,7 +80,7 @@ void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask){
 	UpData[25] 	= mask;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,28);
-	HAL_UART_Transmit_IT(&huart1,UpData,28);
+	HAL_UART_Transmit_IT(&huart3,UpData,28);
 }
 
 void JudgeData(uint8_t data){

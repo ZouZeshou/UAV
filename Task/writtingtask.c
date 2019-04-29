@@ -270,12 +270,12 @@ void PrintFunction(void)
 //		printf("counter pit %d\r\n",GimbalData.Pitchcirclecounter);
 //		printf("Pitinit%d\r\n",GimbalData.Pitchinit);
 //	  printf("gyro x %d y %d z %d\r\n",imu_data.gx,imu_data.gy,imu_data.gz);
-//	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget,GimbalData.PitchTarget);
+	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget2,GimbalData.PitchTarget2);
 			printf("error yaw%.2f pitch%.2f\r\n",YawOuter.errNow,PitchOuter.errNow);
-			printf("Yaw outter %.2f inner %.2f\r\n",YawOuter.ctrOut,YawInner.ctrOut);
+//			printf("Yaw outter %.2f inner %.2f\r\n",YawOuter.ctrOut,YawInner.ctrOut);
 			printf("pit outter %.2f inner %.2f\r\n",PitchOuter.ctrOut,PitchInner.ctrOut); 
 		 printf("PitSpd %d YawSpd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
-		 
+		 printf("fric l %d r %d\r\n",fric_l_data.BackPosition,fric_r_data.BackPosition);
 ////  printf("FollowctrOut %f\r\n",ChassisfollowOutter.ctrOut);
 ////	  printf("GimbalImu %f\r\n",GimbalData.ImuData);
 /****************************************************** ShootControldebug ***************************************************/

@@ -25,6 +25,7 @@ typedef struct
 	int16_t BackSpeed;
 	int16_t TargetSpeed;
 	int16_t Current;
+	int16_t BackPosition;
 }ShootMotor;
 
 extern StirMotor StirMotorData;

@@ -87,11 +87,14 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		
 		if(Can2Header.StdId==0x202)
 		{
+			fric_l_data.BackPosition = RxData2[0]<<8|RxData2[1];
 			fric_l_data.BackSpeed = RxData2[2]<<8|RxData2[3];
+			
 			fps.Fric_L++;
 		}
 		if(Can2Header.StdId==0x201)
 		{
+			fric_r_data.BackPosition = RxData2[0]<<8|RxData2[1];
 			fric_r_data.BackSpeed = RxData2[2]<<8|RxData2[3];
 			fps.Fric_R++;
 		}
