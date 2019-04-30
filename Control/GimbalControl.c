@@ -65,9 +65,9 @@ void GimbalInit (void)
 		PitchOuter.OutMAX = 50;//400
 		
 		PitchInner.kp = 50;//50
-		PitchInner.ki = 0.3;
+		PitchInner.ki = 0.5;
 		PitchInner.kd = 0;
-		PitchInner.errILim = 3000;
+		PitchInner.errILim = 4000;
 		PitchInner.OutMAX = 8000;
 	}
 	YawOuter.kp = 60;//12
@@ -214,7 +214,7 @@ void GimbalCalibration(void)
 		GimbalData.PitchMax = 10000;
 		GimbalData.PitchMid = -10000;
 		GimbalData.PitchMin = -40000;
-		GimbalData.PitchMaxangle = 35;
+		GimbalData.PitchMaxangle = 60;
 		GimbalData.PitchMidangle = 0;
 		GimbalData.PitchMinangle = -10;
 }
@@ -375,7 +375,7 @@ void PitchPID (float *Target)
 		PitchInner.kp=a;//20
 		PitchInner.ki=b;
 		PitchInner.kd=c;
-		PitchInner.errILim=3000;
+		PitchInner.errILim=4000;
 		PitchInner.OutMAX=e;
 	}
 	if(PIT_USEENCODER)
@@ -389,13 +389,13 @@ void PitchPID (float *Target)
 	PID_AbsoluteMode(&PitchOuter);
 //	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.PitchBackspeed*0.166666667f;
 	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.Pitchspeed;
-	if(PitchInner.errNow > 50)
+	if(PitchInner.errNow > 100)
 	{
-		PitchInner.errNow = 50;
+		PitchInner.errNow = 100;
 	}
-	else if(PitchInner.errNow < -50)
+	else if(PitchInner.errNow < -100)
 	{
-		PitchInner.errNow = -50;
+		PitchInner.errNow = -100;
 	}
 	PID_AbsoluteMode(&PitchInner);
 	GimbalData.PitchCurrent = -PitchInner.ctrOut;
