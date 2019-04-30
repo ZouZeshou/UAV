@@ -58,14 +58,14 @@ void GimbalInit (void)
 	}
 	else
 	{
-		PitchOuter.kp = 20;//30
+		PitchOuter.kp = 15;//30
 		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
 		PitchOuter.OutMAX = 50;//400
 		
 		PitchInner.kp = 50;//50
-		PitchInner.ki = 0.5;
+		PitchInner.ki = 0.3;
 		PitchInner.kd = 0;
 		PitchInner.errILim = 3000;
 		PitchInner.OutMAX = 8000;
@@ -117,8 +117,7 @@ void switch_gimbal_mode(void)
 {
 	static int pitch_overborder,yaw_overborder;
 	//越界处理
-//	if(GimbalData.Pitchposition >= GimbalData.PitchMax||GimbalData.Pitchposition<= GimbalData.PitchMin)
-	if(0)
+	if(GimbalData.Pitchangle >= GimbalData.PitchMaxangle||GimbalData.Pitchangle<= GimbalData.PitchMinangle)
 	{
 		pitch_overborder = 1;
 	}
@@ -126,8 +125,7 @@ void switch_gimbal_mode(void)
 	{
 		pitch_overborder = 0;
 	}
-//	if(GimbalData.Yawposition >= GimbalData.YawMax||GimbalData.Yawposition <= GimbalData.YawMin)
-	if(0)
+	if(GimbalData.Yawposition >= GimbalData.YawMax||GimbalData.Yawposition <= GimbalData.YawMin)
 	{
 		yaw_overborder = 1;
 	}
@@ -213,9 +211,9 @@ void GimbalCalibration(void)
 	{
 		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
 	}
-		GimbalData.PitchMax = -30000;
+		GimbalData.PitchMax = 10000;
 		GimbalData.PitchMid = -10000;
-		GimbalData.PitchMin = 10000;
+		GimbalData.PitchMin = -40000;
 		GimbalData.PitchMaxangle = 35;
 		GimbalData.PitchMidangle = 0;
 		GimbalData.PitchMinangle = -10;

@@ -67,7 +67,7 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_status)
 	{
 		f.send_status = 0;
-		ANO_DT_Send_Status(YawOuter.errNow,PitchOuter.errNow,Gyroscope.angleyaw,0,0,0);
+		ANO_DT_Send_Status(YawOuter.errNow,PitchOuter.errNow,Judge_ShootData.bullet_speed,0,0,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_senser)
