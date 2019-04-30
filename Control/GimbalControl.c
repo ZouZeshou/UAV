@@ -58,14 +58,14 @@ void GimbalInit (void)
 	}
 	else
 	{
-		PitchOuter.kp = 15;//30
+		PitchOuter.kp = 20;//30
 		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
-		PitchOuter.OutMAX = 50;//400
+		PitchOuter.OutMAX = 100;//400
 		
 		PitchInner.kp = 50;//50
-		PitchInner.ki = 0.5;
+		PitchInner.ki = 0.2;
 		PitchInner.kd = 0;
 		PitchInner.errILim = 4000;
 		PitchInner.OutMAX = 8000;
