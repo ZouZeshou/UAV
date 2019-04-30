@@ -140,7 +140,7 @@ void Switchshoot (void)
 	{
 		rc_s1_press = 1;
 		mouse_l_press = 1;
-		StirMotorData.TargetPosition += STIRADDITION;
+		StirMotorData.TargetPosition += 5 * STIRADDITION;
 	}
 	
 	if(RC_Ctl.rc.s1 == 3)
