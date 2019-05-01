@@ -58,14 +58,14 @@ void GimbalInit (void)
 	}
 	else
 	{
-		PitchOuter.kp = 20;//30
+		PitchOuter.kp = 40;//30
 		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
 		PitchOuter.OutMAX = 100;//400
 		
 		PitchInner.kp = 50;//50
-		PitchInner.ki = 0.2;
+		PitchInner.ki = 0;
 		PitchInner.kd = 0;
 		PitchInner.errILim = 4000;
 		PitchInner.OutMAX = 8000;
@@ -378,6 +378,26 @@ void PitchPID (float *Target)
 		PitchInner.errILim=4000;
 		PitchInner.OutMAX=e;
 	}
+		if(GimbalData.Pitchangle <= 10)
+		{		
+			PitchOuter.kp = 15;//30
+		}
+		else
+		{
+			PitchOuter.kp = 15 + (GimbalData.Pitchangle - 10) * 0.5;	
+		}
+
+		PitchOuter.ki = 0;
+		PitchOuter.kd = 0;	
+		PitchOuter.errILim = 0;
+		PitchOuter.OutMAX = 100;//400
+		
+		PitchInner.kp = 50;
+		PitchInner.ki = 0.3;
+		PitchInner.kd = 0;
+		PitchInner.errILim = 4000;
+		PitchInner.OutMAX = 8000;
+	
 	if(PIT_USEENCODER)
 	{
 		PitchOuter.errNow = (*Target - GimbalData.Pitchposition)*0.001220852f;//处理成角度值
