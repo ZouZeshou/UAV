@@ -214,7 +214,7 @@ void GimbalCalibration(void)
 		GimbalData.PitchMax = 10000;
 		GimbalData.PitchMid = -10000;
 		GimbalData.PitchMin = -40000;
-		GimbalData.PitchMaxangle = 60;
+		GimbalData.PitchMaxangle = 75;
 		GimbalData.PitchMidangle = 0;
 		GimbalData.PitchMinangle = -10;
 }
