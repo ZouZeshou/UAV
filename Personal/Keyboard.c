@@ -12,6 +12,8 @@ KeyMouse KeyMousedata = {0};
  */
 void DealKeyMousedata(void)
 {
+	static int key_E_up,key_D_up;
+	
 	if(RC_Ctl.key.v & KEY_A)
 	{
 		KeyMousedata.fric_start = 1;
@@ -31,32 +33,44 @@ void DealKeyMousedata(void)
 		KeyMousedata.stir_start = 0;
 	}
 	
-	if(RC_Ctl.key.v & KEY_Q)
+	if((RC_Ctl.key.v & KEY_E)&&key_E_up)
 	{
-		KeyMousedata.use_vision = 1;
+		KeyMousedata.pitchup = 1;
+		key_E_up = 0;
 	}
-	else if(RC_Ctl.key.v & KEY_W)
+	else if((RC_Ctl.key.v & KEY_E)==0)
 	{
-		KeyMousedata.use_vision = 0;
+		key_E_up = 1;
+		KeyMousedata.pitchup = 0;
+	}
+	if((RC_Ctl.key.v & KEY_D)&&key_D_up)
+	{
+		KeyMousedata.pitchdown = -1;
+		key_D_up = 0;
+	}
+	else if((RC_Ctl.key.v & KEY_D)==0)
+	{
+		key_D_up = 1;
+		KeyMousedata.pitchdown = 0;
 	}
 	
-	if(RC_Ctl.key.v & KEY_E)
+	if(RC_Ctl.key.v & KEY_Q)
 	{
 		KeyMousedata.laser_on = 1;
 	}
-	else if(RC_Ctl.key.v & KEY_R)
+	else if(RC_Ctl.key.v & KEY_W)
 	{
 		KeyMousedata.laser_on = 0;
 	}
 	
-	if(RC_Ctl.key.v & KEY_S)
-	{
-		KeyMousedata.BGR = 1;
-	}
-	else if(RC_Ctl.key.v & KEY_D)
-	{
-		KeyMousedata.BGR = 0;
-	}
+//	if(RC_Ctl.key.v & KEY_S)
+//	{
+//		KeyMousedata.BGR = 1;
+//	}
+//	else if(RC_Ctl.key.v & KEY_D)
+//	{
+//		KeyMousedata.BGR = 0;
+//	}
 
 	
 }

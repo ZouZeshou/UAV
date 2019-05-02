@@ -124,14 +124,14 @@ void Switchshoot (void)
 	static int mouse_l_press;
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start||RC_Ctl.rc.s2 == 1)
 	{
-		FrictionSpd = 10000;// 9500 24~26 10500 26~27 11500 27~28.5
+		FrictionSpd = 10300;// 9500 24~26 10500 26~27 11500 27~28.5
 	}
 	else
 		FrictionSpd = 0;
 	
 	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start) && abs(fric_l_data.BackSpeed)>=1000)
 	{
-		ShootFrequency = 10;
+		ShootFrequency = 13;
 		StirMotorStart(&ShootFrequency);
 		rc_s1_press = 0;
 	}

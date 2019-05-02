@@ -115,62 +115,62 @@ void GimbalInit (void)
  */
 void switch_gimbal_mode(void)
 {
-	static int pitch_overborder,yaw_overborder;
-	//越界处理
-	if(GimbalData.Pitchangle >= GimbalData.PitchMaxangle||GimbalData.Pitchangle<= GimbalData.PitchMinangle)
-	{
-		pitch_overborder = 1;
-	}
-	else
-	{
-		pitch_overborder = 0;
-	}
-	if(GimbalData.Yawposition >= GimbalData.YawMax||GimbalData.Yawposition <= GimbalData.YawMin)
-	{
-		yaw_overborder = 1;
-	}
-	else
-	{
-		yaw_overborder = 0;
-	}
-	
-	if(pitch_overborder==1||yaw_overborder==1||pcdata_right==0||catch_target==0)
-	{
-		use_vision = 0;
-	}
-	else
-	{
-		use_vision =1;
-	}
-	//选择模式；手动或自动
-	if(use_vision==1 && (RC_Ctl.rc.s2==2||KeyMousedata.use_vision==1))
-	{
-		gimbalmode = AUTO;
-		if(PIT_USEENCODER)
-		{
-			GimbalData.PitchTarget1 = GimbalData.Pitchposition;
-		}
-		else
-		{
-			GimbalData.PitchTarget1 = GimbalData.Pitchangle;
-		}
-		GimbalData.YawTarget1 = GimbalData.Yawposition;
-	}
-	else
-	{
-		gimbalmode = HAND;
-	}
-	
-	if(RC_Ctl.rc.s2 == 1||KeyMousedata.laser_on == 1)
-	{
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
-	}
-	else
-	{
-		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
-	}
-	
-	
+//	static int pitch_overborder,yaw_overborder;
+//	//越界处理
+//	if(GimbalData.Pitchangle >= GimbalData.PitchMaxangle||GimbalData.Pitchangle<= GimbalData.PitchMinangle)
+//	{
+//		pitch_overborder = 1;
+//	}
+//	else
+//	{
+//		pitch_overborder = 0;
+//	}
+//	if(GimbalData.Yawposition >= GimbalData.YawMax||GimbalData.Yawposition <= GimbalData.YawMin)
+//	{
+//		yaw_overborder = 1;
+//	}
+//	else
+//	{
+//		yaw_overborder = 0;
+//	}
+//	
+//	if(pitch_overborder==1||yaw_overborder==1||pcdata_right==0||catch_target==0)
+//	{
+//		use_vision = 0;
+//	}
+//	else
+//	{
+//		use_vision =1;
+//	}
+//	//选择模式；手动或自动
+//	if(use_vision==1 && (RC_Ctl.rc.s2==2||KeyMousedata.use_vision==1))
+//	{
+//		gimbalmode = AUTO;
+//		if(PIT_USEENCODER)
+//		{
+//			GimbalData.PitchTarget1 = GimbalData.Pitchposition;
+//		}
+//		else
+//		{
+//			GimbalData.PitchTarget1 = GimbalData.Pitchangle;
+//		}
+//		GimbalData.YawTarget1 = GimbalData.Yawposition;
+//	}
+//	else
+//	{
+//		gimbalmode = HAND;
+//	}
+//	
+//	if(RC_Ctl.rc.s2 == 1||KeyMousedata.laser_on == 1)
+//	{
+//		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+//	}
+//	else
+//	{
+//		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+//	}
+//	
+//	
 }
 /**
  * @brief Calibrate the position of Gimbal Motor
@@ -237,6 +237,7 @@ void GetGimbalTarget(void)
 		{
 			GimbalData.YawTarget1 += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0003f) + RC_Ctl.mouse.x * MOUSE_YAW_CONST);
 		}
+/* use mouse control pitch
 		if(PIT_USEENCODER)
 		{
 			GimbalData.PitchTarget1 += (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f)*800 + RC_Ctl.mouse.y *40* MOUSE_PITCH_CONST));
@@ -244,6 +245,16 @@ void GetGimbalTarget(void)
 		else
 		{
 			GimbalData.PitchTarget1 += (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f) + RC_Ctl.mouse.y * MOUSE_PITCH_CONST));
+		}
+*/
+/* use key to control pitch */
+		if(PIT_USEENCODER)
+		{
+			GimbalData.PitchTarget1 += (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f)*800  ));
+		}
+		else
+		{
+			GimbalData.PitchTarget1 += (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f) + KeyMousedata.pitchup*0.02 + KeyMousedata.pitchdown*0.02));
 		}
 	}
 /******************************limit the yawtarget*************************************/	
@@ -378,22 +389,24 @@ void PitchPID (float *Target)
 		PitchInner.errILim=4000;
 		PitchInner.OutMAX=e;
 	}
-		if(GimbalData.Pitchangle <= 10)
+		if(GimbalData.Pitchangle <= 25)
 		{		
-			PitchOuter.kp = 15;//30
+			PitchOuter.kp = 12;//30
+			PitchInner.kp = 30;
 		}
 		else
 		{
-			PitchOuter.kp = 15 + (GimbalData.Pitchangle - 10) * 0.5;	
+			PitchOuter.kp = 12 + (GimbalData.Pitchangle - 25) * 0.5;	
+			PitchInner.kp = 50;
 		}
 
 		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
-		PitchOuter.OutMAX = 100;//400
+		PitchOuter.OutMAX = 80;//400
 		
-		PitchInner.kp = 50;
-		PitchInner.ki = 0.3;
+		
+		PitchInner.ki = 0.2;
 		PitchInner.kd = 0;
 		PitchInner.errILim = 4000;
 		PitchInner.OutMAX = 8000;
@@ -409,13 +422,13 @@ void PitchPID (float *Target)
 	PID_AbsoluteMode(&PitchOuter);
 //	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.PitchBackspeed*0.166666667f;
 	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.Pitchspeed;
-	if(PitchInner.errNow > 100)
+	if(PitchInner.errNow > 80)
 	{
-		PitchInner.errNow = 100;
+		PitchInner.errNow = 80;
 	}
-	else if(PitchInner.errNow < -100)
+	else if(PitchInner.errNow < -80)
 	{
-		PitchInner.errNow = -100;
+		PitchInner.errNow = -80;
 	}
 	PID_AbsoluteMode(&PitchInner);
 	GimbalData.PitchCurrent = -PitchInner.ctrOut;

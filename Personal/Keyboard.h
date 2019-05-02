@@ -39,7 +39,8 @@ typedef struct
 	int fric_start;
 	int stir_start;
 	int stir_start_onebyone;
-	int use_vision;
+	int pitchup;
+	int pitchdown;
 	int laser_on;
 	int BGR;
 	
