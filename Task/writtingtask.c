@@ -247,6 +247,7 @@ void PrintFunction(void)
 	printf("gimbalmode %d\r\n",gimbalmode);
 	printf("dataright %d\r\n",pcdata_right);
 	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
+	printf("stirback %d\r\n",StirMotorData.BackPositionNew);
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
 //printf("fps.Gyro_1%d\r\n",fps.Gyro_1);
 //	printf("GYROSTATE %d\r\n",GyroscopeState);

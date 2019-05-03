@@ -200,9 +200,9 @@ void GimbalCalibration(void)
 //		GimbalData.YawMid = 0;
 //		GimbalData.YawMin = 4735;
 //	}
-	GimbalData.YawMax = 4900;
-		GimbalData.YawMid = 2000;
-		GimbalData.YawMin = 500;
+	GimbalData.YawMax = 9100;
+		GimbalData.YawMid = 6000;
+		GimbalData.YawMin = 4100;
 	if(PIT_USEENCODER)
 	{
 		GimbalData.PitchTarget1 = GimbalData.PitchBacknow;
