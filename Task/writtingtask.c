@@ -38,6 +38,7 @@ int GYRO_OK = 0;
 int Stop_GyroJudge = 0;
 int GyroscopeState = 0;
 int Task_03Init = 0;
+static uint8_t mask;
 /**
  * @brief main control task
  * @param None
@@ -145,7 +146,7 @@ void StartTask05(void const * argument)
   {
 		if(IMU_OK)
 		{
-			RobotSendMsgToClient(1.0f,2.0f,3.0f,1);
+			RobotSendMsgToClient(1.0f,2.0f,PitchOuter.errNow,mask);
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 			PrintFunction();
 			osDelay(200);
@@ -166,7 +167,7 @@ void StartTask06(void const * argument)
 		static int buzzer_ontime;
 		GetDeviceState();
 		DeviceDetect(Devicestate,Offline);
-		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE||Devicestate[11]==OFFLINE||Devicestate[12]==OFFLINE)
+		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
 		{
 			buzzer_ontime++;
 			if(buzzer_ontime >= 20 && buzzer_ontime <= 40)
@@ -183,6 +184,48 @@ void StartTask06(void const * argument)
 		{
 			Buzzer_off();
 		}
+		
+		if(Devicestate[4]==ONLINE)
+		{
+			mask = mask|(1<<0);
+		}
+		else if(Devicestate[4]==OFFLINE)
+		{
+			mask = mask&(0<<0);
+		}
+		if(Devicestate[5]==ONLINE)
+		{
+			mask = mask|(1<<1);
+		}
+		else if(Devicestate[5]==OFFLINE)
+		{
+			mask = mask&(0<<1);
+		}
+		if(Devicestate[6]==ONLINE)
+		{
+			mask = mask|(1<<2);
+		}
+		else if(Devicestate[6]==OFFLINE)
+		{
+			mask = mask&(0<<2);
+		}
+		if(Devicestate[11]==ONLINE)
+		{
+			mask = mask|(1<<3);
+		}
+		else if(Devicestate[11]==OFFLINE)
+		{
+			mask = mask&(0<<3);
+		}
+		if(Devicestate[12]==ONLINE)
+		{
+			mask = mask|(1<<4);
+		}
+		else if(Devicestate[12]==OFFLINE)
+		{
+			mask = mask&(0<<4);
+		}
+		
 		osDelay(15);
 	}
 }
