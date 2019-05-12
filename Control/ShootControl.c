@@ -122,9 +122,13 @@ void Switchshoot (void)
 	static int32_t Friction_ok = 0;
 	static int rc_s1_press ;
 	static int mouse_l_press;
-	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start||RC_Ctl.rc.s2 == 1)
+	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
 		FrictionSpd = 10500;// 9500 24~26 10500 26~27 11500 27~28.5
+	}
+	else if (RC_Ctl.rc.s2 == 1)
+	{
+		FrictionSpd = 4000;
 	}
 	else
 		FrictionSpd = 0;
