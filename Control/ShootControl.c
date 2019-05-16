@@ -39,14 +39,14 @@ void ShootInit (void)
 	StirMotorInnerPID.errILim = 3000 ;
 	StirMotorInnerPID.OutMAX = 8000 ;
 	
-	fric_l_pid.kp = 15;
-	fric_l_pid.ki = 0.25f;
+	fric_l_pid.kp = 11;
+	fric_l_pid.ki = 0.15f;
 	fric_l_pid.kd = 0;
 	fric_l_pid.errILim = 6000;
 	fric_l_pid.OutMAX = 10000;
 	
-	fric_r_pid.kp = 15;
-	fric_r_pid.ki = 0.25f;
+	fric_r_pid.kp = 11;
+	fric_r_pid.ki = 0.15f;
 	fric_r_pid.kd = 0;
 	fric_r_pid.errILim = 6000;
 	fric_r_pid.OutMAX = 10000;
@@ -124,11 +124,11 @@ void Switchshoot (void)
 	static int mouse_l_press;
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
-		FrictionSpd = 10500;// 9500 24~26 10500 26~27 11500 27~28.5
+		FrictionSpd = 10000;// 9500 24~26 10500 26~27 11500 27~28.5
 	}
 	else if (RC_Ctl.rc.s2 == 1)
 	{
-		FrictionSpd = 4000;
+		FrictionSpd = 5000;
 	}
 	else
 		FrictionSpd = 0;

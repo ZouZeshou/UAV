@@ -214,9 +214,9 @@ void GimbalCalibration(void)
 		GimbalData.PitchMax = 10000;
 		GimbalData.PitchMid = -10000;
 		GimbalData.PitchMin = -40000;
-		GimbalData.PitchMaxangle = 75;
+		GimbalData.PitchMaxangle = 70;
 		GimbalData.PitchMidangle = 0;
-		GimbalData.PitchMinangle = -10;
+		GimbalData.PitchMinangle = -20;
 }
 /**
  * @brief get the tagetposition from remote and  keyboard,mouse
@@ -389,14 +389,14 @@ void PitchPID (float *Target)
 		PitchInner.errILim=4000;
 		PitchInner.OutMAX=e;
 	}
-		if(GimbalData.Pitchangle <= 25)
+		if(GimbalData.Pitchangle <= 20)
 		{		
 			PitchOuter.kp = 12;//30
 			PitchInner.kp = 30;
 		}
 		else
 		{
-			PitchOuter.kp = 12 + (GimbalData.Pitchangle - 25) * 0.5;	
+			PitchOuter.kp = 12 + (GimbalData.Pitchangle - 20) * 0.5;	
 			PitchInner.kp = 50;
 		}
 
