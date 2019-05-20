@@ -56,21 +56,21 @@ void DealKeyMousedata(void)
 	
 	if(RC_Ctl.key.v & KEY_Q)
 	{
-		KeyMousedata.laser_on = 1;
+		KeyMousedata.sentrymode = 0;
 	}
 	else if(RC_Ctl.key.v & KEY_W)
 	{
-		KeyMousedata.laser_on = 0;
+		KeyMousedata.sentrymode = 1;
 	}
-	
-//	if(RC_Ctl.key.v & KEY_S)
-//	{
-//		KeyMousedata.BGR = 1;
-//	}
-//	else if(RC_Ctl.key.v & KEY_D)
-//	{
-//		KeyMousedata.BGR = 0;
-//	}
+	else if(RC_Ctl.key.v & KEY_S)
+	{
+		KeyMousedata.sentrymode = 2;
+	}
+	else if(RC_Ctl.key.v & KEY_X)
+	{
+		KeyMousedata.sentrymode = 3;
+	}
+
 
 	
 }

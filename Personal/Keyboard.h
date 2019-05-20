@@ -43,6 +43,7 @@ typedef struct
 	int pitchdown;
 	int laser_on;
 	int BGR;
+	uint8_t sentrymode;
 	
 }KeyMouse;
 

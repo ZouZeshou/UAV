@@ -196,7 +196,7 @@ extern uint8_t JudgeReceivedNewDataSignal[14];
 
 void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask);
 void JudgeData(uint8_t data);
-
+void RobotSendMsgToRobot(uint8_t data_to_send);
 
 /***********************************************************************************************/
 /***********************************************************************************************/

@@ -2,7 +2,7 @@
 
 uint8_t rbuff[255];
 uint8_t HeaderData[20],ReceiveData[255];
-uint8_t UpData[50];
+
 int16_t datatype;
 int JudgeReceivedNewData = 0;
 
@@ -36,6 +36,7 @@ robot_interactive_data_t  									Judge_RobotInterfaceData;
 
 void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask){
 	static uint8_t seq;
+	static uint8_t UpData[50];
 	if(seq == 255) seq = 0;
 	seq++;
 	UpData[0] 	= 0xA5;
@@ -82,6 +83,43 @@ void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask){
 	Append_CRC16_Check_Sum(UpData,28);
 	HAL_UART_Transmit(&huart3,UpData,28,0xff);
 }
+
+void RobotSendMsgToRobot(uint8_t data_to_send)
+{
+	static uint8_t seq;
+	static uint8_t UpData[50];
+	if(seq == 255) seq = 0;
+	seq++;
+	UpData[0] 	= 0xA5;
+	w2data.d 	= 7;
+	UpData[1] 	= w2data.c[0];
+	UpData[2] 	= w2data.c[1];
+	UpData[3] 	= seq;
+	Append_CRC8_Check_Sum(UpData,5);
+	/* cmd_id */
+	w2data.d 	= 0x0301;
+	UpData[5] 	= w2data.c[0];
+	UpData[6] 	= w2data.c[1];
+	/* content id */
+	w2data.d 	= 0x0201;
+	UpData[7] 	= w2data.c[0];
+	UpData[8] 	= w2data.c[1];
+	/* sender id */
+	w2data.d 	= Judge_GameRobotState.robot_id;
+	UpData[9] 	= w2data.c[0];
+	UpData[10] 	= w2data.c[1];
+	/* receiver id */
+	w2data.d 	= Judge_GameRobotState.robot_id + 1;
+	UpData[11] 	= w2data.c[0];
+	UpData[12] 	= w2data.c[1];
+	
+	/* data send */
+	UpData[13] = data_to_send;
+	/* CRC-check */
+	Append_CRC16_Check_Sum(UpData,16);
+	HAL_UART_Transmit(&huart3,UpData,16,0xff);
+}
+
 
 void JudgeData(uint8_t data){
 	static int HeaderIndex;
