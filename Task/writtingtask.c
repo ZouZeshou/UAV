@@ -147,8 +147,8 @@ void StartTask05(void const * argument)
   {
 		if(IMU_OK)
 		{
-			RobotSendMsgToClient(1.0f,2.0f,PitchOuter.errNow,mask);
-//			RobotSendMsgToRobot(KeyMousedata.sentrymode);
+//			RobotSendMsgToClient(1.0f,2.0f,PitchOuter.errNow,mask);
+			RobotSendMsgToRobot(KeyMousedata.sentrymode);
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 //			PrintFunction();
 			osDelay(100);
@@ -242,7 +242,7 @@ void StartTask07(void const * argument)
 	for(;;)
   {
 //		send_data_to_pc();
-		ANO_DT_Data_Exchange();
+//		ANO_DT_Data_Exchange();
 		osDelay(5);
   }
 

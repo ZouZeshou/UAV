@@ -10,6 +10,7 @@
 uint8_t uart5_buff[1]={0};
 uint8_t Rxdata[1]={0};
 uint8_t Usart3buff[100]={0};
+uint8_t Usart6buff[100]={0};
 uint8_t Usart2buff[100]={0};
 uint8_t Usart1buff[100]={0};
 uint8_t Mdata[8];
@@ -118,7 +119,20 @@ void USART1_IDLE_IRQ(void)
 			HAL_UART_Receive_DMA(&huart1,Remotebuffer,18);//函数中包括重新配置DMA
 		}
 }
-
+/**
+ * @brief Interrupt function for usart1
+ * @param None
+ * @return None
+ * @attention None
+ */
+void USART3_IDLE_IRQ(void)
+{
+	
+	if(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_IDLE) != RESET)
+		{
+			__HAL_UART_CLEAR_IDLEFLAG(&huart3);	//清除标志位和SR，DR寄存器
+		}
+}
 
 /**
  * @brief Enable the Usart6
