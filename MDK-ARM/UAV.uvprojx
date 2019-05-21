@@ -780,14 +780,14 @@
               <FilePath>..\Vision\camera.c</FilePath>
             </File>
             <File>
-              <FileName>CRC_Check.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Vision\CRC_Check.c</FilePath>
-            </File>
-            <File>
               <FileName>kalman_filter.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Vision\kalman_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>CRC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Vision\CRC.c</FilePath>
             </File>
           </Files>
         </Group>

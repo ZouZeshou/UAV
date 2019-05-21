@@ -1,7 +1,7 @@
 #include "camera.h"
 #include "kalman_filter.h"
 #include "usart.h"
-#include "CRC_Check.h"
+#include "CRC.h"
 #include "STMGood.h"
 #include "Judge.h"
 #include "Keyboard.h"
