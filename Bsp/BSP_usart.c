@@ -52,12 +52,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		__HAL_UART_CLEAR_PEFLAG(&huart2);
 		HAL_UART_Receive_IT(&huart2,Usart2buff,1);	
 	}
-	if(huart->Instance == USART3)
+	if(huart->Instance == USART6)
 	{
 //		printf("uart3 work\r\n");
-		JudgeData(Usart3buff[0]);
-		__HAL_UART_CLEAR_PEFLAG(&huart3);
-		HAL_UART_Receive_IT(&huart3,Usart3buff,1);	
+		JudgeData(Usart6buff[0]);
+		__HAL_UART_CLEAR_PEFLAG(&huart6);
+		HAL_UART_Receive_IT(&huart6,Usart6buff,1);	
 	}
 
 }
@@ -140,17 +140,20 @@ void USART3_IDLE_IRQ(void)
  * @return None
  * @attention  None
  */
+//void USART6_Enable(void)
+//{
+//	 HAL_DMA_Start(&hdma_usart6_rx, (uint32_t)huart6.Instance->DR, (uint32_t)uart6_buff,23);
+//	 huart6.Instance->CR3 |= USART_CR3_DMAR;								/*!<DMA Enable Receiver         */
+//	 __HAL_UART_ENABLE_IT(&huart6,UART_IT_IDLE);								/*!<使能串口的中断为空闲中断    */
+//	 HAL_UART_Receive_DMA(&huart6,uart6_buff,23);								/*!<DMA Receive data            */
+//	 __HAL_UART_ENABLE_IT(&huart6,UART_IT_ERR);								/*!<Enable Usart Error IT      	*/
+//}
+
 void USART6_Enable(void)
 {
-	 HAL_DMA_Start(&hdma_usart6_rx, (uint32_t)huart6.Instance->DR, (uint32_t)uart6_buff,23);
-	 huart6.Instance->CR3 |= USART_CR3_DMAR;								/*!<DMA Enable Receiver         */
-	 __HAL_UART_ENABLE_IT(&huart6,UART_IT_IDLE);								/*!<使能串口的中断为空闲中断    */
-	 HAL_UART_Receive_DMA(&huart6,uart6_buff,23);								/*!<DMA Receive data            */
-	 __HAL_UART_ENABLE_IT(&huart6,UART_IT_ERR);								/*!<Enable Usart Error IT      	*/
+	HAL_UART_Receive_IT(&huart6,Usart6buff,1);
+	__HAL_UART_ENABLE_IT(&huart6,UART_IT_ERR);	
 }
-
-
-
 
 
 

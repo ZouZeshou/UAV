@@ -54,13 +54,13 @@ void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask){
 	UpData[7] 	= w2data.c[0];
 	UpData[8] 	= w2data.c[1];
 	/* sender id */
-//	w2data.d 	= Judge_GameRobotState.robot_id;
-	w2data.d = 0x0006;
+	w2data.d 	= Judge_GameRobotState.robot_id;
+//	w2data.d = 0x0006;
 	UpData[9] 	= w2data.c[0];
 	UpData[10] 	= w2data.c[1];
 	/* receiver id */
-//	w2data.d 	= Judge_GameRobotState.robot_id | 0x0100;
-	w2data.d = 0x0106;
+	w2data.d 	= Judge_GameRobotState.robot_id | 0x0100;
+//	w2data.d = 0x0106;
 	UpData[11] 	= w2data.c[0];
 	UpData[12] 	= w2data.c[1];
 	
@@ -83,7 +83,7 @@ void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask){
 	UpData[25] 	= mask;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,28);
-	HAL_UART_Transmit(&huart6,UpData,28,0xff);
+	HAL_UART_Transmit(&huart6,UpData,28,0x5f);
 	printf("send to client\r\n");
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 }
@@ -109,13 +109,13 @@ void RobotSendMsgToRobot(uint8_t data_to_send)
 	UpData[7] 	= w2data.c[0];
 	UpData[8] 	= w2data.c[1];
 	/* sender id */
-//	w2data.d 	= Judge_GameRobotState.robot_id;
-	w2data.d = 0x0006;
+	w2data.d 	= Judge_GameRobotState.robot_id;
+//	w2data.d = 0x0006;
 	UpData[9] 	= w2data.c[0];
 	UpData[10] 	= w2data.c[1];
 	/* receiver id */
-//	w2data.d 	= Judge_GameRobotState.robot_id + 1;
-	w2data.d = 0x0007;
+	w2data.d 	= Judge_GameRobotState.robot_id + 1;
+//	w2data.d = 0x0007;
 	UpData[11] 	= w2data.c[0];
 	UpData[12] 	= w2data.c[1];
 	
@@ -123,7 +123,7 @@ void RobotSendMsgToRobot(uint8_t data_to_send)
 	UpData[13] = data_to_send;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,16);
-	HAL_UART_Transmit(&huart6,UpData,16,0xff);
+	HAL_UART_Transmit(&huart6,UpData,16,0x5f);
 	printf("send to robot\r\n");
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 }
