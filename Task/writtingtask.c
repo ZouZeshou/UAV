@@ -150,7 +150,7 @@ void StartTask05(void const * argument)
 //			RobotSendMsgToClient(0,0,0,0);
 			RobotSendMsgToRobot(KeyMousedata.sentrymode);
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
-//			PrintFunction();
+			PrintFunction();
 			osDelay(200);
 		}
   }
@@ -310,7 +310,7 @@ void PrintFunction(void)
 //		printf("yawencoderspeed %d\r\n",GimbalData.YawEncoderspeed*(-57608)/10000);
 //		printf("pitMax %d Min %d\r\n",GimbalData.PitchMaxangle,GimbalData.PitchMinangle);
 //		printf("Yawang %.4f pitang %.4f\r\n",GimbalData.Yawangle,GimbalData.Pitchangle);
-//	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
+	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
 //		printf("backold Yaw %d Pitch %d\r\n",GimbalData.YawBackold,GimbalData.PitchBackold);
 	  printf("totalpos Yaw %d Pitch %d\r\n",GimbalData.Yawposition,GimbalData.Pitchposition);
 //		printf("counter pit %d\r\n",GimbalData.Pitchcirclecounter);
