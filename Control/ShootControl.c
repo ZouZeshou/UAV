@@ -37,7 +37,7 @@ void ShootInit (void)
 	StirMotorInnerPID.ki = 0;
 	StirMotorInnerPID.kd = 0;
 	StirMotorInnerPID.errILim = 3000 ;
-	StirMotorInnerPID.OutMAX = 8000 ;
+	StirMotorInnerPID.OutMAX = 10000 ;
 	
 	fric_l_pid.kp = 11;
 	fric_l_pid.ki = 0.15f;
@@ -133,14 +133,17 @@ void Switchshoot (void)
 	else
 		FrictionSpd = 0;
 	
-	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start) && abs(fric_l_data.BackSpeed)>=1000)
+//	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start) && abs(fric_l_data.BackSpeed)>=1000)
+	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start))
 	{
 		ShootFrequency = 10;
 		StirMotorStart(&ShootFrequency);
 		rc_s1_press = 0;
 	}
+//	else if(((RC_Ctl.rc.s1 == 1 && rc_s1_press==0 )||
+//		(RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start )) && abs(fric_l_data.BackSpeed)>=1000)
 	else if(((RC_Ctl.rc.s1 == 1 && rc_s1_press==0 )||
-		(RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start )) && abs(fric_l_data.BackSpeed)>=1000)
+	  (RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start )))
 	{
 		rc_s1_press = 1;
 		mouse_l_press = 1;

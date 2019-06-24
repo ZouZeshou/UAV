@@ -104,8 +104,8 @@ void StartTask03(void const * argument)
 				Buzzer_off();
 				Task_03Init = 1;
 			}
-				Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
-				Can2_SendMsg(0x200,fric_r_data.Current,fric_l_data.Current,0,0);
+				Can1_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
+				Can2_SendMsg(0x200,0,0,0,0);
 		}
      osDelay(5);
   }
@@ -166,67 +166,67 @@ void StartTask06(void const * argument)
 {
 	for(;;)
   {
-		static int buzzer_ontime;
-		GetDeviceState();
-		DeviceDetect(Devicestate,Offline);
-		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
-		{
-			buzzer_ontime++;
-			if(buzzer_ontime >= 20 && buzzer_ontime <= 40)
-			{
-				Buzzer_on(300,150);	
-			}
-			else if(buzzer_ontime > 40)
-			{
-				buzzer_ontime = 0;
-				Buzzer_off();
-			}
-		}
-		else
-		{
-			Buzzer_off();
-		}
-		
-		if(Devicestate[4]==ONLINE)
-		{
-			mask = mask|(1<<0);
-		}
-		else if(Devicestate[4]==OFFLINE)
-		{
-			mask = mask&(0<<0);
-		}
-		if(Devicestate[5]==ONLINE)
-		{
-			mask = mask|(1<<1);
-		}
-		else if(Devicestate[5]==OFFLINE)
-		{
-			mask = mask&(0<<1);
-		}
-		if(Devicestate[6]==ONLINE)
-		{
-			mask = mask|(1<<2);
-		}
-		else if(Devicestate[6]==OFFLINE)
-		{
-			mask = mask&(0<<2);
-		}
-		if(Devicestate[11]==ONLINE)
-		{
-			mask = mask|(1<<3);
-		}
-		else if(Devicestate[11]==OFFLINE)
-		{
-			mask = mask&(0<<3);
-		}
-		if(Devicestate[12]==ONLINE)
-		{
-			mask = mask|(1<<4);
-		}
-		else if(Devicestate[12]==OFFLINE)
-		{
-			mask = mask&(0<<4);
-		}
+//		static int buzzer_ontime;
+//		GetDeviceState();
+//		DeviceDetect(Devicestate,Offline);
+//		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
+//		{
+//			buzzer_ontime++;
+//			if(buzzer_ontime >= 20 && buzzer_ontime <= 40)
+//			{
+//				Buzzer_on(300,150);	
+//			}
+//			else if(buzzer_ontime > 40)
+//			{
+//				buzzer_ontime = 0;
+//				Buzzer_off();
+//			}
+//		}
+//		else
+//		{
+//			Buzzer_off();
+//		}
+//		
+//		if(Devicestate[4]==ONLINE)
+//		{
+//			mask = mask|(1<<0);
+//		}
+//		else if(Devicestate[4]==OFFLINE)
+//		{
+//			mask = mask&(0<<0);
+//		}
+//		if(Devicestate[5]==ONLINE)
+//		{
+//			mask = mask|(1<<1);
+//		}
+//		else if(Devicestate[5]==OFFLINE)
+//		{
+//			mask = mask&(0<<1);
+//		}
+//		if(Devicestate[6]==ONLINE)
+//		{
+//			mask = mask|(1<<2);
+//		}
+//		else if(Devicestate[6]==OFFLINE)
+//		{
+//			mask = mask&(0<<2);
+//		}
+//		if(Devicestate[11]==ONLINE)
+//		{
+//			mask = mask|(1<<3);
+//		}
+//		else if(Devicestate[11]==OFFLINE)
+//		{
+//			mask = mask&(0<<3);
+//		}
+//		if(Devicestate[12]==ONLINE)
+//		{
+//			mask = mask|(1<<4);
+//		}
+//		else if(Devicestate[12]==OFFLINE)
+//		{
+//			mask = mask&(0<<4);
+//		}
 		
 		osDelay(15);
 	}
