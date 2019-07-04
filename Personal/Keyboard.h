@@ -39,10 +39,8 @@ typedef struct
 	int fric_start;
 	int stir_start;
 	int stir_start_onebyone;
-	int pitchup;
-	int pitchdown;
 	int laser_on;
-	int BGR;
+	int Base_or_robot;
 	uint8_t sentrymode;
 	
 }KeyMouse;

@@ -33,7 +33,7 @@ void ShootInit (void)
 	StirMotorOutterPID.errILim = 1000;
 	StirMotorOutterPID.OutMAX = 1250;
 	
-	StirMotorInnerPID.kp = 30;
+	StirMotorInnerPID.kp = 30;//30
 	StirMotorInnerPID.ki = 0;
 	StirMotorInnerPID.kd = 0;
 	StirMotorInnerPID.errILim = 3000 ;
@@ -95,20 +95,26 @@ void StirMotorStart (int16_t * ShootFrequency)
 		static double position_diff;
 		static int jam_count;
 		position_diff = StirMotorData.TargetPosition - StirMotorData.TotalPosition;
+//		if(StirUpdateCounter++ >= *ShootFrequency && position_diff < 3*STIRADDITION)
+//		{
+//			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_2);	
+//			StirMotorData.TargetPosition += STIRADDITION ;
+//			StirUpdateCounter = 0;
+//		}
+//		if(position_diff >= 3*STIRADDITION)
+//		{
+//			if(jam_count++ >= 100)
+//				StirMotorData.TargetPosition = StirMotorData.TargetPosition - position_diff - STIRADDITION;
+//		}
+//		else
+//		{
+//			jam_count = 0;
+//		}
 		if(StirUpdateCounter++ >= *ShootFrequency && position_diff < 3*STIRADDITION)
 		{
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_2);	
 			StirMotorData.TargetPosition += STIRADDITION ;
 			StirUpdateCounter = 0;
-		}
-		if(position_diff >= 3*STIRADDITION)
-		{
-			if(jam_count++ >= 100)
-				StirMotorData.TargetPosition = StirMotorData.TargetPosition - position_diff - STIRADDITION;
-		}
-		else
-		{
-			jam_count = 0;
 		}
 }
 /**
@@ -136,7 +142,7 @@ void Switchshoot (void)
 //	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start) && abs(fric_l_data.BackSpeed)>=1000)
 	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start))
 	{
-		ShootFrequency = 10;
+		ShootFrequency = 15;
 		StirMotorStart(&ShootFrequency);
 		rc_s1_press = 0;
 	}

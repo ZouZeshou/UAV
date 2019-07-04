@@ -119,16 +119,22 @@ void send_data_to_pc(void)
 		data[1]=0;
 	}
 	
-	if(KeyMousedata.BGR == 1)//打地面
+	if(KeyMousedata.Base_or_robot == 1)//打地面
 	{
 		data[2]=1;
 		center_x = 420 ;               
 		center_y = 340 ;
 		
 	}
-	else if(KeyMousedata.BGR == 0)//打基地
+	else if(KeyMousedata.Base_or_robot == 0)//打基地
 	{
 		data[2]=0;
+		center_x = 400 ;               
+		center_y = 450 ;
+	}
+	else if(KeyMousedata.Base_or_robot == 2)//打基地护盾
+	{
+		data[2]=2;
 		center_x = 400 ;               
 		center_y = 450 ;
 	}

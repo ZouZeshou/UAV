@@ -73,7 +73,7 @@ void ANO_DT_Data_Exchange(void)
 	else if(f.send_senser)
 	{
 		f.send_senser = 0;
-		ANO_DT_Send_Senser((int16_t)fric_l_data.BackSpeed,(int16_t)-fric_r_data.BackSpeed,(int16_t)Judge_ShootData.bullet_speed,
+		ANO_DT_Send_Senser((int16_t)StirMotorData.Current,(int16_t)-fric_r_data.BackSpeed,(int16_t)Judge_ShootData.bullet_speed,
 		(int16_t)YawOuter.errNow,(int16_t)PitchOuter.errNow,(int16_t)RC_Ctl.rc.ch1,(int16_t)pcParam.pcCenterX.f,(int16_t)pcParam.pcCenterY.f,pcParam.pcCenterZ.f,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
