@@ -59,7 +59,7 @@ void StartTask02(void const * argument)
 				initmark=1;
 			}
 			DealGimbalPosition();
-			switch_gimbal_mode();
+//			switch_gimbal_mode();
 			GetGimbalTarget();
 			if(gimbalmode == 0)
 			{
@@ -105,7 +105,7 @@ void StartTask03(void const * argument)
 				Task_03Init = 1;
 			}
 				Can1_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
-				Can2_SendMsg(0x200,0,0,0,0);
+				Can2_SendMsg(0x200,fric_r_data.Current,fric_l_data.Current,0,0);
 		}
      osDelay(5);
   }
@@ -122,7 +122,7 @@ void StartTask04(void const * argument)
 	static int wait = 0;
 	for(;;)
   {
-		if(wait++ > 2500)
+		if(wait++ > 200)//2500
 		{
 			IMU_OK = 1;
 			wait = 3000;
@@ -274,7 +274,10 @@ void PrintFunction(void)
 	
 /*************************************************** Gimbaldebug ***********************************************/
 		  printf("/*******************Gimbal******************/ \r\n");
-	printf(" %d \r\n",StirMotorData.Current);
+			printf("pit back %d  posi %d spd %d \r\n",GimbalData.PitchBacknow,GimbalData.Pitchposition,GimbalData.PitchBackspeed);
+			printf("pitPID Oerr %.2f  Oout %.2f Ierr %.2f Iout %.2f\r\n",PitchOuter.errNow,PitchOuter.ctrOut,PitchInner.errNow,PitchInner.ctrOut);
+			printf("yaw back %d  posi %d spd %d \r\n",GimbalData.YawBacknow,GimbalData.Yawposition,GimbalData.YawEncoderspeed);
+			printf("yawPID Oerr %.2f  Oout %.2f Ierr %.2f Iout %.2f\r\n",YawOuter.errNow,YawOuter.ctrOut,YawInner.errNow,YawInner.ctrOut);
 //	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
 //	printf("pit ang%.2f yaw %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
 //	printf("YawOuter err %.2f out%.2f\r\n",v_YawOuter.errNow,v_YawOuter.ctrOut);
@@ -326,6 +329,7 @@ void PrintFunction(void)
 ////	  printf("GimbalImu %f\r\n",GimbalData.ImuData);
 /****************************************************** ShootControldebug ***************************************************/
 //	  printf("/*******************Stir******************/ \r\n");
+//	printf(" %d \r\n",StirMotorData.Current);
 //	  printf(" current %d BackSpeed %d Targetpos %lld\r\n",StirMotorData.Current,StirMotorData.BackSpeed,StirMotorData.TargetPosition);
 //	  printf("newpos %d oldpos %d totalpos %lld \r\n",StirMotorData.BackPositionNew,StirMotorData.BackPositionOld,StirMotorData.TotalPosition);
 //		printf("StirTar %lld\r\n",StirMotorData.TargetPosition);

@@ -134,7 +134,7 @@ void Switchshoot (void)
 	}
 	else if (RC_Ctl.rc.s2 == 1)
 	{
-		FrictionSpd = 5000;
+		FrictionSpd = 2000;
 	}
 	else
 		FrictionSpd = 0;
@@ -142,7 +142,7 @@ void Switchshoot (void)
 //	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start) && abs(fric_l_data.BackSpeed)>=1000)
 	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start))
 	{
-		ShootFrequency = 15;
+		ShootFrequency = 10;
 		StirMotorStart(&ShootFrequency);
 		rc_s1_press = 0;
 	}

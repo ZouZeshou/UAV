@@ -44,13 +44,13 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	if(hcan->Instance == CAN1)
 	{
 		HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0,&Can1Header,RxData1 );
-		if(Can1Header.StdId==0x205)
+		if(Can1Header.StdId==0x206)
 		{
 			GimbalData.YawBacknow = RxData1[0]<<8|RxData1[1];
 			GimbalData.YawEncoderspeed = (int16_t)((RxData1[2]<<8|RxData1[3]));
 			fps.Yaw++;
 		}
-		if(Can1Header.StdId==0x206)
+		if(Can1Header.StdId==0x205)
 		{
 			GimbalData.PitchBacknow = RxData1[0]<<8|RxData1[1];
 			GimbalData.PitchBackspeed = RxData1[2]<<8|RxData1[3];

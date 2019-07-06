@@ -390,8 +390,8 @@ void PitchPID (float *Target)
 		PitchOuter.errNow = (*Target - GimbalData.Pitchangle);
 	}
 	PID_AbsoluteMode(&PitchOuter);
-//	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.PitchBackspeed*0.166666667f;
-	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.Pitchspeed;
+	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.PitchBackspeed * 5.7608f;
+//	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.Pitchspeed;
 //	if(PitchInner.errNow > 80)
 //	{
 //		PitchInner.errNow = 80;
