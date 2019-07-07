@@ -34,7 +34,8 @@ ext_student_interactive_header_data_t				Judge_StudentInfoHeader;
 client_custom_data_t												Judge_ClientData;
 robot_interactive_data_t  									Judge_RobotInterfaceData;
 
-void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask){
+void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask)
+{
 	static uint8_t seq;
 	static uint8_t UpData[50];
 	if(seq == 255) seq = 0;
@@ -83,7 +84,7 @@ void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask){
 	UpData[25] 	= mask;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,28);
-	HAL_UART_Transmit(&huart6,UpData,28,0x5f);
+	HAL_UART_Transmit(&huart3,UpData,28,0x5f);
 	printf("send to client\r\n");
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 }
@@ -129,20 +130,26 @@ void RobotSendMsgToRobot(uint8_t data_to_send)
 }
 
 
-void JudgeData(uint8_t data){
+void JudgeData(uint8_t data)
+{
 	static int HeaderIndex;
 	static int dataIndex;
 	static int InfoStartReceive;
 	static int16_t datalength;
 	static uint8_t packindex;
-	if(data == 0xA5){
+	if(data == 0xA5)
+	{
 		HeaderIndex = 1;
 		HeaderData[0] = data;
 		InfoStartReceive = 0;
-	}else{
-		if(HeaderIndex < 5){
+	}
+	else
+	{
+		if(HeaderIndex < 5)
+		{
 			HeaderData[HeaderIndex++] = data;
-			if(HeaderIndex == 5 && Verify_CRC8_Check_Sum(HeaderData,5)){
+			if(HeaderIndex == 5 && Verify_CRC8_Check_Sum(HeaderData,5))
+				{
 				w2data.c[0] = HeaderData[1];
 				w2data.c[1] = HeaderData[2];
 				datalength = w2data.d;
@@ -153,92 +160,111 @@ void JudgeData(uint8_t data){
 				return;
 			}
 		}
-		if(InfoStartReceive){
-			if(dataIndex < datalength+9){//9: frame(5)+cmd_id(2)+crc16(2)
-				ReceiveData[dataIndex++] = data;
-			}
-			if(dataIndex == datalength+9){//do the deal once
-				InfoStartReceive = 0;
-				if(Verify_CRC16_Check_Sum(ReceiveData,datalength+9)){
-					w2data.c[0] = ReceiveData[5];
-					w2data.c[1] = ReceiveData[6];
-					datatype = w2data.d;//cmd_id
-					JudgeReceivedNewData = 1;
-					switch(datatype){
-						case 0x0001:{
-							JudgeReceivedNewDataSignal[0] = 1;
-							memcpy(&Judge_GameState,&ReceiveData[7],sizeof(ext_game_state_t));
-							break;
-						}
-						case 0x0002:{
-							JudgeReceivedNewDataSignal[1] = 1;
-							memcpy(&Judge_GameResult,&ReceiveData[7],sizeof(ext_game_result_t));
-							break;
-						}
-						case 0x0003:{
-							JudgeReceivedNewDataSignal[2] = 1;
-							memcpy(&Judge_GameRobotSurvivors,&ReceiveData[7],sizeof(ext_game_robot_survivors_t));
-							break;
-						}
-						case 0x0101:{
-							JudgeReceivedNewDataSignal[3] = 1;
-							memcpy(&Judge_EventData,&ReceiveData[7],sizeof(ext_event_data_t));
-							break;
-						}
-						case 0x0102:{
-							JudgeReceivedNewDataSignal[4] = 1;
-							memcpy(&Judge_SupplyProjectileAction,&ReceiveData[7],sizeof(ext_supply_projectile_action_t));
-							break;
-						}
-						case 0x0103:{
-							JudgeReceivedNewDataSignal[5] = 1;
-							memcpy(&Judge_SupplyProjectileBooking,&ReceiveData[7],sizeof(ext_supply_projectile_booking_t));
-							break;
-						}
-						case 0x0201:{
-							JudgeReceivedNewDataSignal[6] = 1;
-							memcpy(&Judge_GameRobotState,&ReceiveData[7],sizeof(ext_game_robot_state_t));
-							break;
-						}
-						case 0x0202:{
-							JudgeReceivedNewDataSignal[7] = 1;
-							memcpy(&Judge_PowerHeatData,&ReceiveData[7],sizeof(ext_power_heat_data_t));
-							break;
-						}
-						case 0x0203:{
-							JudgeReceivedNewDataSignal[8] = 1;
-							memcpy(&Judge_GameRobotPos,&ReceiveData[7],sizeof(ext_game_robot_pos_t));
-							break;
-						}
-						case 0x0204:{
-							JudgeReceivedNewDataSignal[9] = 1;
-							memcpy(&Judge_BuffMusk,&ReceiveData[7],sizeof(ext_buff_musk_t));
-							break;
-						}
-						case 0x0205:{
-							JudgeReceivedNewDataSignal[10] = 1;
-							memcpy(&Judge_AerialRobotEnergy,&ReceiveData[7],sizeof(aerial_robot_energy_t));
-							break;
-						}
-						case 0x0206:{
-							JudgeReceivedNewDataSignal[11] = 1;
-							memcpy(&Judge_RobotHurt,&ReceiveData[7],sizeof(ext_robot_hurt_t));
-							break;
-						}
-						case 0x0207:{
-							JudgeReceivedNewDataSignal[12] = 1;
-							memcpy(&Judge_ShootData,&ReceiveData[7],sizeof(ext_shoot_data_t));
-							break;
-						}
-						case 0x0301:{
-							JudgeReceivedNewDataSignal[13] = 1;
-							memcpy(&Judge_StudentInfoHeader,&ReceiveData[7],sizeof(ext_student_interactive_header_data_t));
-							memcpy(&Judge_RobotInterfaceData,&ReceiveData[7+sizeof(ext_student_interactive_header_data_t)],sizeof(robot_interactive_data_t));
-							break;
+		if(InfoStartReceive)
+		{
+				if(dataIndex < datalength+9)
+				{//9: frame(5)+cmd_id(2)+crc16(2)
+					ReceiveData[dataIndex++] = data;
+				}
+				if(dataIndex == datalength+9)
+				{//do the deal once
+					InfoStartReceive = 0;
+					if(Verify_CRC16_Check_Sum(ReceiveData,datalength+9))
+					{
+						w2data.c[0] = ReceiveData[5];
+						w2data.c[1] = ReceiveData[6];
+						datatype = w2data.d;//cmd_id
+						JudgeReceivedNewData = 1;
+						switch(datatype)
+						{
+							case 0x0001:
+							{
+								JudgeReceivedNewDataSignal[0] = 1;
+								memcpy(&Judge_GameState,&ReceiveData[7],sizeof(ext_game_state_t));
+								break;
+							}
+							case 0x0002:
+							{
+								JudgeReceivedNewDataSignal[1] = 1;
+								memcpy(&Judge_GameResult,&ReceiveData[7],sizeof(ext_game_result_t));
+								break;
+							}
+							case 0x0003:
+							{
+								JudgeReceivedNewDataSignal[2] = 1;
+								memcpy(&Judge_GameRobotSurvivors,&ReceiveData[7],sizeof(ext_game_robot_survivors_t));
+								break;
+							}
+							case 0x0101:
+							{
+								JudgeReceivedNewDataSignal[3] = 1;
+								memcpy(&Judge_EventData,&ReceiveData[7],sizeof(ext_event_data_t));
+								break;
+							}
+							case 0x0102:
+							{
+								JudgeReceivedNewDataSignal[4] = 1;
+								memcpy(&Judge_SupplyProjectileAction,&ReceiveData[7],sizeof(ext_supply_projectile_action_t));
+								break;
+							}
+							case 0x0103:
+							{
+								JudgeReceivedNewDataSignal[5] = 1;
+								memcpy(&Judge_SupplyProjectileBooking,&ReceiveData[7],sizeof(ext_supply_projectile_booking_t));
+								break;
+							}
+							case 0x0201:
+							{
+								JudgeReceivedNewDataSignal[6] = 1;
+								memcpy(&Judge_GameRobotState,&ReceiveData[7],sizeof(ext_game_robot_state_t));
+								break;
+							}
+							case 0x0202:
+							{
+								JudgeReceivedNewDataSignal[7] = 1;
+								memcpy(&Judge_PowerHeatData,&ReceiveData[7],sizeof(ext_power_heat_data_t));
+								break;
+							}
+							case 0x0203:
+							{
+								JudgeReceivedNewDataSignal[8] = 1;
+								memcpy(&Judge_GameRobotPos,&ReceiveData[7],sizeof(ext_game_robot_pos_t));
+								break;
+							}
+							case 0x0204:
+							{
+								JudgeReceivedNewDataSignal[9] = 1;
+								memcpy(&Judge_BuffMusk,&ReceiveData[7],sizeof(ext_buff_musk_t));
+								break;
+							}
+							case 0x0205:
+							{
+								JudgeReceivedNewDataSignal[10] = 1;
+								memcpy(&Judge_AerialRobotEnergy,&ReceiveData[7],sizeof(aerial_robot_energy_t));
+								break;
+							}
+							case 0x0206:
+							{
+								JudgeReceivedNewDataSignal[11] = 1;
+								memcpy(&Judge_RobotHurt,&ReceiveData[7],sizeof(ext_robot_hurt_t));
+								break;
+							}
+							case 0x0207:
+							{
+								JudgeReceivedNewDataSignal[12] = 1;
+								memcpy(&Judge_ShootData,&ReceiveData[7],sizeof(ext_shoot_data_t));
+								break;
+							}
+							case 0x0301:
+							{
+								JudgeReceivedNewDataSignal[13] = 1;
+								memcpy(&Judge_StudentInfoHeader,&ReceiveData[7],sizeof(ext_student_interactive_header_data_t));
+								memcpy(&Judge_RobotInterfaceData,&ReceiveData[7+sizeof(ext_student_interactive_header_data_t)],sizeof(robot_interactive_data_t));
+								break;
+							}
 						}
 					}
 				}
-			}
 			
 		}
 	}

@@ -68,7 +68,8 @@ void StartTask02(void const * argument)
 			}
 			else if(gimbalmode == 1)
 			{
-				v_PitchPID(&pcParam.refer_centerY);
+				PitchPID(&GimbalData.PitchTarget2);
+				//v_PitchPID(&pcParam.refer_centerY);
 				v_YawPID(&pcParam.refer_centerX);			
 			}
 		
@@ -241,7 +242,7 @@ void StartTask07(void const * argument)
 {
 	for(;;)
   {
-//		send_data_to_pc();
+		send_data_to_pc();
 //		ANO_DT_Data_Exchange();
 		osDelay(5);
   }
@@ -290,11 +291,11 @@ void PrintFunction(void)
 //printf("pit current%d\r\n",GimbalData.PitchCurrent);
 //	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
-//	printf("id %d\r\n",Judge_GameRobotState.robot_id);
+	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 //	printf("usevision %d\r\n",use_vision);
 //	printf("gimbalmode %d\r\n",gimbalmode);
-//	printf("dataright %d\r\n",pcdata_right);
-//	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
+	printf("dataright %d\r\n",pcdata_right);
+	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
 //	printf("stirback %d\r\n",StirMotorData.BackPositionNew);
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
 //printf("fps.Gyro_1%d\r\n",fps.Gyro_1);

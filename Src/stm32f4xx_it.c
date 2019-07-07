@@ -327,8 +327,8 @@ void DMA2_Stream1_IRQHandler(void)
   /* USER CODE END DMA2_Stream1_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_usart6_rx);
   /* USER CODE BEGIN DMA2_Stream1_IRQn 1 */
-//	Vision_Decode();
-//	printf("decode run \r\n");
+	Vision_Decode();
+	printf("decode run \r\n");
   /* USER CODE END DMA2_Stream1_IRQn 1 */
 }
 
@@ -394,13 +394,13 @@ void DMA2_Stream6_IRQHandler(void)
 void USART6_IRQHandler(void)
 {
   /* USER CODE BEGIN USART6_IRQn 0 */
-//#ifdef DELETE_USART6_IRQ
+#ifdef DELETE_USART6_IRQ
   /* USER CODE END USART6_IRQn 0 */
   HAL_UART_IRQHandler(&huart6);
   /* USER CODE BEGIN USART6_IRQn 1 */
-//#endif
-//	Vision_IRQ();
-//	printf("IRQ run\r\n");
+#endif
+	Vision_IRQ();
+	printf("IRQ run\r\n");
   /* USER CODE END USART6_IRQn 1 */
 }
 

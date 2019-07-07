@@ -12,6 +12,7 @@ float data = 0;
 int pcdata_right = 0;
 int catch_target = 0;
 int catch_target_counter = 0;
+int camera_center_debug = 0;
 uint8_t uart6_buff[50];
 pcDataParam pcParam,pcParamLast;
 
@@ -40,11 +41,17 @@ void Vision_IRQ(void){
 
 void Vision_Decode(void)
 {
-	
-	pcParam.refer_centerX = P;
-	pcParam.refer_centerY = I;			
-//	pcParam.refer_centerX = center_x;
-//	pcParam.refer_centerY = center_y;
+	if(camera_center_debug==1)
+	{
+		pcParam.refer_centerX = P;
+		pcParam.refer_centerY = I;
+	}
+	else
+	{
+		pcParam.refer_centerX = center_x;
+		pcParam.refer_centerY = center_y;
+	}	
+
 	
 	if(uart6_buff[0]==0xA5&& Verify_CRC16_Check_Sum(uart6_buff,23))
 	{
@@ -122,7 +129,7 @@ void send_data_to_pc(void)
 	if(KeyMousedata.Base_or_robot == 1)//¥Úµÿ√Ê
 	{
 		data[2]=1;
-		center_x = 420 ;               
+		center_x = 400 ;               
 		center_y = 340 ;
 		
 	}

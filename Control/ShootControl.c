@@ -127,7 +127,7 @@ void StirMotorStart (int16_t * ShootFrequency)
 		{
 			stirmotor_jam = 0;
 		}
-		if(stirmotor_jam>=200||jam_selflock==1)
+		if(stirmotor_jam>=400||jam_selflock==1)
 		{
 			StirMotorData.TargetPosition = StirMotorData.TotalPosition;
 			jam_selflock=1;
