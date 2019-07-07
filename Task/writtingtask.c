@@ -242,7 +242,7 @@ void StartTask07(void const * argument)
 	for(;;)
   {
 //		send_data_to_pc();
-		ANO_DT_Data_Exchange();
+//		ANO_DT_Data_Exchange();
 		osDelay(5);
   }
 
@@ -328,8 +328,8 @@ void PrintFunction(void)
 ////  printf("FollowctrOut %f\r\n",ChassisfollowOutter.ctrOut);
 ////	  printf("GimbalImu %f\r\n",GimbalData.ImuData);
 /****************************************************** ShootControldebug ***************************************************/
-//	  printf("/*******************Stir******************/ \r\n");
-//	printf(" %d \r\n",StirMotorData.Current);
+	  printf("/*******************Stir******************/ \r\n");
+	printf(" %d \r\n",StirMotorData.Current);
 //	  printf(" current %d BackSpeed %d Targetpos %lld\r\n",StirMotorData.Current,StirMotorData.BackSpeed,StirMotorData.TargetPosition);
 //	  printf("newpos %d oldpos %d totalpos %lld \r\n",StirMotorData.BackPositionNew,StirMotorData.BackPositionOld,StirMotorData.TotalPosition);
 //		printf("StirTar %lld\r\n",StirMotorData.TargetPosition);

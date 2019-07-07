@@ -7,6 +7,7 @@
 #define STIRADDITION 29487.6 //8191*36/10
 int16_t FrictionSpd = 0;
 int16_t ShootFrequency = 10;//1000/5/25
+int stirmotor_jam = 0;
 
 PID_AbsoluteType StirMotorOutterPID,StirMotorInnerPID;
 PID_AbsoluteType fric_l_pid,fric_r_pid;
@@ -94,6 +95,7 @@ void StirMotorStart (int16_t * ShootFrequency)
 {	
 		static double position_diff;
 		static int jam_count;
+		static int jam_selflock;
 		position_diff = StirMotorData.TargetPosition - StirMotorData.TotalPosition;
 //		if(StirUpdateCounter++ >= *ShootFrequency && position_diff < 3*STIRADDITION)
 //		{
@@ -115,6 +117,20 @@ void StirMotorStart (int16_t * ShootFrequency)
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_2);	
 			StirMotorData.TargetPosition += STIRADDITION ;
 			StirUpdateCounter = 0;
+		}
+		
+		if(position_diff >= 2*STIRADDITION)
+		{
+			stirmotor_jam++;
+		}
+		else
+		{
+			stirmotor_jam = 0;
+		}
+		if(stirmotor_jam>=200||jam_selflock==1)
+		{
+			StirMotorData.TargetPosition = StirMotorData.TotalPosition;
+			jam_selflock=1;
 		}
 }
 /**
