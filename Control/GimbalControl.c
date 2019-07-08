@@ -12,7 +12,7 @@
 #include "detect.h"
 #include "camera.h"
 #define YAW_USEENCODER 1
-#define PIT_USEENCODER 0
+#define PIT_USEENCODER 1
 #define AUTO 1
 #define HAND 0
 GimbalMotor GimbalData = {0};
@@ -189,23 +189,24 @@ void GimbalCalibration(void)
 //		GimbalData.YawMid = 0;
 //		GimbalData.YawMin = 4735;
 //	}
-	GimbalData.YawMax = 8900;
+	  GimbalData.YawMax = 8900;
 		GimbalData.YawMid = 6000;
 		GimbalData.YawMin = 4100;
+		GimbalData.PitchMax = 4700;
+		GimbalData.PitchMid = 4000;
+		GimbalData.PitchMin = 3000;
+		GimbalData.PitchMaxangle = 70;
+		GimbalData.PitchMidangle = 0;
+		GimbalData.PitchMinangle = -20;
 	if(PIT_USEENCODER)
 	{
-		GimbalData.PitchTarget1 = GimbalData.PitchBacknow;
+		GimbalData.PitchTarget1 = GimbalData.PitchMid;
 	}
 	else
 	{
 		GimbalData.PitchTarget1 = GimbalData.Pitchangle;
 	}
-		GimbalData.PitchMax = 10000;
-		GimbalData.PitchMid = -10000;
-		GimbalData.PitchMin = -40000;
-		GimbalData.PitchMaxangle = 70;
-		GimbalData.PitchMidangle = 0;
-		GimbalData.PitchMinangle = -20;
+
 }
 /**
  * @brief get the tagetposition from remote and  keyboard,mouse
@@ -401,7 +402,7 @@ void PitchPID (float *Target)
 //		PitchInner.errNow = -80;
 //	}
 	PID_AbsoluteMode(&PitchInner);
-	GimbalData.PitchCurrent = -PitchInner.ctrOut;
+	GimbalData.PitchCurrent = PitchInner.ctrOut;
 }
 
 /**

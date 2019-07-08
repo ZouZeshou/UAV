@@ -11,7 +11,8 @@ kalman1_state kalmanl;
 float data = 0;
 int pcdata_right = 0;
 int catch_target = 0;
-int catch_target_counter = 0;
+int catch_target_counter1 = 0;
+int catch_target_counter2 = 0;
 int camera_center_debug = 0;
 uint8_t uart6_buff[50];
 pcDataParam pcParam,pcParamLast;
@@ -83,10 +84,11 @@ void Vision_Decode(void)
 		
     if(pcParam.pcCenterX.f<0||pcParam.pcCenterY.f<0)
 		{
-			if(catch_target_counter++ > 30)
+			if(catch_target_counter1++ > 30)
 			{
 				catch_target = 0;
-				catch_target_counter = 0;
+				catch_target_counter1 = 0;
+				catch_target_counter2 = 0;
 			}
 			pcParam.pcCenterX = pcParamLast.pcCenterX;
 			pcParam.pcCenterY = pcParamLast.pcCenterY;
@@ -96,8 +98,11 @@ void Vision_Decode(void)
 		}
 		else
 		{
-			catch_target_counter = 0;
-			catch_target = 1;
+			catch_target_counter1 = 0;
+			if(catch_target_counter2++ > 10)
+			{
+				catch_target = 1;
+			}
 			pcParamLast.pcCenterX = pcParam.pcCenterX;
 			pcParamLast.pcCenterY = pcParam.pcCenterY;
 			pcParamLast.pcCenterZ = pcParam.pcCenterZ;
@@ -126,14 +131,14 @@ void send_data_to_pc(void)
 		data[1]=0;
 	}
 	
-	if(KeyMousedata.Base_or_robot == 1)//打地面
+	if(KeyMousedata.Base_or_robot == 0)//打地面
 	{
 		data[2]=1;
 		center_x = 400 ;               
 		center_y = 340 ;
 		
 	}
-	else if(KeyMousedata.Base_or_robot == 0)//打基地
+	else if(KeyMousedata.Base_or_robot == 1)//打基地
 	{
 		data[2]=0;
 		center_x = 400 ;               
@@ -145,6 +150,8 @@ void send_data_to_pc(void)
 		center_x = 400 ;               
 		center_y = 450 ;
 	}
+	else
+		data[2]=1;
 //	data[1]= 5;
 //	data[2]= 4;
 	Append_CRC8_Check_Sum(data,4);

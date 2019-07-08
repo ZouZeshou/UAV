@@ -294,6 +294,7 @@ void PrintFunction(void)
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 //	printf("usevision %d\r\n",use_vision);
 //	printf("gimbalmode %d\r\n",gimbalmode);
+	printf("catchtarget %d\r\n",catch_target);
 	printf("dataright %d\r\n",pcdata_right);
 	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
 //	printf("stirback %d\r\n",StirMotorData.BackPositionNew);

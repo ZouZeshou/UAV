@@ -36,20 +36,17 @@ void DealKeyMousedata(void)
 	
 	if(RC_Ctl.key.v & KEY_Q)
 	{
-		KeyMousedata.sentrymode = 0;
+		KeyMousedata.Base_or_robot = 0;
 	}
 	else if(RC_Ctl.key.v & KEY_W)
 	{
-		KeyMousedata.sentrymode = 1;
+		KeyMousedata.Base_or_robot = 1;
 	}
 	else if(RC_Ctl.key.v & KEY_E)
 	{
-		KeyMousedata.sentrymode = 2;
+		KeyMousedata.Base_or_robot = 2;
 	}
-	else if(RC_Ctl.key.v & KEY_R)
-	{
-		KeyMousedata.sentrymode = 3;
-	}
+
 
 
 	
