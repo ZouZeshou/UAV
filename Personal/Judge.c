@@ -60,7 +60,10 @@ void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask)
 	UpData[9] 	= w2data.c[0];
 	UpData[10] 	= w2data.c[1];
 	/* receiver id */
-	w2data.d 	= Judge_GameRobotState.robot_id | 0x0100;
+	if(Judge_GameRobotState.robot_id < 10)
+		w2data.d 	= Judge_GameRobotState.robot_id | 0x0100;
+	else
+		w2data.d 	= (Judge_GameRobotState.robot_id -10) | 0x0110;
 //	w2data.d = 0x0106;
 	UpData[11] 	= w2data.c[0];
 	UpData[12] 	= w2data.c[1];
