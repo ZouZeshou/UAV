@@ -124,7 +124,7 @@ void RobotSendMsgToRobot(uint8_t data_to_send)
 	UpData[13] = data_to_send;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,16);
-	HAL_UART_Transmit(&huart6,UpData,16,0x5f);
+	HAL_UART_Transmit(&huart3,UpData,16,0x5f);
 	printf("send to robot\r\n");
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 }
