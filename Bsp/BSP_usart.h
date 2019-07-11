@@ -10,4 +10,5 @@ void USART1_IDLE_IRQ(void);
 void USART1_Enable(void);
 void USART6_Enable(void);
 void Plot_in_UpperMonitor (void);
+int send_by_register(uint8_t* data);
 #endif

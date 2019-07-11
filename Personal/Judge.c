@@ -1,4 +1,5 @@
 #include "Judge.h"
+#include "BSP_usart.h"
 
 uint8_t rbuff[255];
 uint8_t HeaderData[20],ReceiveData[255];
@@ -87,7 +88,8 @@ void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask)
 	UpData[25] 	= mask;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,28);
-	HAL_UART_Transmit(&huart3,UpData,28,0x5f);
+	HAL_UART_Transmit_IT(&huart3,UpData,28);
+//	send_by_register(UpData);
 	printf("send to client\r\n");
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 }
@@ -127,7 +129,7 @@ void RobotSendMsgToRobot(uint8_t data_to_send)
 	UpData[13] = data_to_send;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,16);
-	HAL_UART_Transmit(&huart3,UpData,16,0x5f);
+	HAL_UART_Transmit(&huart3,UpData,16,0xff);
 	printf("send to robot\r\n");
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 }

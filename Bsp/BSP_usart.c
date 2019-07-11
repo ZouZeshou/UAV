@@ -88,7 +88,21 @@ int fputc(int ch, FILE *f)
 	USART2->DR = (uint8_t) ch;      
 	return ch;
 }
-
+/**
+ * @brief use usart3 to send
+ * @param None
+ * @return None
+ * @attention  None
+ */
+int send_by_register(uint8_t* data)
+{
+	for(int i=0;i < sizeof(data);i++)
+	{
+		while((USART3->SR&0X40)==0); 
+		USART3->DR = data[i];
+	}
+	return 0;
+}
 /**
  * @brief Enable the Usart1
  * @param None
