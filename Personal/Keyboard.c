@@ -14,17 +14,17 @@ void DealKeyMousedata(void)
 {
 	static int key_E_up,key_D_up;
 	
-	if(RC_Ctl.key.v & KEY_A)
+	if(RC_Ctl.key.v & KEY_Z)
 	{
 		KeyMousedata.fric_start = 1;
 	}
-	else if(RC_Ctl.key.v & KEY_Z)
+	else if(RC_Ctl.key.v & KEY_X)
 	{
 		KeyMousedata.fric_start = 0;
 		KeyMousedata.stir_start = 0;
 	}
 	
-	if((RC_Ctl.key.v & KEY_F) && KeyMousedata.fric_start)
+	if((RC_Ctl.key.v & KEY_C) && KeyMousedata.fric_start)
 	{
 		KeyMousedata.stir_start = 1;
 	}
@@ -34,19 +34,36 @@ void DealKeyMousedata(void)
 	}
 	
 	
-	if(RC_Ctl.key.v & KEY_Q)
+	if(RC_Ctl.key.v & KEY_R)
 	{
-		KeyMousedata.Base_or_robot = 0;
+		KeyMousedata.sentrymode = 0;
+	}
+	else if(RC_Ctl.key.v & KEY_Q)
+	{
+		KeyMousedata.sentrymode = 1;
 	}
 	else if(RC_Ctl.key.v & KEY_W)
 	{
-		KeyMousedata.Base_or_robot = 1;
+		KeyMousedata.sentrymode = 2;
 	}
 	else if(RC_Ctl.key.v & KEY_E)
 	{
-		KeyMousedata.Base_or_robot = 2;
+		KeyMousedata.sentrymode = 3;
 	}
 
+
+	if(RC_Ctl.key.v & KEY_A)
+	{
+		KeyMousedata.Base_or_robot = 0;
+	}
+	else if(RC_Ctl.key.v & KEY_S)
+	{
+		KeyMousedata.Base_or_robot = 1;
+	}
+	else if(RC_Ctl.key.v & KEY_D)
+	{
+		KeyMousedata.Base_or_robot = 2;
+	}
 
 
 	

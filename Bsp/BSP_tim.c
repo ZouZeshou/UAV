@@ -13,7 +13,8 @@ void TIM_Enable (void)
 
 	HAL_TIM_Base_Start(&htim6);
 	HAL_TIM_Base_Start_IT(&htim6);
-	
+	HAL_TIM_Base_Start(&htim7);
+	HAL_TIM_Base_Start_IT(&htim7);
 }
 
 

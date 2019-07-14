@@ -5,6 +5,7 @@
 #include "STMGood.h"
 #include "Judge.h"
 #include "Keyboard.h"
+int sending_to_pc = 0;
 int16_t center_x = 420 ;               //295  443
 int16_t center_y = 340 ;
 kalman1_state kalmanl;
@@ -151,7 +152,7 @@ void send_data_to_pc(void)
 		center_y = 450 ;
 	}
 	else
-		data[2]=0;
+		data[2]=1;
 //	data[1]= P;
 //	data[2]= I;
 	Append_CRC8_Check_Sum(data,4);
@@ -159,6 +160,8 @@ void send_data_to_pc(void)
 	data[5] = '\n';
 //	HAL_UART_Transmit_DMA(&huart6,data,6);
 //	HAL_UART_Transmit_IT(&huart6,data,6); 
+	sending_to_pc = 1;
 	HAL_UART_Transmit(&huart6,data,6,0xff);
+	sending_to_pc = 0;
 }
 

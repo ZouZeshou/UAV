@@ -71,6 +71,9 @@
 #include "ahrs.h"
 #include "drv_imu.h"
 #include "camera.h"
+#include "Judge.h"
+#include "Keyboard.h"
+#include "BSP_tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -151,14 +154,17 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
   MX_USART6_UART_Init();
+  MX_UART7_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
 	imu_temp_ctrl_init();
 	pcDataInit();
 	ShootInit();
 	GimbalInit();
 	PWMInit();
-	
+	TIM_Enable();
 	mpu_device_init();
+	USART7_Enable();
 	USART3_Enable();
 	USART2_Enable();
 	USART1_Enable();
@@ -262,7 +268,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+	if(htim->Instance == TIM7)
+	{
+		RobotSendMsgToRobot(KeyMousedata.sentrymode);
+//		RobotSendMsgToClient(1,2,3,4);
+//		printf("tim7 work\r\n");
+	}
   /* USER CODE END Callback 1 */
 }
 

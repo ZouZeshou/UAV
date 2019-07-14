@@ -1,5 +1,7 @@
 #include "Judge.h"
 #include "BSP_usart.h"
+#include "camera.h"
+int sending_to_client=0;
 
 uint8_t rbuff[255];
 uint8_t HeaderData[20],ReceiveData[255];
@@ -37,6 +39,7 @@ robot_interactive_data_t  									Judge_RobotInterfaceData;
 
 void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask)
 {
+	sending_to_client = 1;
 	static uint8_t seq;
 	static uint8_t UpData[50];
 	if(seq == 255) seq = 0;
@@ -88,10 +91,14 @@ void RobotSendMsgToClient(float data1,float data2,float data3,uint8_t mask)
 	UpData[25] 	= mask;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,28);
-	HAL_UART_Transmit_IT(&huart3,UpData,28);
+	if(sending_to_pc == 0)
+	{
+	HAL_UART_Transmit_IT(&huart7,UpData,28);
+	}
+	sending_to_client = 0;
 //	send_by_register(UpData);
-	printf("send to client\r\n");
-	printf("id %d\r\n",Judge_GameRobotState.robot_id);
+//	printf("send to client\r\n");
+//	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 }
 
 void RobotSendMsgToRobot(uint8_t data_to_send)
@@ -129,9 +136,12 @@ void RobotSendMsgToRobot(uint8_t data_to_send)
 	UpData[13] = data_to_send;
 	/* CRC-check */
 	Append_CRC16_Check_Sum(UpData,16);
-	HAL_UART_Transmit(&huart3,UpData,16,0xc8);
-	printf("send to robot\r\n");
-	printf("id %d\r\n",Judge_GameRobotState.robot_id);
+	if(sending_to_client==0 && sending_to_pc == 0)
+	{
+	HAL_UART_Transmit_IT(&huart7,UpData,16);
+	}
+//	printf("send to robot\r\n");
+//	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 }
 
 

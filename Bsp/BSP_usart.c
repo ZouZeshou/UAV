@@ -10,6 +10,7 @@
 uint8_t uart5_buff[1]={0};
 uint8_t Rxdata[1]={0};
 uint8_t Usart3buff[100]={0};
+uint8_t Usart7buff[100]={0};
 uint8_t Usart6buff[100]={0};
 uint8_t Usart2buff[100]={0};
 uint8_t Usart1buff[100]={0};
@@ -26,6 +27,17 @@ void USART3_Enable(void)
 {
 	HAL_UART_Receive_IT(&huart3,Usart3buff,1);
 	__HAL_UART_ENABLE_IT(&huart3,UART_IT_ERR);	
+}
+/**
+ * @brief Enable USART3
+ * @param None
+ * @return None
+ * @attention None
+ */
+void USART7_Enable(void)
+{
+	HAL_UART_Receive_IT(&huart7,Usart7buff,1);
+	__HAL_UART_ENABLE_IT(&huart7,UART_IT_ERR);	
 }
 /**
  * @brief Enable USART2
@@ -52,13 +64,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		__HAL_UART_CLEAR_PEFLAG(&huart2);
 		HAL_UART_Receive_IT(&huart2,Usart2buff,1);	
 	}
-	if(huart->Instance == USART3)
+	if(huart->Instance == UART7)
 	{
 //		printf("uart3 work\r\n");
 		
-		__HAL_UART_CLEAR_PEFLAG(&huart3);
-		JudgeData(Usart3buff[0]);
-		HAL_UART_Receive_IT(&huart3,Usart3buff,1);	
+		__HAL_UART_CLEAR_PEFLAG(&huart7);
+		JudgeData(Usart7buff[0]);
+		HAL_UART_Receive_IT(&huart7,Usart7buff,1);	
 	}
 
 }
