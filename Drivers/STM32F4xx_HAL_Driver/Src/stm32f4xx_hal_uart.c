@@ -217,7 +217,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-
+#include "BSP_usart.h"
 /** @addtogroup STM32F4xx_HAL_Driver
   * @{
   */
@@ -1080,7 +1080,7 @@ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, u
 
     /* Process Unlocked */
     __HAL_UNLOCK(huart);
-
+		printf("send ok\r\n");
     return HAL_OK;
   }
   else
@@ -1211,7 +1211,7 @@ HAL_StatusTypeDef HAL_UART_Transmit_IT(UART_HandleTypeDef *huart, uint8_t *pData
 
     /* Enable the UART Transmit data register empty Interrupt */
     __HAL_UART_ENABLE_IT(huart, UART_IT_TXE);
-
+		printf("usart3 IT send\r\n");
     return HAL_OK;
   }
   else
@@ -1323,7 +1323,7 @@ HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, uint8_t *pDat
     /* Enable the DMA transfer for transmit request by setting the DMAT bit
        in the UART CR3 register */
     SET_BIT(huart->Instance->CR3, USART_CR3_DMAT);
-
+		printf("dma tx work\r\n");
     return HAL_OK;
   }
   else

@@ -33,6 +33,7 @@ typedef struct
 	int16_t PitchBackspeed;
 	int32_t Pitchposition;
 	int32_t Pitchpositionold;
+	int16_t PitchEncoderspeed;
 	int16_t Pitchspeed;
 	float   Pitchangle;
 	int32_t Pitchcirclecounter;

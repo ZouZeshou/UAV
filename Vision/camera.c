@@ -151,9 +151,9 @@ void send_data_to_pc(void)
 		center_y = 450 ;
 	}
 	else
-		data[2]=1;
-//	data[1]= 5;
-//	data[2]= 4;
+		data[2]=0;
+//	data[1]= P;
+//	data[2]= I;
 	Append_CRC8_Check_Sum(data,4);
 	data[4] = '\r';
 	data[5] = '\n';

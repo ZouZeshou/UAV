@@ -61,17 +61,17 @@ void StartTask02(void const * argument)
 			DealGimbalPosition();
 //			switch_gimbal_mode();
 			GetGimbalTarget();
-			if(gimbalmode == 0)
-			{
+//			if(gimbalmode == 0)
+//			{
 				PitchPID(&GimbalData.PitchTarget2);
 				YawPID(&GimbalData.YawTarget2);	
-			}
-			else if(gimbalmode == 1)
-			{
-				PitchPID(&GimbalData.PitchTarget2);
-				//v_PitchPID(&pcParam.refer_centerY);
-				v_YawPID(&pcParam.refer_centerX);			
-			}
+//			}
+//			else if(gimbalmode == 1)
+//			{
+//				PitchPID(&GimbalData.PitchTarget2);
+//				//v_PitchPID(&pcParam.refer_centerY);
+//				v_YawPID(&pcParam.refer_centerX);			
+//			}
 		
 			DealKeyMousedata();
 			Switchshoot();
@@ -105,7 +105,7 @@ void StartTask03(void const * argument)
 				Buzzer_off();
 				Task_03Init = 1;
 			}
-				Can1_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
+				Can1_SendMsg(0x1FF,GimbalData.PitchCurrent,GimbalData.YawCurrent,StirMotorData.Current,0);
 				Can2_SendMsg(0x200,fric_r_data.Current,fric_l_data.Current,0,0);
 		}
      osDelay(5);
@@ -123,7 +123,7 @@ void StartTask04(void const * argument)
 	static int wait = 0;
 	for(;;)
   {
-		if(wait++ > 200)//2500
+		if(wait++ > 1000)//2500
 		{
 			IMU_OK = 1;
 			wait = 3000;
@@ -151,8 +151,8 @@ void StartTask05(void const * argument)
 			RobotSendMsgToClient(1,2,3,mask);
 			//RobotSendMsgToRobot(KeyMousedata.sentrymode);
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
-			PrintFunction();
-			osDelay(100);
+			//PrintFunction();
+			osDelay(500);
 		}
   }
 
@@ -167,67 +167,67 @@ void StartTask06(void const * argument)
 {
 	for(;;)
   {
-//		static int buzzer_ontime;
-//		GetDeviceState();
-//		DeviceDetect(Devicestate,Offline);
-//		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
-//		{
-//			buzzer_ontime++;
-//			if(buzzer_ontime >= 20 && buzzer_ontime <= 40)
-//			{
-//				Buzzer_on(300,150);	
-//			}
-//			else if(buzzer_ontime > 40)
-//			{
-//				buzzer_ontime = 0;
-//				Buzzer_off();
-//			}
-//		}
-//		else
-//		{
-//			Buzzer_off();
-//		}
-//		
-//		if(Devicestate[4]==ONLINE)
-//		{
-//			mask = mask|(1<<0);
-//		}
-//		else if(Devicestate[4]==OFFLINE)
-//		{
-//			mask = mask&(0<<0);
-//		}
-//		if(Devicestate[5]==ONLINE)
-//		{
-//			mask = mask|(1<<1);
-//		}
-//		else if(Devicestate[5]==OFFLINE)
-//		{
-//			mask = mask&(0<<1);
-//		}
-//		if(Devicestate[6]==ONLINE)
-//		{
-//			mask = mask|(1<<2);
-//		}
-//		else if(Devicestate[6]==OFFLINE)
-//		{
-//			mask = mask&(0<<2);
-//		}
-//		if(Devicestate[11]==ONLINE)
-//		{
-//			mask = mask|(1<<3);
-//		}
-//		else if(Devicestate[11]==OFFLINE)
-//		{
-//			mask = mask&(0<<3);
-//		}
-//		if(Devicestate[12]==ONLINE)
-//		{
-//			mask = mask|(1<<4);
-//		}
-//		else if(Devicestate[12]==OFFLINE)
-//		{
-//			mask = mask&(0<<4);
-//		}
+		static int buzzer_ontime;
+		GetDeviceState();
+		DeviceDetect(Devicestate,Offline);
+		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
+		{
+			buzzer_ontime++;
+			if(buzzer_ontime >= 20 && buzzer_ontime <= 40)
+			{
+				Buzzer_on(300,150);	
+			}
+			else if(buzzer_ontime > 40)
+			{
+				buzzer_ontime = 0;
+				Buzzer_off();
+			}
+		}
+		else
+		{
+			Buzzer_off();
+		}
+		
+		if(Devicestate[4]==ONLINE)
+		{
+			mask = mask|(1<<0);
+		}
+		else if(Devicestate[4]==OFFLINE)
+		{
+			mask = mask&(0<<0);
+		}
+		if(Devicestate[5]==ONLINE)
+		{
+			mask = mask|(1<<1);
+		}
+		else if(Devicestate[5]==OFFLINE)
+		{
+			mask = mask&(0<<1);
+		}
+		if(Devicestate[6]==ONLINE)
+		{
+			mask = mask|(1<<2);
+		}
+		else if(Devicestate[6]==OFFLINE)
+		{
+			mask = mask&(0<<2);
+		}
+		if(Devicestate[11]==ONLINE)
+		{
+			mask = mask|(1<<3);
+		}
+		else if(Devicestate[11]==OFFLINE)
+		{
+			mask = mask&(0<<3);
+		}
+		if(Devicestate[12]==ONLINE)
+		{
+			mask = mask|(1<<4);
+		}
+		else if(Devicestate[12]==OFFLINE)
+		{
+			mask = mask&(0<<4);
+		}
 		
 		osDelay(15);
 	}
@@ -242,9 +242,9 @@ void StartTask07(void const * argument)
 {
 	for(;;)
   {
-		send_data_to_pc();
+//		send_data_to_pc();
 //		ANO_DT_Data_Exchange();
-		osDelay(20);
+		osDelay(300);
   }
 
 }
@@ -275,10 +275,10 @@ void PrintFunction(void)
 	
 /*************************************************** Gimbaldebug ***********************************************/
 		  printf("/*******************Gimbal******************/ \r\n");
-			printf("pit back %d  posi %d spd %d \r\n",GimbalData.PitchBacknow,GimbalData.Pitchposition,GimbalData.PitchBackspeed);
-			printf("pitPID Oerr %.2f  Oout %.2f Ierr %.2f Iout %.2f\r\n",PitchOuter.errNow,PitchOuter.ctrOut,PitchInner.errNow,PitchInner.ctrOut);
+			printf("pit back %d  posi %d spd %d \r\n",GimbalData.PitchBacknow,GimbalData.Pitchposition,GimbalData.PitchEncoderspeed);
+			printf("pitPID Oerr %.2f  Oout %.2f \r\nIerr %.2f Iout %.2f\r\n",PitchOuter.errNow,PitchOuter.ctrOut,PitchInner.errNow,PitchInner.ctrOut);
 			printf("yaw back %d  posi %d spd %d \r\n",GimbalData.YawBacknow,GimbalData.Yawposition,GimbalData.YawEncoderspeed);
-			printf("yawPID Oerr %.2f  Oout %.2f Ierr %.2f Iout %.2f\r\n",YawOuter.errNow,YawOuter.ctrOut,YawInner.errNow,YawInner.ctrOut);
+			printf("yawPID Oerr %.2f  Oout %.2f\r\n Ierr %.2f Iout %.2f\r\n",YawOuter.errNow,YawOuter.ctrOut,YawInner.errNow,YawInner.ctrOut);
 //	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
 //	printf("pit ang%.2f yaw %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
 //	printf("YawOuter err %.2f out%.2f\r\n",v_YawOuter.errNow,v_YawOuter.ctrOut);
@@ -289,7 +289,7 @@ void PrintFunction(void)
 //	printf("pit angle %.2f posi %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
 //printf("pit err%.2f  %.2f\r\n",PitchOuter.errNow,PitchInner.errNow);
 //printf("pit current%d\r\n",GimbalData.PitchCurrent);
-//	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
+	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 //	printf("usevision %d\r\n",use_vision);
@@ -321,7 +321,7 @@ void PrintFunction(void)
 ////		printf("counter pit %d\r\n",GimbalData.Pitchcirclecounter);
 ////		printf("Pitinit%d\r\n",GimbalData.Pitchinit);
 ////	  printf("gyro x %d y %d z %d\r\n",imu_data.gx,imu_data.gy,imu_data.gz);
-//	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget2,GimbalData.PitchTarget2);
+	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget2,GimbalData.PitchTarget2);
 //			printf("error yaw%.2f pitch%.2f\r\n",YawOuter.errNow,PitchOuter.errNow);
 ////			printf("Yaw outter %.2f inner %.2f\r\n",YawOuter.ctrOut,YawInner.ctrOut);
 //			printf("pit outter %.2f inner %.2f\r\n",PitchOuter.ctrOut,PitchInner.ctrOut); 

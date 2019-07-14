@@ -44,14 +44,14 @@ void GimbalInit (void)
 {
 	if(PIT_USEENCODER)
 	{
-		PitchOuter.kp = 20;//30
+		PitchOuter.kp = 35;//30
 		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
-		PitchOuter.OutMAX = 100;//400
+		PitchOuter.OutMAX = 300;//400
 		
-		PitchInner.kp = 40;//50
-		PitchInner.ki = 0.1;
+		PitchInner.kp = 70;//50
+		PitchInner.ki = 0;
 		PitchInner.kd = 0;
 		PitchInner.errILim = 6000;
 		PitchInner.OutMAX = 25000;
@@ -70,14 +70,14 @@ void GimbalInit (void)
 		PitchInner.errILim = 4000;
 		PitchInner.OutMAX = 8000;
 	}
-	YawOuter.kp = 60;//12
+	YawOuter.kp = 40;//12
 	YawOuter.ki = 0;
 	YawOuter.kd = 0;	
 	YawOuter.errILim = 0;
-	YawOuter.OutMAX = 100;
+	YawOuter.OutMAX = 300;
 	
-	YawInner.kp = 45;//60
-	YawInner.ki = 0.2;
+	YawInner.kp = 80;//60
+	YawInner.ki = 0;
 	YawInner.kd = 0;
 	YawInner.errILim = 6000;
 	YawInner.OutMAX = 25000;
@@ -169,35 +169,36 @@ void switch_gimbal_mode(void)
  *///1800 2500 2210 
 void GimbalCalibration(void)
 {
+
+	if(GimbalData.YawBacknow > 6000)
+	{
+		GimbalData.YawMax = 12200;
+		GimbalData.YawMid = 10000;
+		GimbalData.YawMin = 8000;
+	}
+	else
+	{
+		GimbalData.YawMax = 4200;
+		GimbalData.YawMid = 2000;
+		GimbalData.YawMin = -300;
+	}
+//	  GimbalData.YawMax = 4200;
+//		GimbalData.YawMid = 2000;
+//		GimbalData.YawMin = -300;
+		GimbalData.PitchMax = 4500;
+		GimbalData.PitchMid = 4000;
+		GimbalData.PitchMin = 3700;
+		GimbalData.PitchMaxangle = 70;
+		GimbalData.PitchMidangle = 0;
+		GimbalData.PitchMinangle = -20;
 	if(YAW_USEENCODER)
 	{
-		GimbalData.YawTarget1 = GimbalData.YawBacknow;
+		GimbalData.YawTarget1 = GimbalData.YawMid;
 	}
 	else
 	{
 		GimbalData.YawTarget1 = GimbalData.Yawangle;
 	}	
-//	if(GimbalData.YawBacknow < 3000)
-//	{
-//		GimbalData.YawMax = 1800;
-//		GimbalData.YawMid = 0;
-//		GimbalData.YawMin = -3456;
-//	}
-//	else
-//	{
-//		GimbalData.YawMax = 10000;
-//		GimbalData.YawMid = 0;
-//		GimbalData.YawMin = 4735;
-//	}
-	  GimbalData.YawMax = 8900;
-		GimbalData.YawMid = 6000;
-		GimbalData.YawMin = 4100;
-		GimbalData.PitchMax = 4700;
-		GimbalData.PitchMid = 4000;
-		GimbalData.PitchMin = 3000;
-		GimbalData.PitchMaxangle = 70;
-		GimbalData.PitchMidangle = 0;
-		GimbalData.PitchMinangle = -20;
 	if(PIT_USEENCODER)
 	{
 		GimbalData.PitchTarget1 = GimbalData.PitchMid;
@@ -378,21 +379,21 @@ void PitchPID (float *Target)
 		PitchInner.kp=a;//20
 		PitchInner.ki=b;
 		PitchInner.kd=c;
-		PitchInner.errILim=4000;
+		PitchInner.errILim=0;
 		PitchInner.OutMAX=e;
 	}
 	
 	if(PIT_USEENCODER)
 	{
-		PitchOuter.errNow = (*Target - GimbalData.Pitchposition)*0.0439506f;//处理成角度值
+		PitchOuter.errNow = (*Target - GimbalData.Pitchposition)*(0.0439506f);//处理成角度值
 	}
 	else
 	{
 		PitchOuter.errNow = (*Target - GimbalData.Pitchangle);
 	}
 	PID_AbsoluteMode(&PitchOuter);
-	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.PitchBackspeed * 5.7608f;
-//	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.Pitchspeed;
+//	PitchInner.errNow = PitchOuter.ctrOut -  GimbalData.PitchEncoderspeed * (5.7608f);
+	PitchInner.errNow = PitchOuter.ctrOut -  (- GimbalData.Pitchspeed);
 //	if(PitchInner.errNow > 80)
 //	{
 //		PitchInner.errNow = 80;
@@ -402,7 +403,7 @@ void PitchPID (float *Target)
 //		PitchInner.errNow = -80;
 //	}
 	PID_AbsoluteMode(&PitchInner);
-	GimbalData.PitchCurrent = PitchInner.ctrOut;
+	GimbalData.PitchCurrent = (int16_t)(PitchInner.ctrOut);
 }
 
 /**
@@ -424,20 +425,20 @@ void YawPID (float *Target)
 		YawInner.kp=p;//50
 		YawInner.ki=i;
 		YawInner.kd=d;
-		YawInner.errILim=6000;
+		YawInner.errILim=0;
 		YawInner.OutMAX=V2;
 	}
 	if(YAW_USEENCODER)
 	{
-		YawOuter.errNow = (*Target - GimbalData.Yawposition) * (-0.0439506f);
+		YawOuter.errNow = (*Target - GimbalData.Yawposition) * (0.0439506f);
 	}
 	else
 	{
 		YawOuter.errNow = (*Target - GimbalData.Yawangle);
 	}
 	PID_AbsoluteMode(&YawOuter);
-	YawInner.errNow = YawOuter.ctrOut - GimbalData.YawEncoderspeed*(-5.7608f);
-//	YawInner.errNow = YawOuter.ctrOut - GimbalData.Yawspeed;
+//	YawInner.errNow = YawOuter.ctrOut - GimbalData.YawEncoderspeed*(5.7608f);
+	YawInner.errNow = YawOuter.ctrOut - (- GimbalData.Yawspeed);
 //	if(YawInner.errNow > 100)
 //	{
 //		YawInner.errNow = 100;
@@ -447,7 +448,7 @@ void YawPID (float *Target)
 //		YawInner.errNow = -100;
 //	}
 	PID_AbsoluteMode(&YawInner);
-	GimbalData.YawCurrent = (int16_t)(-YawInner.ctrOut);
+	GimbalData.YawCurrent = (int16_t)(YawInner.ctrOut);
 }
 /***********************************auto function**************************************/
 
@@ -494,7 +495,7 @@ void v_PitchPID (float *Target)
 //	}
 	PID_AbsoluteMode(&v_PitchInner);
 //	GimbalData.PitchCurrent = v_PitchInner.ctrOut + pitch_add;
-	GimbalData.PitchCurrent = -v_PitchInner.ctrOut;
+	GimbalData.PitchCurrent = (int16_t)(-v_PitchInner.ctrOut);
 //	GimbalData.PitchCurrent = v_PitchOuter.ctrOut + pitch_add;//单环
 }
 
