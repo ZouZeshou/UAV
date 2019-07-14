@@ -45,7 +45,7 @@ void GimbalInit (void)
 	if(PIT_USEENCODER)
 	{
 		PitchOuter.kp = 35;//30
-		PitchOuter.ki = 0;
+		PitchOuter.ki = 0.35;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
 		PitchOuter.OutMAX = 300;//400
@@ -71,9 +71,9 @@ void GimbalInit (void)
 		PitchInner.OutMAX = 8000;
 	}
 	YawOuter.kp = 40;//12
-	YawOuter.ki = 0;
+	YawOuter.ki = 0.1;
 	YawOuter.kd = 0;	
-	YawOuter.errILim = 0;
+	YawOuter.errILim = 6000;
 	YawOuter.OutMAX = 300;
 	
 	YawInner.kp = 80;//60
@@ -173,13 +173,13 @@ void GimbalCalibration(void)
 	if(GimbalData.YawBacknow > 6000)
 	{
 		GimbalData.YawMax = 12200;
-		GimbalData.YawMid = 10000;
+		GimbalData.YawMid = 8500;
 		GimbalData.YawMin = 8000;
 	}
 	else
 	{
 		GimbalData.YawMax = 4200;
-		GimbalData.YawMid = 2000;
+		GimbalData.YawMid = 0;
 		GimbalData.YawMin = -300;
 	}
 //	  GimbalData.YawMax = 4200;
@@ -373,7 +373,7 @@ void PitchPID (float *Target)
 		PitchOuter.kp=A;//25
 		PitchOuter.ki=B;
 		PitchOuter.kd=C;	
-		PitchOuter.errILim=0;
+		PitchOuter.errILim=6000;
 		PitchOuter.OutMAX=E;
 		
 		PitchInner.kp=a;//20
@@ -419,7 +419,7 @@ void YawPID (float *Target)
 		YawOuter.kp=P;//15
 		YawOuter.ki=I;
 		YawOuter.kd=D;	
-		YawOuter.errILim=0;
+		YawOuter.errILim=6000;
 		YawOuter.OutMAX=V1;
 		
 		YawInner.kp=p;//50

@@ -149,9 +149,8 @@ void StartTask05(void const * argument)
 		if(IMU_OK)
 		{
 			RobotSendMsgToClient(1,2,3,mask);
-//			RobotSendMsgToRobot(KeyMousedata.sentrymode);
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
-//			PrintFunction();
+			PrintFunction();
 			osDelay(200);
 		}
   }

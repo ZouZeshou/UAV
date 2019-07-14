@@ -271,8 +271,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance == TIM7)
 	{
 		RobotSendMsgToRobot(KeyMousedata.sentrymode);
-//		RobotSendMsgToClient(1,2,3,4);
-//		printf("tim7 work\r\n");
+
 	}
   /* USER CODE END Callback 1 */
 }
