@@ -44,13 +44,13 @@ void GimbalInit (void)
 {
 	if(PIT_USEENCODER)
 	{
-		PitchOuter.kp = 35;//30
-		PitchOuter.ki = 0.35;
+		PitchOuter.kp = 50;//30
+		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
 		PitchOuter.OutMAX = 300;//400
 		
-		PitchInner.kp = 70;//50
+		PitchInner.kp = 150;//50
 		PitchInner.ki = 0;
 		PitchInner.kd = 0;
 		PitchInner.errILim = 6000;
@@ -70,13 +70,13 @@ void GimbalInit (void)
 		PitchInner.errILim = 4000;
 		PitchInner.OutMAX = 8000;
 	}
-	YawOuter.kp = 40;//12
-	YawOuter.ki = 0.1;
+	YawOuter.kp = 50;//12
+	YawOuter.ki = 0;
 	YawOuter.kd = 0;	
 	YawOuter.errILim = 6000;
 	YawOuter.OutMAX = 300;
 	
-	YawInner.kp = 80;//60
+	YawInner.kp = 160;//60
 	YawInner.ki = 0;
 	YawInner.kd = 0;
 	YawInner.errILim = 6000;
@@ -170,18 +170,11 @@ void switch_gimbal_mode(void)
 void GimbalCalibration(void)
 {
 
-	if(GimbalData.YawBacknow > 6000)
-	{
-		GimbalData.YawMax = 12200;
-		GimbalData.YawMid = 8500;
-		GimbalData.YawMin = 8000;
-	}
-	else
-	{
-		GimbalData.YawMax = 4200;
-		GimbalData.YawMid = 0;
-		GimbalData.YawMin = -300;
-	}
+		GimbalData.YawMax = 8150;
+		GimbalData.YawMid = 4100;
+		GimbalData.YawMin = 3900;
+
+
 //	  GimbalData.YawMax = 4200;
 //		GimbalData.YawMid = 2000;
 //		GimbalData.YawMin = -300;
@@ -231,7 +224,7 @@ void GetGimbalTarget(void)
 /* use mouse control pitch*/
 		if(PIT_USEENCODER)
 		{
-			GimbalData.PitchTarget1 += (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f)*10 + RC_Ctl.mouse.y *10* MOUSE_PITCH_CONST));
+			GimbalData.PitchTarget1 -= (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f)*10 + RC_Ctl.mouse.y *10* MOUSE_PITCH_CONST));
 		}
 		else
 		{
@@ -385,7 +378,7 @@ void PitchPID (float *Target)
 	
 	if(PIT_USEENCODER)
 	{
-		PitchOuter.errNow = (*Target - GimbalData.Pitchposition)*(0.0439506f);//处理成角度值
+		PitchOuter.errNow = -(*Target - GimbalData.Pitchposition)*(0.0439506f);//处理成角度值
 	}
 	else
 	{
@@ -403,7 +396,7 @@ void PitchPID (float *Target)
 //		PitchInner.errNow = -80;
 //	}
 	PID_AbsoluteMode(&PitchInner);
-	GimbalData.PitchCurrent = (int16_t)(PitchInner.ctrOut);
+	GimbalData.PitchCurrent = (int16_t)(-PitchInner.ctrOut);
 }
 
 /**
