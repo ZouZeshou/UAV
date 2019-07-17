@@ -7,7 +7,7 @@
 #define STIRADDITION 29487.6 //8191*36/10
 int16_t FrictionSpd = 0;
 int16_t ShootFrequency = 10;//1000/5/25
-int stirmotor_jam = 0;
+int stirmotor_jam = 1;
 
 PID_AbsoluteType StirMotorOutterPID,StirMotorInnerPID;
 PID_AbsoluteType fric_l_pid,fric_r_pid;
@@ -40,13 +40,13 @@ void ShootInit (void)
 	StirMotorInnerPID.errILim = 3000 ;
 	StirMotorInnerPID.OutMAX = 10000 ;
 	
-	fric_l_pid.kp = 10;
+	fric_l_pid.kp = 12;
 	fric_l_pid.ki = 0;
 	fric_l_pid.kd = 10;
 	fric_l_pid.errILim = 6000;
 	fric_l_pid.OutMAX = 10000;
 	
-	fric_r_pid.kp = 10;
+	fric_r_pid.kp = 12;
 	fric_r_pid.ki = 0;
 	fric_r_pid.kd = 10;
 	fric_r_pid.errILim = 6000;
@@ -146,7 +146,7 @@ void Switchshoot (void)
 	static int mouse_l_press;
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
-		FrictionSpd = 10000;// 9500 24~26 10500 26~27 11500 27~28.5
+		FrictionSpd = 8500;// 9500 24~26 10500 26~27 11500 27~28.5
 	}
 	else if (RC_Ctl.rc.s2 == 1)
 	{

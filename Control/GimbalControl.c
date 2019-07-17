@@ -44,13 +44,13 @@ void GimbalInit (void)
 {
 	if(PIT_USEENCODER)
 	{
-		PitchOuter.kp = 50;//30
+		PitchOuter.kp = 40;//50
 		PitchOuter.ki = 0;
 		PitchOuter.kd = 0;	
 		PitchOuter.errILim = 0;
 		PitchOuter.OutMAX = 300;//400
 		
-		PitchInner.kp = 150;//50
+		PitchInner.kp = 120;//150
 		PitchInner.ki = 0;
 		PitchInner.kd = 0;
 		PitchInner.errILim = 6000;
@@ -70,13 +70,13 @@ void GimbalInit (void)
 		PitchInner.errILim = 4000;
 		PitchInner.OutMAX = 8000;
 	}
-	YawOuter.kp = 50;//12
+	YawOuter.kp = 45;//50
 	YawOuter.ki = 0;
 	YawOuter.kd = 0;	
 	YawOuter.errILim = 6000;
 	YawOuter.OutMAX = 300;
 	
-	YawInner.kp = 160;//60
+	YawInner.kp = 140;//160
 	YawInner.ki = 0;
 	YawInner.kd = 0;
 	YawInner.errILim = 6000;
@@ -171,7 +171,7 @@ void GimbalCalibration(void)
 {
 
 		GimbalData.YawMax = 8150;
-		GimbalData.YawMid = 4100;
+		GimbalData.YawMid = 6000;
 		GimbalData.YawMin = 3900;
 
 

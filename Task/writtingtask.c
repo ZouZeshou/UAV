@@ -167,6 +167,7 @@ void StartTask06(void const * argument)
 	for(;;)
   {
 		static int buzzer_ontime;
+		ANO_DT_Data_Exchange();
 		GetDeviceState();
 		DeviceDetect(Devicestate,Offline);
 		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
@@ -242,7 +243,7 @@ void StartTask07(void const * argument)
 	for(;;)
   {
 		send_data_to_pc();
-//		ANO_DT_Data_Exchange();
+		
 		osDelay(300);
   }
 
