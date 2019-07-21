@@ -74,6 +74,7 @@
 #include "Judge.h"
 #include "Keyboard.h"
 #include "BSP_tim.h"
+#include "kalman_filter.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -157,6 +158,7 @@ int main(void)
   MX_UART7_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
+//	kalman1_init(kalman1_state *state, float init_x, float init_p)
 	imu_temp_ctrl_init();
 	pcDataInit();
 	ShootInit();

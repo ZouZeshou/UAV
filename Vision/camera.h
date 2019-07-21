@@ -46,6 +46,7 @@ extern pcDataParam pcParam,pcParamLast;
 extern int pcdata_right ;
 extern int catch_target;
 extern int sending_to_pc ;
+extern int16_t center_x ; 
 extern uint8_t uart6_buff[50];
 
 void Vision_IRQ(void);

@@ -39,6 +39,8 @@ int Stop_GyroJudge = 0;
 int GyroscopeState = 0;
 int Task_03Init = 0;
 static uint8_t mask;
+static int v_yaw_fps;
+
 uint8_t data_send_to_sentry = 0;
 /**
  * @brief main control task
@@ -48,37 +50,55 @@ uint8_t data_send_to_sentry = 0;
  */
 void StartTask02(void const * argument)
 {
+	static int visioncounter;
+	static int time_now,time_for_start;
 	for(;;)
   {
 		if(IMU_OK)
 		{
 			taskENTER_CRITICAL();
+//			if(time_for_start == 0)
+//			{
+//				time_for_start =  HAL_GetTick();
+//			}
+//			time_now = HAL_GetTick();
+//			if((time_now - time_for_start) >= 1000)
+//			{
+//				printf("V_yaw_fps %d\r\n",v_yaw_fps);
+//				v_yaw_fps = 0;
+//				time_for_start = 0;
+//			}
 			if(initmark==0)
 			{
 				GimbalCalibration();
 				initmark=1;
 			}
 			DealGimbalPosition();
-//			switch_gimbal_mode();
-			GetGimbalTarget();
-//			if(gimbalmode == 0)
-//			{
-				PitchPID(&GimbalData.PitchTarget2);
-				YawPID(&GimbalData.YawTarget2);	
-//			}
-//			else if(gimbalmode == 1)
-//			{
-//				PitchPID(&GimbalData.PitchTarget2);
-//				//v_PitchPID(&pcParam.refer_centerY);
-//				v_YawPID(&pcParam.refer_centerX);			
-//			}
-		
+			switch_gimbal_mode();		
+			if(gimbalmode && RC_Ctl.mouse.press_r == 0)
+			{
+				if(visioncounter++ > 4)
+				{	
+					pixel_to_encoder(pcParam.pcCenterX.f,pcParam.refer_centerX,&GimbalData.YawTarget1);
+					visioncounter = 0;
+					v_yaw_fps++;
+				}	
+			}
+			else
+			{
+				GetGimbalTarget_yaw();	
+			}
+			GetGimbalTarget_pit();
+			limit_target();
+			PitchPID(&GimbalData.PitchTarget2);
+			YawPID(&GimbalData.YawTarget2);
+
 			DealKeyMousedata();
 			Switchshoot();
 			fric_pidcontrol(FrictionSpd);
 			StirPID (StirMotorData.TargetPosition,StirMotorData.BackSpeed,StirMotorData.BackPositionNew);
 		//ShootControl
-	  
+			
 			taskEXIT_CRITICAL();
 		}
 	
@@ -148,7 +168,7 @@ void StartTask05(void const * argument)
   {
 		if(IMU_OK)
 		{
-			RobotSendMsgToClient(1,2,3,mask);
+			RobotSendMsgToClient(catch_target,pcParam.pcCenterX.f,pcParam.pcCenterY.f,mask);
 			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 			PrintFunction();
 			osDelay(200);
@@ -167,7 +187,7 @@ void StartTask06(void const * argument)
 	for(;;)
   {
 		static int buzzer_ontime;
-		ANO_DT_Data_Exchange();
+		//ANO_DT_Data_Exchange();
 		GetDeviceState();
 		DeviceDetect(Devicestate,Offline);
 		if(Devicestate[4]==OFFLINE||Devicestate[5]==OFFLINE||Devicestate[6]==OFFLINE)
@@ -275,10 +295,12 @@ void PrintFunction(void)
 	
 /*************************************************** Gimbaldebug ***********************************************/
 		  printf("/*******************Gimbal******************/ \r\n");
-			printf("pit back %d  posi %d spd %d \r\n",GimbalData.PitchBacknow,GimbalData.Pitchposition,GimbalData.PitchEncoderspeed);
-			printf("pitPID Oerr %.2f  Oout %.2f \r\nIerr %.2f Iout %.2f\r\n",PitchOuter.errNow,PitchOuter.ctrOut,PitchInner.errNow,PitchInner.ctrOut);
-			printf("yaw back %d  posi %d spd %d \r\n",GimbalData.YawBacknow,GimbalData.Yawposition,GimbalData.YawEncoderspeed);
-			printf("yawPID Oerr %.2f  Oout %.2f\r\n Ierr %.2f Iout %.2f\r\n",YawOuter.errNow,YawOuter.ctrOut,YawInner.errNow,YawInner.ctrOut);
+//			printf("pit back %d  posi %d spd %d \r\n",GimbalData.PitchBacknow,GimbalData.Pitchposition,GimbalData.PitchEncoderspeed);
+			printf("pixel_pid error %.2f out %.2f\r\n ",pixel_pid.errNow,pixel_pid.ctrOut);
+//	printf("time %d\r\n",HAL_GetTick());
+//			printf("pitPID Oerr %.2f  Oout %.2f \r\nIerr %.2f Iout %.2f\r\n",PitchOuter.errNow,PitchOuter.ctrOut,PitchInner.errNow,PitchInner.ctrOut);
+//			printf("yaw back %d  posi %d spd %d \r\n",GimbalData.YawBacknow,GimbalData.Yawposition,GimbalData.YawEncoderspeed);
+//			printf("yawPID Oerr %.2f  Oout %.2f\r\n Ierr %.2f Iout %.2f\r\n",YawOuter.errNow,YawOuter.ctrOut,YawInner.errNow,YawInner.ctrOut);
 //	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
 //	printf("pit ang%.2f yaw %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
 //	printf("YawOuter err %.2f out%.2f\r\n",v_YawOuter.errNow,v_YawOuter.ctrOut);
@@ -292,8 +314,8 @@ void PrintFunction(void)
 	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
-//	printf("usevision %d\r\n",use_vision);
-//	printf("gimbalmode %d\r\n",gimbalmode);
+	printf("usevision %d\r\n",use_vision);
+	printf("gimbalmode %d\r\n",gimbalmode);
 	printf("catchtarget %d\r\n",catch_target);
 	printf("dataright %d\r\n",pcdata_right);
 	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);

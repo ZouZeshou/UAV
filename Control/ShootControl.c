@@ -144,6 +144,15 @@ void Switchshoot (void)
 	static int32_t Friction_ok = 0;
 	static int rc_s1_press ;
 	static int mouse_l_press;
+	if(abs(fric_l_data.BackSpeed)>=1000)
+	{
+		HAL_GPIO_WritePin(GPIOH,GPIO_PIN_5, GPIO_PIN_SET);
+	}
+	else
+	{
+		HAL_GPIO_WritePin(GPIOH,GPIO_PIN_5, GPIO_PIN_RESET);
+	}
+	
 	if(RC_Ctl.rc.s2 == 2||KeyMousedata.fric_start)
 	{
 		FrictionSpd = 8500;// 9500 24~26 10500 26~27 11500 27~28.5
@@ -155,17 +164,17 @@ void Switchshoot (void)
 	else
 		FrictionSpd = 0;
 	
-//	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start) && abs(fric_l_data.BackSpeed)>=1000)
-	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start))
+	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start) && abs(fric_l_data.BackSpeed)>=1000)
+//	if((RC_Ctl.rc.s1 == 2||KeyMousedata.stir_start))
 	{
 		ShootFrequency = 10;
 		StirMotorStart(&ShootFrequency);
 		rc_s1_press = 0;
 	}
-//	else if(((RC_Ctl.rc.s1 == 1 && rc_s1_press==0 )||
-//		(RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start )) && abs(fric_l_data.BackSpeed)>=1000)
 	else if(((RC_Ctl.rc.s1 == 1 && rc_s1_press==0 )||
-	  (RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start )))
+		(RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start )) && abs(fric_l_data.BackSpeed)>=1000)
+//	else if(((RC_Ctl.rc.s1 == 1 && rc_s1_press==0 )||
+//	  (RC_Ctl.mouse.press_l == 1 && mouse_l_press == 0 && KeyMousedata.fric_start )))
 	{
 		rc_s1_press = 1;
 		mouse_l_press = 1;

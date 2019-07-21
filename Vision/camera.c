@@ -6,7 +6,7 @@
 #include "Judge.h"
 #include "Keyboard.h"
 int sending_to_pc = 0;
-int16_t center_x = 420 ;               //295  443
+int16_t center_x = 360 ;               //295  443
 int16_t center_y = 340 ;
 kalman1_state kalmanl;
 float data = 0;
@@ -85,7 +85,7 @@ void Vision_Decode(void)
 		
     if(pcParam.pcCenterX.f<0||pcParam.pcCenterY.f<0)
 		{
-			if(catch_target_counter1++ > 30)
+			if(catch_target_counter1++ > 50)
 			{
 				catch_target = 0;
 				catch_target_counter1 = 0;
@@ -135,21 +135,17 @@ void send_data_to_pc(void)
 	if(KeyMousedata.Base_or_robot == 0)//打地面
 	{
 		data[2]=1;
-		center_x = 400 ;               
-		center_y = 340 ;
 		
 	}
 	else if(KeyMousedata.Base_or_robot == 1)//打基地
 	{
 		data[2]=0;
-		center_x = 400 ;               
-		center_y = 450 ;
+
 	}
 	else if(KeyMousedata.Base_or_robot == 2)//打基地护盾
 	{
 		data[2]=2;
-		center_x = 400 ;               
-		center_y = 450 ;
+
 	}
 	else
 		data[2]=1;

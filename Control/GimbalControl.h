@@ -2,6 +2,7 @@
 #define __GIMBALCONTROL_H
 #include "stdint.h"
 #include "pid.h"
+#include "camera.h"
 
 typedef struct
 {
@@ -63,13 +64,15 @@ extern PID_AbsoluteType v_YawInner;
 extern PID_AbsoluteType v_YawOuter;
 extern PID_AbsoluteType v_PitchInner;
 extern PID_AbsoluteType v_PitchOuter;
+extern PID_AbsoluteType pixel_pid;
 extern  int YawTargetEncoder ,PitchTargetEncoder ;
 extern int gimbalmode;
 extern int use_vision;
 extern int pitch_add ;
 void GimbalInit (void);
 void GimbalCalibration(void);
-void GetGimbalTarget(void);
+void GetGimbalTarget_yaw(void);
+void GetGimbalTarget_pit(void);
 void PitchPID(float *Target);
 void DealGimbalPosition(void);
 void YawPID(float *Target);
@@ -77,5 +80,7 @@ void v_PitchPID (float *Target);
 void v_YawPID(float *Target);
 void GetYawIncrement(void);
 void switch_gimbal_mode(void);
+void limit_target(void);
+void pixel_to_encoder(float pixel_value,int pixel_center,float* target);
 
 #endif
