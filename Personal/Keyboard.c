@@ -1,7 +1,7 @@
 #include "Keyboard.h"
 #include "DBUS.h"
 #include "ramp.h"
-
+#include "camera.h"
 KeyMouse KeyMousedata = {0};
 
 /**
@@ -12,7 +12,7 @@ KeyMouse KeyMousedata = {0};
  */
 void DealKeyMousedata(void)
 {
-	static int key_E_up,key_D_up;
+	static int key_Shift_up,key_Ctrl_up;
 	
 	if(RC_Ctl.key.v & KEY_Z)
 	{
@@ -65,6 +65,26 @@ void DealKeyMousedata(void)
 		KeyMousedata.Base_or_robot = 2;
 	}
 
+	if((RC_Ctl.key.v & KEY_SHIFT) && key_Shift_up)
+	{
+		center_y += 20;
+		key_Shift_up = 0;
+		
+	}
+	else if((RC_Ctl.key.v & KEY_SHIFT)==0)
+	{
+		key_Shift_up = 1;
+	}
+	
+	if((RC_Ctl.key.v & KEY_CTRL) && key_Ctrl_up)
+	{
+		center_y -= 20;
+		key_Ctrl_up = 0;
+	}
+	else if((RC_Ctl.key.v & KEY_CTRL)==0)
+	{
+		key_Ctrl_up = 1;
+	}
 
 	
 }

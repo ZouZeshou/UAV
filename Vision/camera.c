@@ -6,8 +6,8 @@
 #include "Judge.h"
 #include "Keyboard.h"
 int sending_to_pc = 0;
-int16_t center_x = 360 ;               //295  443
-int16_t center_y = 340 ;
+int16_t center_x = 355 ;               //295  443
+int16_t center_y = 360 ;
 kalman1_state kalmanl;
 float data = 0;
 int pcdata_right = 0;

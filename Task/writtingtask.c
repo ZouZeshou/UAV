@@ -81,7 +81,8 @@ void StartTask02(void const * argument)
 			{
 				if(visioncounter++ > 4)
 				{	
-					pixel_to_encoder(pcParam.pcCenterX.f,pcParam.refer_centerX,&GimbalData.YawTarget1);
+					pixel_to_encoder(pcParam.pcCenterX.f,pcParam.refer_centerX,&GimbalData.YawTarget1,
+					pcParam.pcCenterY.f,pcParam.refer_centerY,&GimbalData.PitchTarget1);
 					visioncounter = 0;
 					v_yaw_fps++;
 				}	
@@ -89,8 +90,9 @@ void StartTask02(void const * argument)
 			else
 			{
 				GetGimbalTarget_yaw();	
+				GetGimbalTarget_pit();
 			}
-			GetGimbalTarget_pit();
+			
 			limit_target();
 			PitchPID(&GimbalData.PitchTarget2);
 			YawPID(&GimbalData.YawTarget2);
@@ -310,8 +312,9 @@ void PrintFunction(void)
 	
 /*************************************************** Gimbaldebug ***********************************************/
 		  printf("/*******************Gimbal******************/ \r\n");
-//			printf("pit back %d  posi %d spd %d \r\n",GimbalData.PitchBacknow,GimbalData.Pitchposition,GimbalData.PitchEncoderspeed);
-			printf("pixel_pid error %.2f out %.2f\r\n ",pixel_pid.errNow,pixel_pid.ctrOut);
+			printf("pit back %d  posi %d spd %d \r\n",GimbalData.PitchBacknow,GimbalData.Pitchposition,GimbalData.PitchEncoderspeed);
+			printf("pixel_pid_y error %.2f out %.2f\r\n ",pixel_pid_yaw.errNow,pixel_pid_yaw.ctrOut);
+				printf("pixel_pid_P error %.2f out %.2f\r\n ",pixel_pid_pit.errNow,pixel_pid_pit.ctrOut);
 //	printf("time %d\r\n",HAL_GetTick());
 //			printf("pitPID Oerr %.2f  Oout %.2f \r\nIerr %.2f Iout %.2f\r\n",PitchOuter.errNow,PitchOuter.ctrOut,PitchInner.errNow,PitchInner.ctrOut);
 			printf("yaw back %d  posi %d spd %d \r\n",GimbalData.YawBacknow,GimbalData.Yawposition,GimbalData.YawEncoderspeed);

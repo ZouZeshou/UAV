@@ -25,13 +25,14 @@ PID_AbsoluteType v_YawInner;
 PID_AbsoluteType v_YawOuter;
 PID_AbsoluteType v_PitchInner;
 PID_AbsoluteType v_PitchOuter;
-PID_AbsoluteType pixel_pid;
+PID_AbsoluteType pixel_pid_yaw;
+PID_AbsoluteType pixel_pid_pit;
 int gimbalmode = 0;
 int YawTargetEncoder = 0,PitchTargetEncoder = 0;
 int PitchDebug = 0;
 int YawDebug = 0;
 int v_PitchDebug = 0;
-int v_YawDebug = 1;
+int v_YawDebug = 0;
 int pix_pid_debug = 0;
 int use_vision = 0;
 int pitch_add = 0;
@@ -108,11 +109,17 @@ void GimbalInit (void)
 	v_YawInner.errILim = 6000;
 	v_YawInner.OutMAX = 25000;
 	
-	pixel_pid.kp = 0.025;
-	pixel_pid.ki = 0;
-	pixel_pid.kd = 0;
-	pixel_pid.errILim = 0;
-	pixel_pid.OutMAX = 5;
+	pixel_pid_yaw.kp = 0.02;
+	pixel_pid_yaw.ki = 0;
+	pixel_pid_yaw.kd = 0;
+	pixel_pid_yaw.errILim = 0;
+	pixel_pid_yaw.OutMAX = 3;
+	
+	pixel_pid_pit.kp = 0.02;
+	pixel_pid_pit.ki = 0;
+	pixel_pid_pit.kd = 0;
+	pixel_pid_pit.errILim = 0;
+	pixel_pid_pit.OutMAX = 3;
 }
 
 /**
@@ -568,17 +575,27 @@ void v_YawPID (float *Target)
  * @return None
  * @attention  None
  */
-void pixel_to_encoder( float pixel_value,int pixel_center,float* target)
+void pixel_to_encoder( float pixel_value,int pixel_center,float* target,float pixel_value1,int pixel_center1,float* target1)
 {
 	if(pix_pid_debug)
 	{
-		pixel_pid.kp = P;
-		pixel_pid.ki = I;
-		pixel_pid.kd = D;
-		pixel_pid.errILim = 0;
-		pixel_pid.OutMAX = V1;
+		pixel_pid_yaw.kp = P;
+		pixel_pid_yaw.ki = I;
+		pixel_pid_yaw.kd = D;
+		pixel_pid_yaw.errILim = 0;
+		pixel_pid_yaw.OutMAX = V1;
+		
+		pixel_pid_pit.kp = A;
+		pixel_pid_pit.ki = B;
+		pixel_pid_pit.kd = C;
+		pixel_pid_pit.errILim = 0;
+		pixel_pid_pit.OutMAX = V2;
 	}
-	pixel_pid.errNow = pixel_center - pixel_value;
-	PID_AbsoluteMode(&pixel_pid);
-	*target -=  pixel_pid.ctrOut;
+	pixel_pid_yaw.errNow = pixel_center - pixel_value;
+	PID_AbsoluteMode(&pixel_pid_yaw);
+	*target -=  pixel_pid_yaw.ctrOut;
+	
+	pixel_pid_pit.errNow = pixel_center1 - pixel_value1;
+	PID_AbsoluteMode(&pixel_pid_pit);
+	*target1 -=  pixel_pid_pit.ctrOut;
 }

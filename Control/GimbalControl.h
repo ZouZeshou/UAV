@@ -64,7 +64,8 @@ extern PID_AbsoluteType v_YawInner;
 extern PID_AbsoluteType v_YawOuter;
 extern PID_AbsoluteType v_PitchInner;
 extern PID_AbsoluteType v_PitchOuter;
-extern PID_AbsoluteType pixel_pid;
+extern PID_AbsoluteType pixel_pid_yaw;
+extern PID_AbsoluteType pixel_pid_pit;
 extern  int YawTargetEncoder ,PitchTargetEncoder ;
 extern int gimbalmode;
 extern int use_vision;
@@ -81,6 +82,6 @@ void v_YawPID(float *Target);
 void GetYawIncrement(void);
 void switch_gimbal_mode(void);
 void limit_target(void);
-void pixel_to_encoder(float pixel_value,int pixel_center,float* target);
+void pixel_to_encoder( float pixel_value,int pixel_center,float* target,float pixel_value1,int pixel_center1,float* target1);
 
 #endif
