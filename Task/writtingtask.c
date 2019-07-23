@@ -39,6 +39,7 @@ int Stop_GyroJudge = 0;
 int GyroscopeState = 0;
 int Task_03Init = 0;
 static uint8_t mask;
+static uint8_t maskbit[6];
 static int v_yaw_fps;
 
 uint8_t data_send_to_sentry = 0;
@@ -57,17 +58,18 @@ void StartTask02(void const * argument)
 		if(IMU_OK)
 		{
 			taskENTER_CRITICAL();
-//			if(time_for_start == 0)
-//			{
-//				time_for_start =  HAL_GetTick();
-//			}
-//			time_now = HAL_GetTick();
-//			if((time_now - time_for_start) >= 1000)
-//			{
-//				printf("V_yaw_fps %d\r\n",v_yaw_fps);
-//				v_yaw_fps = 0;
-//				time_for_start = 0;
-//			}
+			/*¿¨¶Ù
+			if(time_for_start == 0)
+			{
+				time_for_start =  HAL_GetTick();
+			}
+			time_now = HAL_GetTick();
+			if((time_now - time_for_start) >= 1000)
+			{
+				printf("V_yaw_fps %d\r\n",v_yaw_fps);
+				v_yaw_fps = 0;
+				time_for_start = 0;
+			}*/
 			if(initmark==0)
 			{
 				GimbalCalibration();
@@ -210,45 +212,58 @@ void StartTask06(void const * argument)
 		
 		if(Devicestate[4]==ONLINE)
 		{
-			mask = mask|(1<<0);
+			maskbit[0] = 1;
 		}
 		else if(Devicestate[4]==OFFLINE)
 		{
-			mask = mask&(0<<0);
+			maskbit[0] = 0;
 		}
 		if(Devicestate[5]==ONLINE)
 		{
-			mask = mask|(1<<1);
+			maskbit[1] = 1;
 		}
 		else if(Devicestate[5]==OFFLINE)
 		{
-			mask = mask&(0<<1);
+			maskbit[1] = 0;
 		}
 		if(Devicestate[6]==ONLINE)
 		{
-			mask = mask|(1<<2);
+			maskbit[2] = 1;
 		}
 		else if(Devicestate[6]==OFFLINE)
 		{
-			mask = mask&(0<<2);
+			maskbit[2] = 0;
 		}
 		if(Devicestate[11]==ONLINE)
 		{
-			mask = mask|(1<<3);
+			maskbit[3] = 1;
 		}
 		else if(Devicestate[11]==OFFLINE)
 		{
-			mask = mask&(0<<3);
+			maskbit[3] = 0;
 		}
 		if(Devicestate[12]==ONLINE)
 		{
-			mask = mask|(1<<4);
+			maskbit[4] = 1;
 		}
 		else if(Devicestate[12]==OFFLINE)
 		{
-			mask = mask&(0<<4);
+			maskbit[4] = 0;
 		}
-		
+		if(catch_target)
+		{
+			maskbit[5] = 1;
+		}
+		else
+		{
+			maskbit[5] = 0;
+		}
+		mask = maskbit[0]|
+					(maskbit[1]<<1)|
+					(maskbit[2]<<2)|
+					(maskbit[3]<<3)|
+					(maskbit[4]<<4)|
+					(maskbit[5]<<5);
 		osDelay(15);
 	}
 }
@@ -299,7 +314,7 @@ void PrintFunction(void)
 			printf("pixel_pid error %.2f out %.2f\r\n ",pixel_pid.errNow,pixel_pid.ctrOut);
 //	printf("time %d\r\n",HAL_GetTick());
 //			printf("pitPID Oerr %.2f  Oout %.2f \r\nIerr %.2f Iout %.2f\r\n",PitchOuter.errNow,PitchOuter.ctrOut,PitchInner.errNow,PitchInner.ctrOut);
-//			printf("yaw back %d  posi %d spd %d \r\n",GimbalData.YawBacknow,GimbalData.Yawposition,GimbalData.YawEncoderspeed);
+			printf("yaw back %d  posi %d spd %d \r\n",GimbalData.YawBacknow,GimbalData.Yawposition,GimbalData.YawEncoderspeed);
 //			printf("yawPID Oerr %.2f  Oout %.2f\r\n Ierr %.2f Iout %.2f\r\n",YawOuter.errNow,YawOuter.ctrOut,YawInner.errNow,YawInner.ctrOut);
 //	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
 //	printf("pit ang%.2f yaw %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
@@ -319,6 +334,7 @@ void PrintFunction(void)
 	printf("catchtarget %d\r\n",catch_target);
 	printf("dataright %d\r\n",pcdata_right);
 	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
+	printf("com_center x%.2f y%.2f\r\n",pcParam.pcCompensationX.f,pcParam.pcCompensationY.f);
 //	printf("stirback %d\r\n",StirMotorData.BackPositionNew);
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
 //printf("fps.Gyro_1%d\r\n",fps.Gyro_1);

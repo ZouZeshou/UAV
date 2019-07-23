@@ -112,7 +112,7 @@ void GimbalInit (void)
 	pixel_pid.ki = 0;
 	pixel_pid.kd = 0;
 	pixel_pid.errILim = 0;
-	pixel_pid.OutMAX = 4;
+	pixel_pid.OutMAX = 5;
 }
 
 /**
@@ -179,16 +179,23 @@ void switch_gimbal_mode(void)
  *///1800 2500 2210 
 void GimbalCalibration(void)
 {
-
-		GimbalData.YawMax = 8150;
-		GimbalData.YawMid = 6000;
-		GimbalData.YawMin = 3900;
-
+	if(GimbalData.YawBacknow >= 4000)
+	{	
+		GimbalData.YawMax = 11000;
+		GimbalData.YawMid = 6300;
+		GimbalData.YawMin = 5000;
+	}
+	else
+	{
+		GimbalData.YawMax = 2808;
+		GimbalData.YawMid = -1892;
+		GimbalData.YawMin = -3192;
+	}
 
 //	  GimbalData.YawMax = 4200;
 //		GimbalData.YawMid = 2000;
 //		GimbalData.YawMin = -300;
-		GimbalData.PitchMax = 7550;
+		GimbalData.PitchMax = 7450;
 		GimbalData.PitchMid = 6800;
 		GimbalData.PitchMin = 6350;
 		GimbalData.PitchMaxangle = 70;
@@ -225,7 +232,7 @@ void GetGimbalTarget_yaw(void)
 	{
 		if(YAW_USEENCODER)
 		{
-			GimbalData.YawTarget1 -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0003f)*22.75f + RC_Ctl.mouse.x *22.75f* MOUSE_YAW_CONST);
+			GimbalData.YawTarget1 -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.003f)*5.0f + RC_Ctl.mouse.x *(10.0f* MOUSE_YAW_CONST));
 		}
 		else
 		{
@@ -240,7 +247,7 @@ void GetGimbalTarget_pit(void)
 	{
 		if(PIT_USEENCODER)
 		{
-			GimbalData.PitchTarget1 -= (float)((((RC_Ctl.rc.ch1 - 1024)*0.0001f)*10 + RC_Ctl.mouse.y *10* MOUSE_PITCH_CONST));
+			GimbalData.PitchTarget1 -= (float)((((RC_Ctl.rc.ch1 - 1024)*0.001f)*3.0f + RC_Ctl.mouse.y *(6.0f* MOUSE_PITCH_CONST)));
 		}
 		else
 		{
