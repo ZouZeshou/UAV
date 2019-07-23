@@ -329,7 +329,7 @@ void PrintFunction(void)
 //	printf("pit angle %.2f posi %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
 //printf("pit err%.2f  %.2f\r\n",PitchOuter.errNow,PitchInner.errNow);
 //printf("pit current%d\r\n",GimbalData.PitchCurrent);
-	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
+	printf("pit spd %d  yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
 	printf("id %d\r\n",Judge_GameRobotState.robot_id);
 	printf("usevision %d\r\n",use_vision);
