@@ -159,6 +159,8 @@ void Switchshoot (void)
 	{
 		mouse_l_press = 0;
 	}
+	ShootFrequency = 20;
+	StirMotorStart(&ShootFrequency);
 }
 /**
  * @brief  turn on the buzzer 
