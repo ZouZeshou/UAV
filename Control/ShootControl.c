@@ -92,24 +92,25 @@ void DealStirMotorPosition ()
  */
 void StirMotorStart (int16_t * ShootFrequency)
 {	
-		static double position_diff;
-		static int jam_count;
-		position_diff = StirMotorData.TargetPosition - StirMotorData.TotalPosition;
-		if(StirUpdateCounter++ >= *ShootFrequency && position_diff < 3*STIRADDITION)
-		{
-			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_2);	
-			StirMotorData.TargetPosition += STIRADDITION ;
-			StirUpdateCounter = 0;
-		}
-		if(position_diff >= 3*STIRADDITION)
-		{
-			if(jam_count++ >= 100)
-				StirMotorData.TargetPosition = StirMotorData.TargetPosition - position_diff - STIRADDITION;
-		}
-		else
-		{
-			jam_count = 0;
-		}
+//		static double position_diff;
+//		static int jam_count;
+//		position_diff = StirMotorData.TargetPosition - StirMotorData.TotalPosition;
+//		if(StirUpdateCounter++ >= *ShootFrequency && position_diff < 3*STIRADDITION)
+//		{
+//			HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_2);	
+//			StirMotorData.TargetPosition += STIRADDITION ;
+//			StirUpdateCounter = 0;
+//		}
+//		if(position_diff >= 3*STIRADDITION)
+//		{
+//			if(jam_count++ >= 100)
+//				StirMotorData.TargetPosition = StirMotorData.TargetPosition - position_diff - STIRADDITION;
+//		}
+//		else
+//		{
+//			jam_count = 0;
+//		}
+		StirMotorData.TargetPosition += STIRADDITION ;
 }
 /**
  * @brief switch for stirmotor and ShootControl
