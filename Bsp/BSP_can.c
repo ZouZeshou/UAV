@@ -44,6 +44,19 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	if(hcan->Instance == CAN1)
 	{
 		HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0,&Can1Header,RxData1 );
+		if(Can1Header.StdId==0x201)
+		{
+			fric_l_data.BackPosition = RxData1[0]<<8|RxData1[1];
+			fric_l_data.BackSpeed = RxData1[2]<<8|RxData1[3];
+			
+			fps.Fric_L++;
+		}
+		if(Can1Header.StdId==0x202)
+		{
+			fric_r_data.BackPosition = RxData1[0]<<8|RxData1[1];
+			fric_r_data.BackSpeed = RxData1[2]<<8|RxData1[3];
+			fps.Fric_R++;
+		}
 		if(Can1Header.StdId==0x205)
 		{
 			GimbalData.YawBacknow = RxData1[0]<<8|RxData1[1];
@@ -85,19 +98,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	{
 		HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO0,&Can2Header,RxData2 );
 		
-		if(Can2Header.StdId==0x202)
-		{
-			fric_l_data.BackPosition = RxData2[0]<<8|RxData2[1];
-			fric_l_data.BackSpeed = RxData2[2]<<8|RxData2[3];
-			
-			fps.Fric_L++;
-		}
-		if(Can2Header.StdId==0x201)
-		{
-			fric_r_data.BackPosition = RxData2[0]<<8|RxData2[1];
-			fric_r_data.BackSpeed = RxData2[2]<<8|RxData2[3];
-			fps.Fric_R++;
-		}
+		
 		if(Can2Header.StdId==0x401)
 		{
 			w2d.c[0] = RxData2[0];

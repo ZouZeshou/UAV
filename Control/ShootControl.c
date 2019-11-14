@@ -39,17 +39,17 @@ void ShootInit (void)
 	StirMotorInnerPID.errILim = 3000 ;
 	StirMotorInnerPID.OutMAX = 10000 ;
 	
-	fric_l_pid.kp = 11;
-	fric_l_pid.ki = 0.15f;
+	fric_l_pid.kp = 8;
+	fric_l_pid.ki = 0;
 	fric_l_pid.kd = 0;
 	fric_l_pid.errILim = 6000;
-	fric_l_pid.OutMAX = 10000;
+	fric_l_pid.OutMAX = 13000;
 	
-	fric_r_pid.kp = 11;
-	fric_r_pid.ki = 0.15f;
+	fric_r_pid.kp = 8;
+	fric_r_pid.ki = 0;
 	fric_r_pid.kd = 0;
 	fric_r_pid.errILim = 6000;
-	fric_r_pid.OutMAX = 10000;
+	fric_r_pid.OutMAX = 13000;
 }
 /**
  * @brief initialise the data will be used in shoot motor
@@ -99,16 +99,19 @@ void StirMotorStart (int16_t * ShootFrequency)
 			case 1:
 			{
 				STIRADDITION = 36859.5;//8191*36/8
+				FrictionSpd = 3000;
 				break;
 			}
 			case 2:
 			{
 				STIRADDITION = 29487.6;//8191*36/10
+				FrictionSpd = 3000;
 				break;
 			}
 			case 3:
 			{
 				STIRADDITION =  0;//8191*36/10
+				FrictionSpd = 0;
 				break;
 			}
 		}
@@ -246,11 +249,11 @@ void fric_pidcontrol(int16_t targetspeed)
 		fric_r_pid.errILim = 6000;
 		fric_r_pid.OutMAX = V1;
 	}
-	fric_l_pid.errNow = -targetspeed - fric_l_data.BackSpeed;
+	fric_l_pid.errNow = targetspeed - fric_l_data.BackSpeed;
 	PID_AbsoluteMode(&fric_l_pid);
 	fric_l_data.Current = (int16_t)(fric_l_pid.ctrOut);
 	
-	fric_r_pid.errNow = targetspeed - fric_r_data.BackSpeed;
+	fric_r_pid.errNow = -targetspeed - fric_r_data.BackSpeed;
 	PID_AbsoluteMode(&fric_r_pid);
 	fric_r_data.Current = (int16_t)(fric_r_pid.ctrOut);
 }

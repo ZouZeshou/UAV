@@ -105,7 +105,7 @@ void StartTask03(void const * argument)
 				Task_03Init = 1;
 			}
 				Can1_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
-				Can2_SendMsg(0x200,0,0,0,0);
+				Can2_SendMsg(0x200,fric_l_data.Current,fric_r_data.Current,0,0);
 		}
      osDelay(5);
   }
