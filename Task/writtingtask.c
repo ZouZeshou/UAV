@@ -105,7 +105,7 @@ void StartTask03(void const * argument)
 				Task_03Init = 1;
 			}
 				Can1_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
-				Can2_SendMsg(0x200,fric_l_data.Current,fric_r_data.Current,0,0);
+				Can1_SendMsg(0x200,fric_l_data.Current,fric_r_data.Current,0,0);
 		}
      osDelay(5);
   }
@@ -242,7 +242,7 @@ void StartTask07(void const * argument)
 	for(;;)
   {
 //		send_data_to_pc();
-//		ANO_DT_Data_Exchange();
+		ANO_DT_Data_Exchange();
 		osDelay(5);
   }
 
@@ -273,7 +273,7 @@ void PrintFunction(void)
 //			printf("Foinner err%f out%f\r\n",ChassisfollowInner.errNow,ChassisfollowInner.ctrOut);
 	
 /*************************************************** Gimbaldebug ***********************************************/
-		  printf("/*******************Gimbal******************/ \r\n");
+//		  printf("/*******************Gimbal******************/ \r\n");
 //	printf("pit pos %d spd %d\r\n",GimbalData.Pitchposition,GimbalData.PitchBackspeed);
 //	printf("pittarget %.2f\r\n",GimbalData.PitchTarget2);
 //	printf("pit ang%.2f yaw %d\r\n",GimbalData.Pitchangle,GimbalData.Pitchposition);
@@ -288,11 +288,11 @@ void PrintFunction(void)
 //	printf("pit spd %d encode %d yawspd %d\r\n",GimbalData.Pitchspeed,GimbalData.PitchBackspeed,GimbalData.Yawspeed);
 //	printf("rspd %d lspd %d\r\n",fric_l_data.BackSpeed,fric_r_data.BackSpeed);
 //	printf("id %d\r\n",Judge_GameRobotState.robot_id);
-	printf("usevision %d\r\n",use_vision);
-	printf("gimbalmode %d\r\n",gimbalmode);
-	printf("dataright %d\r\n",pcdata_right);
-	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
-	printf("stirback %d\r\n",StirMotorData.BackPositionNew);
+//	printf("usevision %d\r\n",use_vision);
+//	printf("gimbalmode %d\r\n",gimbalmode);
+//	printf("dataright %d\r\n",pcdata_right);
+//	printf("center x%.2f y%.2f z%.2f\r\n",pcParam.pcCenterX.f,pcParam.pcCenterY.f,pcParam.pcCenterZ.f);
+//	printf("stirback %d\r\n",StirMotorData.BackPositionNew);
 	//	printf("q0%f q1%f q2%f q3%f\r\n",q0,q1,q2,q3);
 //printf("fps.Gyro_1%d\r\n",fps.Gyro_1);
 //	printf("GYROSTATE %d\r\n",GyroscopeState);
@@ -310,22 +310,24 @@ void PrintFunction(void)
 //		printf("yawencoderspeed %d\r\n",GimbalData.YawEncoderspeed*(-57608)/10000);
 //		printf("pitMax %d Min %d\r\n",GimbalData.PitchMaxangle,GimbalData.PitchMinangle);
 //		printf("Yawang %.4f pitang %.4f\r\n",GimbalData.Yawangle,GimbalData.Pitchangle);
-	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
+//	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
 //		printf("backold Yaw %d Pitch %d\r\n",GimbalData.YawBackold,GimbalData.PitchBackold);
-	  printf("totalpos Yaw %d Pitch %d\r\n",GimbalData.Yawposition,GimbalData.Pitchposition);
+//	  printf("totalpos Yaw %d Pitch %d\r\n",GimbalData.Yawposition,GimbalData.Pitchposition);
 //		printf("counter pit %d\r\n",GimbalData.Pitchcirclecounter);
 //		printf("Pitinit%d\r\n",GimbalData.Pitchinit);
 //	  printf("gyro x %d y %d z %d\r\n",imu_data.gx,imu_data.gy,imu_data.gz);
-	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget2,GimbalData.PitchTarget2);
-			printf("error yaw%.2f pitch%.2f\r\n",YawOuter.errNow,PitchOuter.errNow);
+//	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget2,GimbalData.PitchTarget2);
+//			printf("error yaw%.2f pitch%.2f\r\n",YawOuter.errNow,PitchOuter.errNow);
 //			printf("Yaw outter %.2f inner %.2f\r\n",YawOuter.ctrOut,YawInner.ctrOut);
-			printf("pit outter %.2f inner %.2f\r\n",PitchOuter.ctrOut,PitchInner.ctrOut); 
-		 printf("PitSpd %d YawSpd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
-		 printf("fric l %d r %d\r\n",fric_l_data.BackPosition,fric_r_data.BackPosition);
+//			printf("pit outter %.2f inner %.2f\r\n",PitchOuter.ctrOut,PitchInner.ctrOut); 
+//		 printf("PitSpd %d YawSpd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
+		
 ////  printf("FollowctrOut %f\r\n",ChassisfollowOutter.ctrOut);
 ////	  printf("GimbalImu %f\r\n",GimbalData.ImuData);
 /****************************************************** ShootControldebug ***************************************************/
-//	  printf("/*******************Stir******************/ \r\n");
+	  printf("/*******************Stir******************/ \r\n");
+	   printf("fric l %d r %d\r\n",fric_l_data.BackPosition,fric_r_data.BackPosition);
+	   printf("current l %d r %d\r\n",fric_l_data.Current,fric_r_data.Current);
 //	  printf(" current %d BackSpeed %d Targetpos %lld\r\n",StirMotorData.Current,StirMotorData.BackSpeed,StirMotorData.TargetPosition);
 //	  printf("newpos %d oldpos %d totalpos %lld \r\n",StirMotorData.BackPositionNew,StirMotorData.BackPositionOld,StirMotorData.TotalPosition);
 //		printf("StirTar %lld\r\n",StirMotorData.TargetPosition);

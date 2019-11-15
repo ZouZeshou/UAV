@@ -39,13 +39,13 @@ void ShootInit (void)
 	StirMotorInnerPID.errILim = 3000 ;
 	StirMotorInnerPID.OutMAX = 10000 ;
 	
-	fric_l_pid.kp = 8;
+	fric_l_pid.kp = 15;
 	fric_l_pid.ki = 0;
 	fric_l_pid.kd = 0;
 	fric_l_pid.errILim = 6000;
 	fric_l_pid.OutMAX = 13000;
 	
-	fric_r_pid.kp = 8;
+	fric_r_pid.kp = 15;
 	fric_r_pid.ki = 0;
 	fric_r_pid.kd = 0;
 	fric_r_pid.errILim = 6000;
@@ -98,14 +98,14 @@ void StirMotorStart (int16_t * ShootFrequency)
 		{
 			case 1:
 			{
-				STIRADDITION = 36859.5;//8191*36/8
-				FrictionSpd = 3000;
+				STIRADDITION = 36864;//8192*36/8
+				FrictionSpd = 6000;
 				break;
 			}
 			case 2:
 			{
-				STIRADDITION = 29487.6;//8191*36/10
-				FrictionSpd = 3000;
+				STIRADDITION = 29491.2;//8192*36/10
+				FrictionSpd = 6000;
 				break;
 			}
 			case 3:
